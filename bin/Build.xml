@@ -1,0 +1,371 @@
+<xml>
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/Hash.cpp">
+   <depend name="include/Hash.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/of/utils/Math.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/Math.h"/>
+  </file>
+  <file name="src/of/sound/SoundPlayer.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/sound/SoundPlayer.h"/>
+  </file>
+  <file name="src/of/graphics/_Texture/TextureData.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/_Texture/TextureData.h"/>
+  </file>
+  <file name="src/of/graphics/Texture.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/Texture.h"/>
+   <depend name="include/of/graphics/_Texture/TextureData.h"/>
+   <depend name="include/of/utils/Point.h"/>
+  </file>
+  <file name="src/of/graphics/Image.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+   <depend name="include/of/graphics/Texture.h"/>
+  </file>
+  <file name="src/hsl/haxe/Signal.cpp">
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/Signal.h"/>
+  </file>
+  <file name="src/of/video/VideoGrabber.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/Texture.h"/>
+   <depend name="include/of/video/VideoGrabber.h"/>
+  </file>
+  <file name="src/haxe/io/BytesInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/of/app/AppGlutWindow.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/app/AppGlutWindow.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/utils/Point.h"/>
+  </file>
+  <file name="src/haxe/io/Eof.cpp">
+   <depend name="include/haxe/io/Eof.h"/>
+  </file>
+  <file name="src/hxcv/ds/of/OFARGB2DImage.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IARGB2DImage.h"/>
+   <depend name="include/hxcv/ds/IRGB2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OF2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OFARGB2DImage.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+  </file>
+  <file name="src/of/events/Events.cpp">
+   <depend name="include/hsl/haxe/DirectSignaler.h"/>
+   <depend name="include/hsl/haxe/Signaler.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/events/Events.h"/>
+  </file>
+  <file name="src/Type.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/ValueType.cpp">
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/of/utils/Utils.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/LogLevel.h"/>
+   <depend name="include/of/utils/Utils.h"/>
+  </file>
+  <file name="src/hxcv/ds/of/OFGray2DImage.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IGray2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OFGray2DImage.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+  </file>
+  <file name="src/hxcv/ds/of/OFRGB2DImage.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IRGB2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OF2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OFRGB2DImage.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+  </file>
+  <file name="src/List.cpp">
+   <depend name="include/List.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Std.cpp">
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/of/utils/Style.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/Color.h"/>
+   <depend name="include/of/utils/Style.h"/>
+  </file>
+  <file name="src/of/utils/Color.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/Color.h"/>
+  </file>
+  <file name="src/of/utils/Rectangle.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/Rectangle.h"/>
+  </file>
+  <file name="src/of/utils/Point.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/utils/Point.h"/>
+  </file>
+  <file name="src/of/video/VideoPlayer.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/Texture.h"/>
+   <depend name="include/of/video/VideoPlayer.h"/>
+  </file>
+  <file name="src/hxcv/ds/of/OF2DImage.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OF2DImage.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+  </file>
+  <file name="src/haxe/io/Error.cpp">
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/of/app/AppRunner.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/app/AppGlutWindow.h"/>
+   <depend name="include/of/app/AppRunner.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+  </file>
+  <file name="src/IntIter.cpp">
+   <depend name="include/IntIter.h"/>
+  </file>
+  <file name="src/haxe/TypeTools.cpp">
+   <depend name="include/List.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/TypeTools.h"/>
+  </file>
+  <file name="src/haxe/io/Bytes.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/PropagationStatus.cpp">
+   <depend name="include/hsl/haxe/_DirectSignaler/PropagationStatus.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/AdvancedBond.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/Signal.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/AdvancedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/NiladicBond.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/NiladicBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/RegularBond.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/RegularBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/SentinelBond.cpp">
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/SentinelBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/_DirectSignaler/LinkedBond.cpp">
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/DirectSignaler.cpp">
+   <depend name="include/List.h"/>
+   <depend name="include/haxe/TypeTools.h"/>
+   <depend name="include/haxe/exception/ArgumentNullException.h"/>
+   <depend name="include/haxe/exception/Exception.h"/>
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/DirectSignaler.h"/>
+   <depend name="include/hsl/haxe/Signal.h"/>
+   <depend name="include/hsl/haxe/Signaler.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/AdvancedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/LinkedBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/NiladicBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/RegularBond.h"/>
+   <depend name="include/hsl/haxe/_DirectSignaler/SentinelBond.h"/>
+  </file>
+  <file name="src/hsl/haxe/Signaler.cpp">
+   <depend name="include/hsl/haxe/Bond.h"/>
+   <depend name="include/hsl/haxe/Signal.h"/>
+   <depend name="include/hsl/haxe/Signaler.h"/>
+  </file>
+  <file name="src/hxcv/ds/IGray2DImage.cpp">
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IGray2DImage.h"/>
+  </file>
+  <file name="src/hxcv/ds/IARGB2DImage.cpp">
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IARGB2DImage.h"/>
+   <depend name="include/hxcv/ds/IRGB2DImage.h"/>
+  </file>
+  <file name="src/hxcv/ds/IRGB2DImage.cpp">
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IRGB2DImage.h"/>
+  </file>
+  <file name="src/hxcv/ds/I2DImage.cpp">
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+  </file>
+  <file name="src/StringBuf.cpp">
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/of/Functions.cpp">
+   <depend name="include/of/Functions.h"/>
+   <depend name="include/of/app/AppGlutWindow.h"/>
+   <depend name="include/of/app/AppRunner.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/graphics/Graphics.h"/>
+   <depend name="include/of/sound/SoundPlayer.h"/>
+   <depend name="include/of/sound/SoundStream.h"/>
+   <depend name="include/of/utils/LogLevel.h"/>
+   <depend name="include/of/utils/Math.h"/>
+   <depend name="include/of/utils/Style.h"/>
+   <depend name="include/of/utils/Utils.h"/>
+  </file>
+  <file name="src/OFExample.cpp">
+   <depend name="include/OFExample.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/hxcv/ds/I2DImage.h"/>
+   <depend name="include/hxcv/ds/IARGB2DImage.h"/>
+   <depend name="include/hxcv/ds/IRGB2DImage.h"/>
+   <depend name="include/hxcv/ds/of/OFARGB2DImage.h"/>
+   <depend name="include/of/app/AppGlutWindow.h"/>
+   <depend name="include/of/app/AppRunner.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/graphics/Graphics.h"/>
+   <depend name="include/of/graphics/Image.h"/>
+  </file>
+  <file name="src/of/app/BaseApp.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/hsl/haxe/Signaler.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/events/Events.h"/>
+  </file>
+  <file name="src/haxe/exception/ArgumentNullException.cpp">
+   <depend name="include/haxe/exception/ArgumentNullException.h"/>
+   <depend name="include/haxe/exception/Exception.h"/>
+  </file>
+  <file name="src/haxe/exception/Exception.cpp">
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Stack.h"/>
+   <depend name="include/haxe/StackItem.h"/>
+   <depend name="include/haxe/exception/Exception.h"/>
+  </file>
+  <file name="src/haxe/Log.cpp">
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/of/graphics/TrueTypeFont.cpp">
+   <depend name="include/Type.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/TrueTypeFont.h"/>
+   <depend name="include/of/utils/Point.h"/>
+   <depend name="include/of/utils/Rectangle.h"/>
+  </file>
+  <file name="src/Reflect.cpp">
+   <depend name="include/Reflect.h"/>
+  </file>
+  <file name="src/hsl/haxe/Bond.cpp">
+   <depend name="include/hsl/haxe/Bond.h"/>
+  </file>
+  <file name="src/haxe/io/Input.cpp">
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/BytesBuffer.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/of/utils/Constants.cpp">
+   <depend name="include/cpp/Sys.h"/>
+   <depend name="include/of/utils/Constants.h"/>
+   <depend name="include/of/utils/LogLevel.h"/>
+  </file>
+  <file name="src/cpp/Sys.cpp">
+   <depend name="include/Hash.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/cpp/Sys.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/of/utils/LogLevel.cpp">
+   <depend name="include/of/utils/LogLevel.h"/>
+  </file>
+  <file name="src/haxe/Stack.cpp">
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/haxe/Stack.h"/>
+   <depend name="include/haxe/StackItem.h"/>
+  </file>
+  <file name="src/haxe/StackItem.cpp">
+   <depend name="include/haxe/StackItem.h"/>
+  </file>
+  <file name="src/of/graphics/Graphics.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/graphics/Graphics.h"/>
+   <depend name="include/of/utils/Style.h"/>
+  </file>
+  <file name="src/of/sound/SoundStream.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+   <depend name="include/of/sound/SoundStream.h"/>
+  </file>
+  <file name="src/cpp/Lib.cpp">
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/__boot__.cpp">
+  </file>
+  <file name="src/__resources__.cpp">
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp">
+   <depend name="include/OFExample.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp">
+   <depend name="include/OFExample.h"/>
+   <depend name="include/of/app/BaseApp.h"/>
+  </file>
+</files>
+<set name="HAXE_OUTPUT" value="OFExample" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+</xml>
