@@ -1,6 +1,6 @@
 -main OFExample
 -cpp bin
--cp ../../hxOpenFrameworks
+-cp ../hxOpenFrameworks
 -lib hsl-1
 -D HXOF
 

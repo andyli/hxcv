@@ -4,8 +4,7 @@ import haxe.io.Bytes;
 import haxe.io.BytesInput;
 import hxcv.ds.I2DImage;
 import hxcv.ds.IGray2DImage;
-import of.graphics.Image;
-import of.utils.Constants;
+import of.Context;
 
 class OFGray2DImage implements IGray2DImage<Int>
 {

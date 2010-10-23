@@ -1,22 +1,19 @@
 ﻿package ;
 
 import cpp.Lib;
-import hxcv.ds.of.OFGray2DImage;
-import hxcv.ds.of.OFRGB2DImage;
-import hxcv.ds.of.OFARGB2DImage;
+using hxcv.ds.of.OFAdapter;
 
 import of.Context;
 using of.Context.Functions;
 
 class OFExample extends BaseApp {
-	var img:OFARGB2DImage;
 	var ofImg:Image;
 	
 	override function setup():Void {
 		ofImg = new Image();
 		ofImg.allocate(200, 100, Constants.OF_IMAGE_COLOR_ALPHA);
 		
-		img = new OFARGB2DImage(ofImg);
+		var img = ofImg.getARGB2DImage();
 		
 		enableAlphaBlending();
 		img.lock();
@@ -31,7 +28,7 @@ class OFExample extends BaseApp {
 	}
 	
 	override function draw():Void {
-		img.ofImage.draw(100, 100);
+		ofImg.draw(100, 100);
 	}
 	
 	static function main():Void {
