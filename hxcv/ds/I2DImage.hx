@@ -4,7 +4,7 @@ interface I2DImage<T>{
 	public function get(x:Int, y:Int, channel:Int):T;
 	public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int;
 	public function set(x:Int, y:Int, channel:Int, val:T):Void;
-	public function setHex(x:Int, y:Int, val:T):Void;
+	public function setHex(x:Int, y:Int, val:Int):Void;
 	public function getPixels():Array<T>;
 	public function setPixels(src:Array<T>):Void;
 	public function lock():Void;

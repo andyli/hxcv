@@ -62,7 +62,7 @@ class OFRGB2DImage implements IRGB2DImage<Int>
 	inline public function clone():I2DImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
-		return new OF2DImage(img);
+		return new OFRGB2DImage(img);
 	}
 	
 	public var width(default, null):Int;

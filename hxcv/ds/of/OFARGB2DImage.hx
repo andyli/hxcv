@@ -64,7 +64,7 @@ class OFARGB2DImage implements IARGB2DImage<Int>
 	inline public function clone():I2DImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
-		return new OF2DImage(img);
+		return new OFARGB2DImage(img);
 	}
 	
 	public var width(default, null):Int;
