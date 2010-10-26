@@ -27,11 +27,17 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 	 */
 	public var S:Int;
 	
+	/**
+	 * Contant affecting the Weighted Correlation Index
+	 */
+	public var K:Float;
+	
 	public function new():Void {
 		N = 10;
 		M = 10;
 		alpha = 5;
 		S = 20;
+		K = 0.1;
 	}
 	
 	public function process(inputs:Array<InImgT>):Array<Array2DImage<Float>> 
@@ -68,7 +74,7 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 								MAD += ((alpha * alpha) * Math.abs(f1 - f0)) / (M * M);
 							}
 						}
-						MADs.push(new Point3D(x, y, MAD));
+						MADs.push(new Point3D(x, y, MAD * (1 + K * (x * x + y * y))));
 						
 					}
 				}
