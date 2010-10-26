@@ -98,5 +98,5 @@ class Array2DImage<T:Float> implements I2DImage<T> {
 		return array.iterator();
 	}
 	
-	var array:Array<T>;
+	public var array(default,null):Array<T>;
 }

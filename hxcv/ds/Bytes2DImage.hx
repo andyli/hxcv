@@ -103,7 +103,7 @@ class Bytes2DImage implements I2DImage<Int> {
 		return new BytesIterator(bytes);
 	}
 	
-	var bytes:Bytes;
+	public var bytes(default,null):Bytes;
 }
 
 private class BytesIterator {

@@ -1,38 +1,52 @@
 ﻿package ;
 
 import cpp.Lib;
+import hxcv.MotionEstimation;
+import hxcv.ds.I2DImage;
 using hxcv.ds.of.OFAdapter;
 
 import of.Context;
 using of.Context.Functions;
 
 class OFExample extends BaseApp {
-	var ofImg:Image;
+	var frame1:Image;
+	var frame2:Image;
+	var motionVectors:I2DImage<Float>;
 	
 	override function setup():Void {
-		ofImg = new Image();
-		ofImg.allocate(200, 100, Constants.OF_IMAGE_COLOR_ALPHA);
+		frame1 = new Image();
+		frame1.loadImage("P1050420-w800-h600.jpg");
+		frame1.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 		
-		var img = ofImg.getARGB2DImage();
+		frame2 = new Image();
+		frame2.loadImage("P1050421-w800-h600.jpg");
+		frame2.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 		
-		enableAlphaBlending();
-		img.lock();
-		for (i in 0...img.width) {
-			for (j in 0...img.height) {
-				//img.setHex(i, j, 0x11FF0000);
-				img.set(i, j, 0, 0xFF);
-				img.setA(i, j, 0x11);
-			}
-		}
-		img.unlock();
+		motionVectors = 
+			new MotionEstimation()
+				.process([frame1.getGray2DImage(), frame2.getGray2DImage()])[0];
 	}
 	
 	override function draw():Void {
-		ofImg.draw(100, 100);
+		switch (Std.int(mouseX/getWidth()*3)) {
+			case 0: frame1.draw(0, 0);
+			case 1: frame2.draw(0, 0);
+			default: 
+		}
+		
+		setColor(0xFF0000);
+		for (i in 0...motionVectors.width) {
+			for (j in 0...motionVectors.height) {
+				var x = 5 + i * 10;
+				var y = 5 + j * 10;
+				line(x, y, x + motionVectors.get(i, j, 0), y + motionVectors.get(i, j, 1));
+			}
+		}
+		setColor(0xFFFFFF);
 	}
 	
 	static function main():Void {
-		setupOpenGL(new of.app.AppGlutWindow(), 1024, 768, Constants.OF_WINDOW);
+		setupOpenGL(new of.app.AppGlutWindow(), 800, 600, Constants.OF_WINDOW);
 		runApp(new OFExample());
 	}
 }
