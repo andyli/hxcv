@@ -15,42 +15,39 @@ import of.Context;
 using of.Context.Functions;
 
 class OFExample extends BaseApp {
-	var frame1:Image;
-	var frame2:Image;
-	var me:MotionEstimation<OFGray2DImage>;
 	
 	var currentIndex:Int;
 	var originalFrames:Array<Image>;
 	var motionVectors:Array<Array2DImage<Float>>;
+	var me:MotionEstimation<OFGray2DImage>;
 	
 	override function setup():Void {
 		enableSmoothing();
 		setFrameRate(12);
 		
 		currentIndex = 0;
+		originalFrames = [];
 		
+		var hxcvArray = new Array<OFGray2DImage>();
 		
-		frame1 = new Image();
-		frame1.loadImage("D:/stopmotion/02/original-320-240/P1050416.jpg");
-		frame1.setImageType(Constants.OF_IMAGE_GRAYSCALE);
-		
-		frame2 = new Image();
-		frame2.loadImage("D:/stopmotion/02/original-320-240/P1050417.jpg");
-		frame2.setImageType(Constants.OF_IMAGE_GRAYSCALE);
+		for (imgNum in 1050395...1050480) {//1050521
+			var img = new Image();
+			img.loadImage("D:/stopmotion/02/original-320-240/P" + imgNum + ".jpg");
+			img.setImageType(Constants.OF_IMAGE_GRAYSCALE);
+			originalFrames.push(img);
+			hxcvArray.push(img.getGray2DImage());
+		}
 		
 		me = new MotionEstimation<OFGray2DImage>();
 		
 		var t = Timer.stamp();
-		motionVectors = me.process([frame1.getGray2DImage(), frame2.getGray2DImage()]);
+		motionVectors = me.process(hxcvArray);
 		trace(Timer.stamp() - t);
 	}
 	
 	override function draw():Void {
-		switch (Std.int(mouseX/getWidth()*3)) {
-			case 0: frame1.draw(0, 0);
-			case 1: frame2.draw(0, 0);
-			default: 
-		}
+		setColor(0xFFFFFF);
+		originalFrames[currentIndex].draw(0, 0);
 		
 		setColor(0xFF0000);
 		var mv = motionVectors[currentIndex];
@@ -61,9 +58,8 @@ class OFExample extends BaseApp {
 				line(x, y, x + mv.get(i, j, 0), y + mv.get(i, j, 1));
 			}
 		}
-		setColor(0xFFFFFF);
 		
-		currentIndex = currentIndex.loopIndex(motionVectors.length);
+		currentIndex = (currentIndex+1).loopIndex(motionVectors.length);
 	}
 	
 	static function main():Void {
