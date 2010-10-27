@@ -30,7 +30,7 @@ class OFExample extends BaseApp {
 		
 		var hxcvArray = new Array<OFGray2DImage>();
 		
-		for (imgNum in 1050395...1050480) {//1050521
+		for (imgNum in 1050395...1050521) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/02/original-320-240/P" + imgNum + ".jpg");
 			img.setImageType(Constants.OF_IMAGE_GRAYSCALE);
