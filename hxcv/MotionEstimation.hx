@@ -5,6 +5,11 @@ import hxcv.ds.I2DImage;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.Point3D;
 
+/**
+ * It implements the algorithm described in the paper:
+ *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
+ *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
+ */
 class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 {	
 	/**

@@ -16,6 +16,8 @@ class OFExample extends BaseApp {
 	var me:MotionEstimation<Dynamic>;
 	
 	override function setup():Void {
+		enableSmoothing();
+		
 		frame1 = new Image();
 		frame1.loadImage("original-320-240/P1050416.jpg");
 		frame1.setImageType(Constants.OF_IMAGE_GRAYSCALE);
