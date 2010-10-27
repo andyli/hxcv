@@ -41,19 +41,19 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 	public var K:Float;
 	
 	public function new():Void {
-		/*/defaults that works for 320*240
+		//defaults that works for 320*240
 		N = 10;
 		M = 20;
 		alpha = 4;
 		S = 15;
-		K = 0.02;*/
+		K = 0.02;
 		
-		//defaults that works for 640*480
+		/*/defaults that works for 640*480
 		N = 10;
 		M = 40;
 		alpha = 8;
 		S = 40;
-		K = 0.005;
+		K = 0.005;*/
 	}
 	
 	public function process(inputs:Array<InImgT>):Array<Array2DImage<Float>> 
@@ -74,13 +74,11 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 			
 			//for each of the matching block
 			for (mx in 0...mvImgSizeX) {
+				var k = Math.floor(mx * N);		//top-left x-coordinates of the block
 				for (my in 0...mvImgSizeY) {
+					var l = Math.floor(my * N);	//top-left y-coordinates of the block
 					
-					//top-left coordinates of the block
-					var k = Math.floor(mx * N);
-					var l = Math.floor(my * N);
-					
-					//z is WCI
+					//x,y is coordinates of the vector. z is WCI.
 					var WCImin = new Point3D(0, 0, Math.POSITIVE_INFINITY);
 					
 					//for each coordinates in the search range
