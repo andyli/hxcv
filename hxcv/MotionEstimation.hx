@@ -1,5 +1,6 @@
 package hxcv;
 
+import haxe.rtti.Generic;
 import hxcv.ds.IGray2DImage;
 import hxcv.ds.I2DImage;
 import hxcv.ds.Array2DImage;
@@ -10,7 +11,7 @@ import hxcv.ds.Point3D;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
+class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 {	
 	/**
 	 * Size of matching block which one motion vector for one matching block.
@@ -40,12 +41,19 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 	public var K:Float;
 	
 	public function new():Void {
-		//defaults that works for 320*240
+		/*/defaults that works for 320*240
 		N = 10;
 		M = 20;
 		alpha = 4;
-		S = 20;
-		K = 0.02;
+		S = 15;
+		K = 0.02;*/
+		
+		//defaults that works for 640*480
+		N = 10;
+		M = 40;
+		alpha = 8;
+		S = 40;
+		K = 0.005;
 	}
 	
 	public function process(inputs:Array<InImgT>):Array<Array2DImage<Float>> 
@@ -55,6 +63,7 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 		var mvImgSizeY = Math.floor(inputs[0].height / N);
 		var alphaSqr = alpha * alpha;
 		var MSqr = M * M;
+		var SHalf = S * 0.5;
 		
 		//for all input images
 		for (inputIndex in 1...inputs.length) {
@@ -71,12 +80,12 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 					var k = Math.floor(mx * N);
 					var l = Math.floor(my * N);
 					
-					//Array of Point3D, z is mean absolute difference
-					var MADs = new Array<Point3D>();
+					//z is WCI
+					var WCImin = new Point3D(0, 0, Math.POSITIVE_INFINITY);
 					
 					//for each coordinates in the search range
-					for (x in Math.floor(-S * 0.5)...Math.ceil(S * 0.5)) {
-						for (y in Math.floor(-S * 0.5)...Math.ceil(S * 0.5)) {
+					for (x in Math.floor(-SHalf)...Math.ceil(SHalf)) {
+						for (y in Math.floor(-SHalf)...Math.ceil(SHalf)) {
 							
 							var MAD = 0.0;
 							
@@ -93,19 +102,17 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>>
 								i += alpha;
 							}
 							
-							MADs.push(new Point3D(x, y, MAD * (1 + K * (x * x + y * y))));
-							
+							var WCI = MAD * (1 + K * (x * x + y * y));
+							if (WCI < WCImin.z) {
+								WCImin.x = x;
+								WCImin.y = y;
+								WCImin.z = WCI;
+							}							
 						}
 					}
 					
-					//Sort to find out the min MAD
-					MADs.sort(function(a:Point3D, b:Point3D):Int {
-						return cast a.z - b.z;
-					});
-					var minMAD = MADs[0];
-					
-					mv.set(mx, my, 0, minMAD.x);
-					mv.set(mx, my, 1, minMAD.y);
+					mv.set(mx, my, 0, WCImin.x);
+					mv.set(mx, my, 1, WCImin.y);
 				}
 			}
 			result.push(mv);

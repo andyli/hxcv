@@ -1,9 +1,11 @@
 ﻿package ;
 
 import cpp.Lib;
+import haxe.Timer;
 
 import hxcv.MotionEstimation;
 import hxcv.ds.I2DImage;
+import hxcv.ds.of.OFGray2DImage;
 using hxcv.ds.of.OFAdapter;
 
 import of.Context;
@@ -13,22 +15,24 @@ class OFExample extends BaseApp {
 	var frame1:Image;
 	var frame2:Image;
 	var motionVectors:I2DImage<Float>;
-	var me:MotionEstimation<Dynamic>;
+	var me:MotionEstimation<OFGray2DImage>;
 	
 	override function setup():Void {
 		enableSmoothing();
 		
 		frame1 = new Image();
-		frame1.loadImage("original-320-240/P1050416.jpg");
+		frame1.loadImage("original-640-480/P1050416.jpg");
 		frame1.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 		
 		frame2 = new Image();
-		frame2.loadImage("original-320-240/P1050417.jpg");
+		frame2.loadImage("original-640-480/P1050417.jpg");
 		frame2.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 		
-		me = new MotionEstimation();
+		me = new MotionEstimation<OFGray2DImage>();
 		
+		var t = Timer.stamp();
 		motionVectors = me.process([frame1.getGray2DImage(), frame2.getGray2DImage()])[0];
+		trace(Timer.stamp() - t);
 	}
 	
 	override function draw():Void {
