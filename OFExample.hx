@@ -1,6 +1,7 @@
 ﻿package ;
 
 import cpp.Lib;
+import cpp.vm.Gc;
 import haxe.Timer;
 using Lambda;
 using org.casalib.util.NumberUtil;
@@ -30,6 +31,7 @@ class OFExample extends BaseApp {
 		
 		var hxcvArray = new Array<OFGray2DImage>();
 		
+		Gc.enable(false);
 		for (imgNum in 1050395...1050521) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/02/original-320-240/P" + imgNum + ".jpg");
@@ -37,6 +39,7 @@ class OFExample extends BaseApp {
 			originalFrames.push(img);
 			hxcvArray.push(img.getGray2DImage());
 		}
+		Gc.enable(true);
 		
 		me = new MotionEstimation<OFGray2DImage>();
 		
