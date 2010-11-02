@@ -4,7 +4,7 @@ import haxe.rtti.Generic;
 import hxcv.ds.IGray2DImage;
 import hxcv.ds.I2DImage;
 import hxcv.ds.Array2DImage;
-import hxcv.ds.Point3D;
+import hxcv.ds.Vector3D;
 
 /**
  * It implements the algorithm described in the paper:
@@ -79,7 +79,7 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 					var l = Math.floor(my * N);	//top-left y-coordinates of the block
 					
 					//x,y is coordinates of the vector. z is WCI.
-					var WCImin = new Point3D(0, 0, Math.POSITIVE_INFINITY);
+					var WCImin = new Vector3D(0, 0, Math.POSITIVE_INFINITY);
 					
 					//for each coordinates in the search range
 					for (x in Math.floor(-SHalf)...Math.ceil(SHalf)) {

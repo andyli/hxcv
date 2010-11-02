@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-class Point2D 
+class Vector2D 
 {
 	public function new(?_x:Float = 0, ?_y:Float = 0):Void 
 	{
