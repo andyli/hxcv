@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface I2DImage<T>{
+interface I2DImage<T:Float>{
 	public function get(x:Int, y:Int, channel:Int):T;
 	public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int;
 	public function set(x:Int, y:Int, channel:Int, val:T):Void;

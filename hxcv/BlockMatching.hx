@@ -36,9 +36,9 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 	
 	public function new():Void {
 		//defaults that works for 320*240
-		M = 20;
+		M = 25;
 		alpha = 4;
-		S = 15;
+		S = 25;
 		K = 0.02;
 		
 		/*/defaults that works for 640*480

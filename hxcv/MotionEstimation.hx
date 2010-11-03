@@ -20,52 +20,13 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 	public var N:Int;
 	
 	/**
-	 * Size of motion-estimation block.
-	 */
-	public var M:Int;
-	
-	/**
-	 * Sampling number.
-	 * Higher => faster and less accurate.
-	 */
-	public var alpha:Int;
-	
-	/**
-	 * Searching range.
-	 */
-	public var S:Int;
-	
-	/**
-	 * Constant affecting the Weighted Correlation Index.
-	 * More positive value make it favors vectors that are close to 0,0
-	 */
-	public var K:Float;
-	
-	/**
 	 * The algorithm used for block matching.
 	 */
 	public var blockMatching:BlockMatching<InImgT>;
 	
 	public function new():Void {
-		//defaults that works for 320*240
-		N = 10;
-		M = 20;
-		alpha = 4;
-		S = 15;
-		K = 0.02;
-		
-		/*/defaults that works for 640*480
-		N = 10;
-		M = 40;
-		alpha = 8;
-		S = 40;
-		K = 0.005;*/
-		
+		N = 10;		
 		blockMatching = new BlockMatching<InImgT>();
-		blockMatching.K = K;
-		blockMatching.M = M;
-		blockMatching.S = S;
-		blockMatching.alpha = alpha;
 	}
 	
 	public function process(inputs:Array<InImgT>):Array<Array2DImage<Float>> 
