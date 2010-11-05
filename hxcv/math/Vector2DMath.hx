@@ -74,4 +74,8 @@ class Vector2DMath
 		}
 		return v0;
 	}
+	
+	inline static public function clone(v0:Vector2D):Vector2D {
+		return new Vector2D(v0.x, v0.y);
+	}
 }
