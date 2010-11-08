@@ -3,6 +3,7 @@ package hxcv.ds.of;
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
 import hxcv.ds.IImage;
+import hxcv.ds.Vector4;
 import of.Context;
 
 class OFImageARGB implements IImageARGB<Int>
@@ -32,9 +33,9 @@ class OFImageARGB implements IImageARGB<Int>
 		pixels.set((y * width + x) * 4 + channel, val);
 	}
 	
-	inline public function get4(x:Int, y:Int):Array<Int> {
+	inline public function get4(x:Int, y:Int):Vector4<Int> {
 		var pos = (y * width + x) * numOfChannels;
-		return [pixels.get(pos), pixels.get(pos + 1), pixels.get(pos + 2), pixels.get(pos + 3)];
+		return new Vector4<Int>(pixels.get(pos), pixels.get(pos + 1), pixels.get(pos + 2), pixels.get(pos + 3));
 	}
 	
 	inline public function set4(x:Int, y:Int, val0:Int, val1:Int, val2:Int, val3:Int):Void {

@@ -62,8 +62,9 @@ class OFExample extends BaseApp {
 			for (i in 0...mv.width) {
 				for (j in 0...mv.height) {
 					var x = me.N*0.5 + i * me.N;
-					var y = me.N*0.5 + j * me.N;
-					line(x, y, x + mv.get(i, j, 0), y + mv.get(i, j, 1));
+					var y = me.N * 0.5 + j * me.N;
+					var v = mv.get(i, j, 0);
+					line(x, y, x + v.val0, y + v.val1);
 				}
 			}
 		}

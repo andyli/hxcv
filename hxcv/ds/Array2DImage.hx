@@ -9,7 +9,7 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 		if (ary == null) {
 			array = [];
 			for (i in 0...w * h * channels) {
-				array.push(cast 0.0);
+				array.push(null);
 			}
 		} else {
 			array = ary;
@@ -24,6 +24,14 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 		return array[(y * width + x) * numOfChannels + channel];
 	}
 	
+	inline public function set(x:Int, y:Int, channel:Int, val:T):Void {
+		#if debug
+		if (channel < 0 || channel >= numOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		array[(y * width + x) * numOfChannels + channel] =  val;
+	}
+	/*
 	public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int {
 		var pos = (y * width + x) * numOfChannels;
 		
@@ -38,14 +46,6 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 			default:
 				throw "number of channels is not 1/3/4";
 		}
-	}
-	
-	inline public function set(x:Int, y:Int, channel:Int, val:T):Void {
-		#if debug
-		if (channel < 0 || channel >= numOfChannels)
-			throw "image does not have channel " + channel;
-		#end
-		array[(y * width + x) * numOfChannels + channel] =  val;
 	}
 	
 	public function setHex(x:Int, y:Int, val:Int):Void {
@@ -71,7 +71,7 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 				throw "number of channels is not 1/3/4";
 		}
 	}
-	
+	*/
 	inline public function getPixels():Array<T> {
 		return array;
 	}

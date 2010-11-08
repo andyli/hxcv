@@ -25,6 +25,14 @@ class Bytes2DImage implements I2DImage<Int> {
 		return bytes.get((y * width + x) * numOfChannels + channel);
 	}
 	
+	inline public function set(x:Int, y:Int, channel:Int, val:Int):Void {
+		#if debug
+		if (channel < 0 || channel >= numOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		bytes.set((y * width + x) * numOfChannels + channel, val);
+	}
+	
 	public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int {
 		var pos = (y * width + x) * numOfChannels;
 		
@@ -39,14 +47,6 @@ class Bytes2DImage implements I2DImage<Int> {
 			default:
 				throw "number of channels is not 1/3/4";
 		}
-	}
-	
-	inline public function set(x:Int, y:Int, channel:Int, val:Int):Void {
-		#if debug
-		if (channel < 0 || channel >= numOfChannels)
-			throw "image does not have channel " + channel;
-		#end
-		bytes.set((y * width + x) * numOfChannels + channel, val);
 	}
 	
 	public function setHex(x:Int, y:Int, val:Int):Void {

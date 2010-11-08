@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-class Vector3<T> extends Vector2<T>, implements haxe.rtti.Generic
+class Vector3<T> extends Vector2<T> #if false , implements haxe.rtti.Generic #end
 {
 
 	public function new(?_val0:T, ?_val1:T, ?_val2:T):Void 

@@ -29,7 +29,7 @@ interface IImage1 <T> implements IImage<T> {
  * numOfChannels is always 3.
  */
 interface IImage3 <T> implements IImage<T> {
-	public function get3(x:Int, y:Int):Array<T>;
+	public function get3(x:Int, y:Int):Vector3<T>;
 	public function set3(x:Int, y:Int, val0:T, val1:T, val2:T):Void;
 }
 
@@ -37,7 +37,7 @@ interface IImage3 <T> implements IImage<T> {
  * numOfChannels is always 4.
  */
 interface IImage4 <T> implements IImage<T> {
-	public function get4(x:Int, y:Int):Array<T>;
+	public function get4(x:Int, y:Int):Vector4<T>;
 	public function set4(x:Int, y:Int, val0:T, val1:T, val2:T, val3:T):Void;
 }
 

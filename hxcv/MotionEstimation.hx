@@ -28,9 +28,9 @@ class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 		blockMatching = new BlockMatching<InImgT>();
 	}
 	
-	public function process(inputs:Array<InImgT>):Array<Array2DImage<Float>> 
+	public function process(inputs:Array<InImgT>):Array<Array2DImage<Vector3<Float>>> 
 	{
-		var result = new Array<Array2DImage<Float>>();
+		var result = new Array<Array2DImage<Vector3<Float>>>();
 		var mvImgSizeX = Math.floor(inputs[0].width / N);
 		var mvImgSizeY = Math.floor(inputs[0].height / N);
 		
@@ -39,7 +39,7 @@ class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 			
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
-			var mv = new Array2DImage<Float>(mvImgSizeX, mvImgSizeY, 2);
+			var mv = new Array2DImage<Vector3<Float>>(mvImgSizeX, mvImgSizeY, 1);
 			
 			//for each of the matching block
 			
@@ -50,10 +50,7 @@ class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 				var my = 0;
 				while (my < mvImgSizeY) {
 					
-					var WCImin = blockMatching.process(k, l, in0, in1);
-					
-					mv.set(mx, my, 0, WCImin.val0);
-					mv.set(mx, my, 1, WCImin.val1);
+					mv.set(mx, my, 0, blockMatching.process(k, l, in0, in1));
 					
 					l += N;
 					++my;
