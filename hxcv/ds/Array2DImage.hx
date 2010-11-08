@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-class Array2DImage<T:Float> implements IImage<T>, implements haxe.rtti.Generic {
+class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 
 	public function new(w:Int, h:Int, channels:Int, ?ary:Array<T>):Void {
 		width = w;
