@@ -16,14 +16,23 @@ interface IImage<T:Float>{
 	public function iterator():Iterator<T>;
 }
 
+/**
+ * numOfChannels is always 1.
+ */
 interface IImage1 < T:Float > implements IImage<T> {
 	
 }
 
+/**
+ * numOfChannels is always 3.
+ */
 interface IImage3 < T:Float > implements IImage<T> {
 	
 }
 
+/**
+ * numOfChannels is always 4.
+ */
 interface IImage4 < T:Float > implements IImage<T> {
 	
 }
