@@ -9,7 +9,7 @@ using org.casalib.util.NumberUtil;
 import hxcv.MotionEstimation;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
-import hxcv.ds.of.OFGray2DImage;
+import hxcv.ds.of.OFImageGray;
 using hxcv.ds.of.OFAdapter;
 
 import of.Context;
@@ -19,8 +19,8 @@ class OFExample extends BaseApp {
 	
 	var currentIndex:Int;
 	var originalFrames:Array<Image>;
-	var originalFramesGray:Array<OFGray2DImage>;
-	var me:MotionEstimation<OFGray2DImage>;
+	var originalFramesGray:Array<OFImageGray>;
+	var me:MotionEstimation<OFImageGray>;
 	var showMV:Bool;
 	var showImg:Bool;
 	
@@ -43,11 +43,11 @@ class OFExample extends BaseApp {
 			var imgGray = new Image();
 			imgGray.clone(img);
 			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
-			originalFramesGray.push(imgGray.getGray2DImage());
+			originalFramesGray.push(imgGray.getImageGray());
 		}
 		Gc.enable(true);
 		
-		me = new MotionEstimation<OFGray2DImage>();
+		me = new MotionEstimation<OFImageGray>();
 	}
 	
 	override function draw():Void {

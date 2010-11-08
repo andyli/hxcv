@@ -6,7 +6,7 @@ import hxcv.ds.IImage;
 import of.graphics.Image;
 import of.utils.Constants;
 
-class OF2DImage implements IImage<Int>
+class OFImage implements IImage<Int>
 {
 	public function new(img:Image):Void {
 		ofImage = img;
@@ -101,7 +101,7 @@ class OF2DImage implements IImage<Int>
 	inline public function clone():IImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
-		return new OF2DImage(img);
+		return new OFImage(img);
 	}
 	
 	public var width(default, null):Int;

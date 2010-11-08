@@ -5,7 +5,7 @@ import haxe.io.BytesInput;
 import hxcv.ds.IImage;
 import of.Context;
 
-class OFRGB2DImage implements IImage3<Int>
+class OFImageRGB implements IImageRGB<Int>
 {
 	public function new(img:Image):Void {
 		if (img.type != Constants.OF_IMAGE_COLOR) throw "Input is not a OF_IMAGE_COLOR image.";
@@ -61,7 +61,7 @@ class OFRGB2DImage implements IImage3<Int>
 	inline public function clone():IImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
-		return new OFRGB2DImage(img);
+		return new OFImageRGB(img);
 	}
 	
 	public var width(default, null):Int;

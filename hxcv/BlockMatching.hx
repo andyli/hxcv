@@ -10,7 +10,7 @@ import hxcv.ds.Vector3D;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class BlockMatching<InImgT:IImage1<Dynamic>> implements Generic
+class BlockMatching<InImgT:IImageGray<Dynamic>> implements Generic
 {	
 	/**
 	 * Size of estimation block.
@@ -72,8 +72,8 @@ class BlockMatching<InImgT:IImage1<Dynamic>> implements Generic
 				while (i < M) {
 					var j = 0;
 					while (j < M) {
-						var f1 = in1.get(k + i + x, l + j + y, 0);
-						var f0 = in0.get(k + i, l + j, 0);
+						var f1 = in1.getGray(k + i + x, l + j + y);
+						var f0 = in0.getGray(k + i, l + j);
 						MAD += (alphaSqr * Math.abs(f1 - f0)) / MSqr;
 						
 						j += alpha;

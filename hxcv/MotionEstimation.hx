@@ -11,7 +11,7 @@ import hxcv.ds.Vector3D;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IImage1<Dynamic>> implements Generic
+class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 {	
 	/**
 	 * Size of matching block which one motion vector for one matching block.
