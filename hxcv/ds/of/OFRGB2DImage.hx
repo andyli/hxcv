@@ -2,11 +2,10 @@ package hxcv.ds.of;
 
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
-import hxcv.ds.I2DImage;
-import hxcv.ds.IRGB2DImage;
+import hxcv.ds.IImage;
 import of.Context;
 
-class OFRGB2DImage implements IRGB2DImage<Int>
+class OFRGB2DImage implements IImage3<Int>
 {
 	public function new(img:Image):Void {
 		if (img.type != Constants.OF_IMAGE_COLOR) throw "Input is not a OF_IMAGE_COLOR image.";
@@ -59,7 +58,7 @@ class OFRGB2DImage implements IRGB2DImage<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():I2DImage<Int> {
+	inline public function clone():IImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OFRGB2DImage(img);

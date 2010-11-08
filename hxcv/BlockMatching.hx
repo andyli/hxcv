@@ -1,7 +1,7 @@
 package hxcv;
 
 import haxe.rtti.Generic;
-import hxcv.ds.IGray2DImage;
+import hxcv.ds.IImage;
 import hxcv.ds.Vector2D;
 import hxcv.ds.Vector3D;
 
@@ -10,7 +10,7 @@ import hxcv.ds.Vector3D;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
+class BlockMatching<InImgT:IImage1<Dynamic>> implements Generic
 {	
 	/**
 	 * Size of estimation block.
@@ -38,7 +38,7 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 		//defaults that works for 320*240
 		M = 25;
 		alpha = 4;
-		S = 25;
+		S = 20;
 		K = 0.02;
 		
 		/*/defaults that works for 640*480
@@ -48,7 +48,7 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 		K = 0.005;*/
 	}
 	
-	public function process(pt:Vector2D, img0:InImgT, img1:InImgT):Vector2D
+	public function process(ptX:Int, ptY:Int, img0:InImgT, img1:InImgT):Vector3D
 	{
 		var alphaSqr = alpha * alpha;
 		var MSqr = M * M;
@@ -56,8 +56,8 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 			
 		var in0 = img0;
 		var in1 = img1;
-		var k = Std.int(pt.x);
-		var l = Std.int(pt.y);
+		var k = ptX;
+		var l = ptY;
 		
 		//x,y is coordinates of the vector. z is WCI.
 		var WCImin = new Vector3D(0, 0, Math.POSITIVE_INFINITY);
@@ -72,8 +72,8 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 				while (i < M) {
 					var j = 0;
 					while (j < M) {
-						var f1 = in1.getGray(k + i + x, l + j + y);
-						var f0 = in0.getGray(k + i, l + j);
+						var f1 = in1.get(k + i + x, l + j + y, 0);
+						var f0 = in0.get(k + i, l + j, 0);
 						MAD += (alphaSqr * Math.abs(f1 - f0)) / MSqr;
 						
 						j += alpha;
@@ -90,7 +90,7 @@ class BlockMatching<InImgT:IGray2DImage<Dynamic>> implements Generic
 			}
 		}
 		
-		return new Vector2D(WCImin.x, WCImin.y);
+		return WCImin;
 	}
 	
 }

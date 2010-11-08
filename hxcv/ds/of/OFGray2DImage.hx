@@ -2,11 +2,10 @@ package hxcv.ds.of;
 
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
-import hxcv.ds.I2DImage;
-import hxcv.ds.IGray2DImage;
+import hxcv.ds.IImage;
 import of.Context;
 
-class OFGray2DImage implements IGray2DImage<Int>
+class OFGray2DImage implements IImage1<Int>
 {
 	public function new(img:Image):Void {
 		if (img.type != Constants.OF_IMAGE_GRAYSCALE) throw "Input is not a grayscale image.";
@@ -57,7 +56,7 @@ class OFGray2DImage implements IGray2DImage<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():I2DImage<Int> {
+	inline public function clone():IImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OFGray2DImage(img);

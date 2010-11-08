@@ -2,11 +2,11 @@ package hxcv.ds.of;
 
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
-import hxcv.ds.I2DImage;
+import hxcv.ds.IImage;
 import of.graphics.Image;
 import of.utils.Constants;
 
-class OF2DImage implements I2DImage<Int>
+class OF2DImage implements IImage<Int>
 {
 	public function new(img:Image):Void {
 		ofImage = img;
@@ -98,7 +98,7 @@ class OF2DImage implements I2DImage<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():I2DImage<Int> {
+	inline public function clone():IImage<Int> {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OF2DImage(img);

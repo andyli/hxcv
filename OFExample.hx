@@ -7,7 +7,7 @@ using Lambda;
 using org.casalib.util.NumberUtil;
 
 import hxcv.MotionEstimation;
-import hxcv.ds.I2DImage;
+import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.of.OFGray2DImage;
 using hxcv.ds.of.OFAdapter;
@@ -19,7 +19,7 @@ class OFExample extends BaseApp {
 	
 	var currentIndex:Int;
 	var originalFrames:Array<Image>;
-	var motionVectors:Array<Array2DImage<Float>>;
+	var originalFramesGray:Array<OFGray2DImage>;
 	var me:MotionEstimation<OFGray2DImage>;
 	var showMV:Bool;
 	var showImg:Bool;
@@ -30,26 +30,24 @@ class OFExample extends BaseApp {
 		
 		currentIndex = 0;
 		originalFrames = [];
-		showMV = true;
+		originalFramesGray = [];
+		showMV = false;
 		showImg = true;
-		
-		var hxcvArray = new Array<OFGray2DImage>();
 		
 		Gc.enable(false);
 		for (imgNum in 1050587...1050700) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
-			img.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 			originalFrames.push(img);
-			hxcvArray.push(img.getGray2DImage());
+			
+			var imgGray = new Image();
+			imgGray.clone(img);
+			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
+			originalFramesGray.push(imgGray.getGray2DImage());
 		}
 		Gc.enable(true);
 		
 		me = new MotionEstimation<OFGray2DImage>();
-		
-		var t = Timer.stamp();
-		motionVectors = me.process(hxcvArray);
-		trace(Timer.stamp() - t);
 	}
 	
 	override function draw():Void {
@@ -60,7 +58,7 @@ class OFExample extends BaseApp {
 		
 		if (showMV){
 			setColor(0xFF0000);
-			var mv = motionVectors[currentIndex];
+			var mv = me.process([originalFramesGray[currentIndex],originalFramesGray[currentIndex+1]])[0];
 			for (i in 0...mv.width) {
 				for (j in 0...mv.height) {
 					var x = me.N*0.5 + i * me.N;
@@ -70,7 +68,7 @@ class OFExample extends BaseApp {
 			}
 		}
 		
-		currentIndex = (currentIndex+1).loopIndex(motionVectors.length);
+		currentIndex = (currentIndex + 1).loopIndex(originalFrames.length - 1);
 	}
 	
 	override function keyPressed(key:Int):Void {

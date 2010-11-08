@@ -1,8 +1,7 @@
 package hxcv;
 
 import haxe.rtti.Generic;
-import hxcv.ds.IGray2DImage;
-import hxcv.ds.I2DImage;
+import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.Vector2D;
 import hxcv.ds.Vector3D;
@@ -12,7 +11,7 @@ import hxcv.ds.Vector3D;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
+class MotionEstimation<InImgT:IImage1<Dynamic>> implements Generic
 {	
 	/**
 	 * Size of matching block which one motion vector for one matching block.
@@ -25,7 +24,7 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 	public var blockMatching:BlockMatching<InImgT>;
 	
 	public function new():Void {
-		N = 10;		
+		N = 15;		
 		blockMatching = new BlockMatching<InImgT>();
 	}
 	
@@ -43,17 +42,26 @@ class MotionEstimation<InImgT:IGray2DImage<Dynamic>> implements Generic
 			var mv = new Array2DImage<Float>(mvImgSizeX, mvImgSizeY, 2);
 			
 			//for each of the matching block
-			for (mx in 0...mvImgSizeX) {
-				var k = Math.floor(mx * N);		//top-left x-coordinates of the block
-				for (my in 0...mvImgSizeY) {
-					var l = Math.floor(my * N);	//top-left y-coordinates of the block
+			
+			var k = 0;		//top-left x-coordinate of the block
+			var mx = 0;
+			while (mx < mvImgSizeX) {
+				var l = 0;	//top-left y-coordinate of the block
+				var my = 0;
+				while (my < mvImgSizeY) {
 					
-					var WCImin = blockMatching.process(new Vector2D(k, l), in0, in1);
+					var WCImin = blockMatching.process(k, l, in0, in1);
 					
 					mv.set(mx, my, 0, WCImin.x);
 					mv.set(mx, my, 1, WCImin.y);
+					
+					l += N;
+					++my;
 				}
+				k += N;
+				++mx;
 			}
+			
 			result.push(mv);
 			
 		}
