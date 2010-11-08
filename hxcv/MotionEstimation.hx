@@ -3,8 +3,8 @@ package hxcv;
 import haxe.rtti.Generic;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
-import hxcv.ds.Vector2D;
-import hxcv.ds.Vector3D;
+import hxcv.ds.Vector2;
+import hxcv.ds.Vector3;
 
 /**
  * It implements the algorithm described in the paper:
@@ -52,8 +52,8 @@ class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 					
 					var WCImin = blockMatching.process(k, l, in0, in1);
 					
-					mv.set(mx, my, 0, WCImin.x);
-					mv.set(mx, my, 1, WCImin.y);
+					mv.set(mx, my, 0, WCImin.val0);
+					mv.set(mx, my, 1, WCImin.val1);
 					
 					l += N;
 					++my;

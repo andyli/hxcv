@@ -25,17 +25,25 @@ class OFImageGray implements IImageGray<Int>
 		return pixels.get(y * width + x + channel);
 	}
 	
-	inline public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int {
-		var g = pixels.get(y * width + x);
-		return g << 16 ^ g << 8 ^ g;
-	}
-	
 	inline public function set(x:Int, y:Int, channel:Int, val:Int):Void {
 		#if debug
 		if (channel != 0)
 			throw "image does not have channel " + channel;
 		#end
 		pixels.set(y * width + x + channel, val);
+	}
+	
+	inline public function get1(x:Int, y:Int):Int {
+		return pixels.get(y * width + x);
+	}
+	
+	inline public function set1(x:Int, y:Int, val:Int):Void {
+		pixels.set(y * width + x, val);
+	}
+	
+	inline public function getHex(x:Int, y:Int):Int {
+		var g = pixels.get(y * width + x);
+		return g << 16 ^ g << 8 ^ g;
 	}
 	
 	inline public function setHex(x:Int, y:Int, val:Int):Void {

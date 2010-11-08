@@ -24,16 +24,28 @@ class OFImageRGB implements IImageRGB<Int>
 		return pixels.get((y * width + x) * 3 + channel);
 	}
 	
-	inline public function getHex(x:Int, y:Int, ?alpha:Null<Int>):Int {
-		return (alpha == null ? 0xFF : alpha) | (new BytesInput(pixels, (y * width + x) * 3).readInt24());
-	}
-	
 	inline public function set(x:Int, y:Int, channel:Int, val:Int):Void {
 		#if debug
 		if (channel < 0 || channel >= 3)
 			throw "image does not have channel " + channel;
 		#end
 		pixels.set((y * width + x) * 3 + channel, val);
+	}
+	
+	inline public function get3(x:Int, y:Int):Array<Int> {
+		var pos = (y * width + x) * numOfChannels;
+		return [pixels.get(pos), pixels.get(pos + 1), pixels.get(pos + 2)];
+	}
+	
+	inline public function set3(x:Int, y:Int, val0:Int, val1:Int, val2:Int):Void {
+		var pos = (y * width + x) * numOfChannels;
+		pixels.set(pos, val0);
+		pixels.set(++pos, val1);
+		pixels.set(++pos, val2);
+	}
+	
+	inline public function getHex(x:Int, y:Int):Int {
+		return new BytesInput(pixels, (y * width + x) * 3).readInt24();
 	}
 	
 	inline public function setHex(x:Int, y:Int, val:Int):Void {

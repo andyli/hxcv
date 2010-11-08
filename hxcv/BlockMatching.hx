@@ -2,8 +2,8 @@ package hxcv;
 
 import haxe.rtti.Generic;
 import hxcv.ds.IImage;
-import hxcv.ds.Vector2D;
-import hxcv.ds.Vector3D;
+import hxcv.ds.Vector2;
+import hxcv.ds.Vector3;
 
 /**
  * It implements the algorithm described in the paper:
@@ -48,7 +48,7 @@ class BlockMatching<InImgT:IImageGray<Dynamic>> implements Generic
 		K = 0.005;*/
 	}
 	
-	public function process(ptX:Int, ptY:Int, img0:InImgT, img1:InImgT):Vector3D
+	public function process(ptX:Int, ptY:Int, img0:InImgT, img1:InImgT):Vector3<Float>
 	{
 		var alphaSqr = alpha * alpha;
 		var MSqr = M * M;
@@ -60,7 +60,7 @@ class BlockMatching<InImgT:IImageGray<Dynamic>> implements Generic
 		var l = ptY;
 		
 		//x,y is coordinates of the vector. z is WCI.
-		var WCImin = new Vector3D(0, 0, Math.POSITIVE_INFINITY);
+		var WCImin = new Vector3<Float>(0.0, 0.0, Math.POSITIVE_INFINITY);
 		
 		//for each coordinates in the search range
 		for (x in Math.floor(-SHalf)...Math.ceil(SHalf)) {
@@ -82,10 +82,10 @@ class BlockMatching<InImgT:IImageGray<Dynamic>> implements Generic
 				}
 				
 				var WCI = MAD * (1 + K * (x * x + y * y));
-				if (WCI < WCImin.z) {
-					WCImin.x = x;
-					WCImin.y = y;
-					WCImin.z = WCI;
+				if (WCI < WCImin.val2) {
+					WCImin.val0 = x;
+					WCImin.val1 = y;
+					WCImin.val2 = WCI;
 				}							
 			}
 		}
