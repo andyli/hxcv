@@ -3,14 +3,17 @@
 import cpp.Lib;
 import cpp.vm.Gc;
 import haxe.Timer;
+import hxcv.ds.of.OFImageRGB;
 using Lambda;
 using org.casalib.util.NumberUtil;
 
 import hxcv.MotionEstimation;
+import hxcv.ds.Vector2;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.of.OFImageGray;
 using hxcv.ds.of.OFAdapter;
+using hxcv.math.Vector2Math;
 
 import of.Context;
 using of.Context.Functions;
@@ -19,20 +22,27 @@ class OFExample extends BaseApp {
 	
 	var currentIndex:Int;
 	var originalFrames:Array<Image>;
+	var smoothedFrames:Array<Image>;
 	var originalFramesGray:Array<OFImageGray>;
 	var me:MotionEstimation<OFImageGray>;
+	var smoothCvImage:OFImageRGB;
 	var showMV:Bool;
 	var showImg:Bool;
+	var showSmooth:Bool;
+	var play:Bool;
 	
 	override function setup():Void {
 		enableSmoothing();
 		setFrameRate(12);
 		
-		currentIndex = 0;
+		currentIndex = -1;
 		originalFrames = [];
+		smoothedFrames = [];
 		originalFramesGray = [];
 		showMV = false;
 		showImg = true;
+		showSmooth = false;
+		play = true;
 		
 		Gc.enable(false);
 		for (imgNum in 1050587...1050700) {
@@ -45,15 +55,28 @@ class OFExample extends BaseApp {
 			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 			originalFramesGray.push(imgGray.getImageGray());
 		}
+		for (imgNum in 1...111) {
+			var img = new Image();
+			img.loadImage("D:/stopmotion/04/original-320-240-p2/" + imgNum + ".png");
+			smoothedFrames.push(img);
+		}
 		Gc.enable(true);
 		
 		me = new MotionEstimation<OFImageGray>();
+		
+		var smoothImage = new Image();
+		smoothImage.clone(originalFrames[0]);
+		smoothCvImage = smoothImage.getImageRGB();
 	}
 	
 	override function draw():Void {
+		if (play)
+			currentIndex = (currentIndex + 1).loopIndex(originalFrames.length - 3);
+			
 		if (showImg){
 			setColor(0xFFFFFF);
 			originalFrames[currentIndex].draw(0, 0);
+			smoothedFrames[currentIndex].draw(320, 0);
 		}
 		
 		if (showMV){
@@ -69,7 +92,29 @@ class OFExample extends BaseApp {
 			}
 		}
 		
-		currentIndex = (currentIndex + 1).loopIndex(originalFrames.length - 1);
+		if (showSmooth && currentIndex != 0) {
+			var originalFrame = originalFrames[currentIndex];
+			var originalFrameCv = originalFrame.getImageRGB();
+			var originalFrameGray = originalFramesGray[currentIndex];
+			var originalFrameGrayPrev = originalFramesGray[currentIndex - 1];
+			var originalFrameGrayNext = originalFramesGray[currentIndex + 1];
+			
+			smoothCvImage.lock();
+			for (i in 0...originalFrame.width) {
+				for (j in 0...originalFrame.height) {
+					var prevMV = me.blockMatching.process(i, j, originalFrameGray, originalFrameGrayPrev);
+					var nextMV = me.blockMatching.process(i, j, originalFrameGray, originalFrameGrayNext);
+					var midMV = prevMV.interpolate(nextMV, 0.5);// .interpolate(new Vector2<Float>(0, 0), 0.5);
+					var vals = originalFrameCv.get3(i, j);
+					smoothCvImage.set3(Math.round(i + midMV.val0), Math.round(j + midMV.val1), vals.val0, vals.val1, vals.val2);
+				}
+				trace(i);
+			}
+			smoothCvImage.unlock();
+			smoothCvImage.ofImage.saveImage(currentIndex + ".png");
+			
+			if (currentIndex == originalFrames.length - 1) showSmooth = false;
+		}
 	}
 	
 	override function keyPressed(key:Int):Void {
@@ -78,6 +123,20 @@ class OFExample extends BaseApp {
 				showMV = !showMV;
 			case 'i'.charCodeAt(0):
 				showImg = !showImg;
+			case 's'.charCodeAt(0):
+				showSmooth = !showSmooth;
+			case 'h'.charCodeAt(0):
+				if (play) {
+					play = false;
+					setFrameRate(6);
+				} else {
+					play = true;
+					setFrameRate(12);
+				}
+			case 'k'.charCodeAt(0):
+				currentIndex = (currentIndex + 1).loopIndex(originalFrames.length - 1);
+			case 'j'.charCodeAt(0):
+				currentIndex = (currentIndex - 1).loopIndex(originalFrames.length - 1);
 		}
 	}
 	

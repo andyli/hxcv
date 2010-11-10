@@ -37,7 +37,7 @@ class BlockMatching<InImgT:IImageGray<Dynamic>> implements Generic
 	public function new():Void {
 		//defaults that works for 320*240
 		M = 25;
-		alpha = 4;
+		alpha = 2;
 		S = 20;
 		K = 0.02;
 		
