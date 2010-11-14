@@ -9,5 +9,13 @@ class Vector4<T> extends Vector3<T> #if false , implements haxe.rtti.Generic #en
 		val3 = _val3;
 	}
 	
-	public var val3:T;
+	public var val3(getVal3, setVal3):T;
+	
+	private var _val3:T;
+	private function getVal3():T {
+		return _val3;
+	}
+	private function setVal3(val:T):T {
+		return _val3 = val;
+	}
 }

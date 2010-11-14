@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-using hxcv.math.Vector2DMath;
+using hxcv.math.Vector2Math;
 
 class Rectangle 
 {
@@ -16,13 +16,13 @@ class Rectangle
 	public var width:Float;
 	public var height:Float;
 	
-	public function iterator():Iterator<Vector2D> {
+	public function iterator():Iterator<Vector2<Float>> {
 		return new RectangleIterator(this);
 	}
 }
 
 class RectangleIterator {
-	var cur:Vector2D;
+	var cur:Vector2<Float>;
 	var startX:Float;
 	var startY:Float;
 	var endX:Float;
@@ -35,14 +35,14 @@ class RectangleIterator {
 		endX = startX + rect.width;
 		endY = startY + rect.height;
 		step = _step;
-		cur = new Vector2D(startX, startY);
+		cur = new Vector2(startX, startY);
 	}
 	
-	inline public function next():Vector2D {
+	inline public function next():Vector2<Float> {
 		var ret = cur.clone();
-		if ((cur.x += step) > endX) {
-			cur.x = startX;
-			if ((cur.y += step) > endY) {
+		if ((cur.val0 += step) > endX) {
+			cur.val0 = startX;
+			if ((cur.val1 += step) > endY) {
 				cur = null;
 			}
 		}
@@ -55,7 +55,7 @@ class RectangleIterator {
 }
 
 class IntRectangleIterator {
-	var cur:Vector2D;
+	var cur:Vector2<Int>;
 	var startX:Int;
 	var startY:Int;
 	var endX:Int;
@@ -68,14 +68,14 @@ class IntRectangleIterator {
 		endX = Math.floor(rect.x + rect.width);
 		endY = Math.floor(rect.y + rect.height);
 		step = _step;
-		cur = new Vector2D(startX, startY);
+		cur = new Vector2(startX, startY);
 	}
 	
-	inline public function next():Vector2D {
+	inline public function next():Vector2<Int> {
 		var ret = cur.clone();
-		if ((cur.x += step) > endX) {
-			cur.x = startX;
-			if ((cur.y += step) > endY) {
+		if ((cur.val0 += step) > endX) {
+			cur.val0 = startX;
+			if ((cur.val1 += step) > endY) {
 				cur = null;
 			}
 		}
