@@ -9,7 +9,7 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 {	
 	/**
 	 * The list of items currently being tracked in the system. You can use this to quickly pass in a list of
-	 * existing items, or retrieve the current list. It is recommended to use addItem/removeItem/updateItem methods
+	 * existing items, or retrieve the current list. It is recommended to use add/remove/update methods
 	 * for minor modifications to the list.
 	 **/
 	public var items(getItems, setItems):FastList<T>;
@@ -44,13 +44,13 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 		_gridSize = gridSize;
 		_items = new FastList<T>();
 		init();
-		update();
+		updateAll();
 	}
 		
 	/**
 	 * Adds an item to track.
 	 **/
-	public function addItem(item:T):Void {
+	public function add(item:T):Void {
 		_items.add(item);
 		
 		getCell(item.val0, item.val1).add(item);
@@ -59,7 +59,7 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 	/**
 	 * Removes an item from the system. It will not be returned in any subsequent getNeighbors() calls.
 	 **/
-	public function removeItem(item:T):Void {
+	public function remove(item:T):Void {
 		_items.remove(item);
 		
 		for (colume in grid) {
@@ -72,19 +72,19 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 	/**
 	 * Update the item in grid.
 	 */
-	public function updateItem(item:T):Void {
+	public function update(item:T):Void {
 		var cell = getCell(item.val0, item.val1);
 		if (!cell.has(item)) {
-			removeItem(item);
+			remove(item);
 			cell.add(item);
 		}
 	}
 	
 	/**
 	 * Updates the positions of all items on the grid. Call this when items have moved, but not after *each* item moves.
-	 * For example, if you have a number of Vector2 moving around each frame, move them all, then call update() once per frame.
+	 * For example, if you have a number of Vector2 moving around each frame, move them all, then call updateAll() once per frame.
 	 **/
-	public function update():Void {
+	public function updateAll():Void {
 		grid = new IntHash<IntHash<FastList<T>>>();
 		
 		// populate grid:

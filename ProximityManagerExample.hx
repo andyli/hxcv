@@ -87,7 +87,7 @@ class ProximityManagerExample extends Sprite
 		g.clear();
 		g.lineStyle(1, 0xFF0000, 1);
 		
-		proximityManager.update();
+		proximityManager.updateAll();
 		
 		for (base in bases) {
 			var resultVector = proximityManager.getNeighbors(base.x, base.y);
