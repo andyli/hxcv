@@ -9,7 +9,7 @@ import hxcv.ds.Rectangle;
 import hxcv.ProximityManager;
 import hxcv.ds.flash.PositionVector2;
 using hxcv.math.Vector2Math;
-using hxcv.ds.flash.DisplayObjectAdapter;
+using hxcv.ds.flash.FlashAdapter;
 using Lambda;
 
 class ProximityManagerExample extends Sprite
