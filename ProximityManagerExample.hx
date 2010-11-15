@@ -5,8 +5,9 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import haxe.Timer;
 import hxcv.ds.Rectangle;
-import hxcv.ProximityManager;
+import hxcv.ProximityManagerUnbounded;
 import hxcv.ds.flash.PositionVector2;
 using hxcv.math.Vector2Math;
 using hxcv.ds.flash.FlashAdapter;
@@ -14,7 +15,7 @@ using Lambda;
 
 class ProximityManagerExample extends Sprite
 {	
-	private var proximityManager:ProximityManager<PositionVector2<Ship>>;
+	private var proximityManager:ProximityManagerUnbounded<PositionVector2<Ship>>;
 	private var itemCount:Int;
 	private var bases:Array<Shape>;
 	private var items:Array<Ship>;
@@ -30,7 +31,7 @@ class ProximityManagerExample extends Sprite
 		itemCount = 0;
 		
 		// offsetting the bounds a little bit to put the bases near the center of a grid position:
-		proximityManager = new ProximityManager(25,new Rectangle(-13,-13,570,570));
+		proximityManager = new ProximityManagerUnbounded(25);
 		
 		// create "link" canvas:
 		canvas = new Shape();
@@ -80,8 +81,8 @@ class ProximityManagerExample extends Sprite
 		item.alpha = 1;
 	}
 	
-	
 	private function tick(evt:Event):Void {
+		//var t = Timer.stamp();
 		var g:Graphics = canvas.graphics;
 		g.clear();
 		g.lineStyle(1, 0xFF0000, 1);
@@ -90,16 +91,17 @@ class ProximityManagerExample extends Sprite
 		
 		for (base in bases) {
 			var resultVector = proximityManager.getNeighbors(base.x, base.y);
-			for (v in resultVector) {
-				var item:Ship = v.data;
-				item.alpha -= 0.1;
-				if (item.alpha <= 0) {
-					resetItem(item);
-				} else {
-					g.moveTo(base.x, base.y);
-					g.lineTo(item.x, item.y);
-					var d = v.distance(base.getPositionVector2());
-					if (d > 70) trace(item.alpha);
+			
+			for (f in proximityManager.getNeighbors(base.x, base.y)) {
+				for (v in f) {
+					var item:Ship = v.data;
+					item.alpha -= 0.1;
+					if (item.alpha <= 0) {
+						resetItem(item);
+					} else {
+						g.moveTo(base.x, base.y);
+						g.lineTo(item.x, item.y);
+					}
 				}
 			}
 		}
@@ -108,6 +110,7 @@ class ProximityManagerExample extends Sprite
 			item.x = (item.x + item.velX + 550) % 550;
 			item.y = (item.y + item.velY + 550) % 550;
 		}
+		//trace(Timer.stamp() - t);
 	}
 	
 	public static function main():Void {

@@ -148,7 +148,22 @@ class ProximityManager<T:Vector2<Float>>
 	}
 	
 	/**
-	 * Returns the list of neighbors for the specified item. Neighbours are items in grid positions within radius positions away from the item.
+	 * Returns the neighbor cell of the coordinates. 
+	 * xOffSet is the horizontal offset number of the grid coordinate, ie. 1 is the right cell and -1 is the left cell.
+	 * yOffSet is the verticle offset, ie. 1 is the bottom cell and -1 is the top cell.
+	 */
+	inline public function getCell(x:Float, y:Float, xOffSet:Int = 0, yOffSet:Int = 0):Null<FastList<T>> {
+		var itemX:Int = Std.int((x + offX) * m) + xOffSet;
+		var itemY:Int = Std.int((y + offY) * m) + yOffSet;
+		
+		if (itemX < 0 || itemX > w || itemY < 0 || itemY > h)
+			return null;
+		else
+			return grid[itemX * h + itemY];
+	}
+	
+	/**
+	 * Returns the list of neighbors for the specified coordinates. Neighbours are items in grid positions within radius positions away from the item.
 	 * For example, a radius of 0 returns only items in the same position. A radius of 1 returns 9 positions (the center, + the 8 positions 1 position away).
 	 * A radius of 2 returns 25 positions. It is generally recommended to only use a radius of 1, but there are occasional use cases that may benefit from using
 	 * a radius of 2.
@@ -157,10 +172,11 @@ class ProximityManager<T:Vector2<Float>>
 	 * This is allows you to exclude items that are too far away, then use more accurate comparisions (like pythagoram distance calculations or hit tests) on the
 	 * smaller set of items.
 	 **/
-	public function getNeighbors(x:Float, y:Float,radius:Int=1):Array<T> {
+	public function getNeighbors(x:Float, y:Float, r:Int = 1):FastList<FastList<T>> {
 		
 		var itemX:Int = Std.int((x + offX) * m);
 		var itemY:Int = Std.int((y + offY) * m);
+		var radius:Int = Math.ceil(r * m);
 		
 		var minX:Int = itemX - radius;
 		if (minX < 0) { minX = 0; }
@@ -174,13 +190,11 @@ class ProximityManager<T:Vector2<Float>>
 		var maxY:Int = itemY + radius;
 		if (maxY > h) { maxY = h; }
 		
-		var results = [];
+		var results = new FastList<FastList<T>>();
 		var adjX = minX * h;
 		for (x in minX...maxX+1) {
-			for (y in minY...maxY+1) {
-				for (i in grid[adjX + y]) {
-					results.push(i);
-				}
+			for (y in minY...maxY + 1) {
+				results.add(grid[adjX + y]);
 			}
 			adjX += h;
 		}
