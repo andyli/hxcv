@@ -30,16 +30,18 @@
 package hxcv;
 
 import hxcv.ds.Rectangle;
-import hxcv.ds.Vector2;
+import hxcv.ds.Vector;
 import haxe.FastList;
 using Lambda;
 
 class ProximityManager<T:Vector2<Float>>
 {	
+	
+	public var gridSize(default, null):Float;
+	public var bounds(default, null):Rectangle;
+	
 	private var _items:FastList<T>;
 	private var grid:Array<FastList<T>>;
-	private var gridSize:Float;
-	private var bounds:Rectangle;
 	private var w:Int;
 	private var h:Int;
 	private var offX:Float;
@@ -130,8 +132,8 @@ class ProximityManager<T:Vector2<Float>>
 		 **/
 		public function getNeighbors(x:Float, y:Float,radius:Int=1):Array<T> {
 			
-			var itemX:Int = Std.int((x + offX) / gridSize);
-			var itemY:Int = Std.int((y + offY) / gridSize);
+			var itemX:Int = Std.int((x + offX) * m);
+			var itemY:Int = Std.int((y + offY) * m);
 			
 			var minX:Int = itemX - radius;
 			if (minX < 0) { minX = 0; }
@@ -146,13 +148,14 @@ class ProximityManager<T:Vector2<Float>>
 			if (maxY > h) { maxY = h; }
 			
 			var results = [];
+			var adjX = minX * h;
 			for (x in minX...maxX+1) {
-				var adjX = x * h;
 				for (y in minY...maxY+1) {
 					for (i in grid[adjX + y]) {
 						results.push(i);
 					}
 				}
+				adjX += h;
 			}
 			return results;
 		}
@@ -161,12 +164,12 @@ class ProximityManager<T:Vector2<Float>>
 	// Protected methods:
 		
 		private function init():Void {
-			w = Math.ceil(bounds.width/gridSize)+1;
-			h = Math.ceil(bounds.height/gridSize)+1;
+			m = 1 / gridSize;
+			w = Math.ceil(bounds.width * m) + 1;
+			h = Math.ceil(bounds.height * m) + 1;
 			length = w * h;
 			offX = -bounds.x;
 			offY = -bounds.y;
-			m = 1 / gridSize;
 			
 			grid = [];
 			for (i in 0...length) {

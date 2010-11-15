@@ -2,8 +2,7 @@ package hxcv;
 
 import haxe.rtti.Generic;
 import hxcv.ds.IImage;
-import hxcv.ds.Vector2;
-import hxcv.ds.Vector3;
+import hxcv.ds.Vector;
 
 /**
  * It implements the algorithm described in the paper:

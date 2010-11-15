@@ -8,7 +8,7 @@ using Lambda;
 using org.casalib.util.NumberUtil;
 
 import hxcv.MotionEstimation;
-import hxcv.ds.Vector2;
+import hxcv.ds.Vector;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.of.OFImageGray;

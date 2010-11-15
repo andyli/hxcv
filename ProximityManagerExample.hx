@@ -7,14 +7,14 @@ import flash.events.Event;
 import flash.Lib;
 import hxcv.ds.Rectangle;
 import hxcv.ProximityManager;
-import hxcv.ds.flash.DisplayObjectAdapter;
+import hxcv.ds.flash.PositionVector2;
 using hxcv.math.Vector2Math;
 using hxcv.ds.flash.DisplayObjectAdapter;
 using Lambda;
 
 class ProximityManagerExample extends Sprite
 {	
-	private var proximityManager:ProximityManager<PositionVector2>;
+	private var proximityManager:ProximityManager<PositionVector2<Ship>>;
 	private var itemCount:Int;
 	private var bases:Array<Shape>;
 	private var items:Array<Ship>;
@@ -30,7 +30,7 @@ class ProximityManagerExample extends Sprite
 		itemCount = 0;
 		
 		// offsetting the bounds a little bit to put the bases near the center of a grid position:
-		proximityManager = new ProximityManager(25,new Rectangle(-15,-15,570,570));
+		proximityManager = new ProximityManager(25,new Rectangle(-13,-13,570,570));
 		
 		// create "link" canvas:
 		canvas = new Shape();
@@ -47,7 +47,7 @@ class ProximityManagerExample extends Sprite
 			item.graphics.drawRect(-1,-1,2,2);
 			items.push(item);
 			addChild(item);
-			proximityManager.addItem(item.posVec2);
+			proximityManager.items.add(item.posVec2);
 		}
 		
 		// create bases:
@@ -91,7 +91,7 @@ class ProximityManagerExample extends Sprite
 		for (base in bases) {
 			var resultVector = proximityManager.getNeighbors(base.x, base.y);
 			for (v in resultVector) {
-				var item:Ship = cast v.displayObject;
+				var item:Ship = v.data;
 				item.alpha -= 0.1;
 				if (item.alpha <= 0) {
 					resetItem(item);
@@ -118,10 +118,10 @@ class ProximityManagerExample extends Sprite
 class Ship extends Shape {
 	public var velX:Float;
 	public var velY:Float;
-	public var posVec2:PositionVector2;
+	public var posVec2:PositionVector2<Ship>;
 	
 	public function new():Void {
 		super();
-		posVec2 = getPositionVector2();
+		posVec2 = new PositionVector2(this);
 	}
 }

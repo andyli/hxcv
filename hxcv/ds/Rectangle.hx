@@ -1,5 +1,6 @@
 package hxcv.ds;
 
+import hxcv.ds.Vector;
 using hxcv.math.Vector2Math;
 
 class Rectangle 
