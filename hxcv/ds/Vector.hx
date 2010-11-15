@@ -2,10 +2,10 @@ package hxcv.ds;
 
 class Vector2<T> #if false implements haxe.rtti.Generic #end
 {
-	public function new(?_val0:T, ?_val1:T):Void 
+	public function new(?val0:T, ?val1:T):Void 
 	{
-		val0 = _val0;
-		val1 = _val1;
+		_val0 = val0;
+		_val1 = val1;
 	}
 	
 	public var val0(getVal0, setVal0):T;
@@ -31,10 +31,10 @@ class Vector2<T> #if false implements haxe.rtti.Generic #end
 class Vector3<T> extends Vector2<T> #if false , implements haxe.rtti.Generic #end
 {
 
-	public function new(?_val0:T, ?_val1:T, ?_val2:T):Void 
+	public function new(?val0:T, ?val1:T, ?val2:T):Void 
 	{
-		super(_val0, _val1);
-		val2 = _val2;
+		super(val0, val1);
+		_val2 = val2;
 	}
 	
 	public var val2(getVal2, setVal2):T;
@@ -53,8 +53,8 @@ class Vector4<T> extends Vector3<T> #if false , implements haxe.rtti.Generic #en
 
 	public function new(?_val0:T, ?_val1:T, ?_val2:T, ?_val3:T):Void 
 	{
-		super(_val0, _val1, _val2);
-		val3 = _val3;
+		super(val0, val1, val2);
+		_val3 = val3;
 	}
 	
 	public var val3(getVal3, setVal3):T;
@@ -69,9 +69,9 @@ class Vector4<T> extends Vector3<T> #if false , implements haxe.rtti.Generic #en
 }
 
 class Vector2Data < T, D > extends Vector2<T>, implements IData<D> {
-	public function new(?_val0:T, ?_val1:T, ?_data:D):Void {
-		data = _data;
-		super(_val0, _val1);
+	public function new(?val0:T, ?val1:T, ?data:D):Void {
+		_data = data;
+		super(val0, val1);
 	}
 	
 	public var data(getData, setData):D;
@@ -86,9 +86,9 @@ class Vector2Data < T, D > extends Vector2<T>, implements IData<D> {
 }
 
 class Vector3Data < T, D > extends Vector3<T>, implements IData<D> {
-	public function new(?_val0:T, ?_val1:T, ?_val2:T, ?_data:D):Void {
-		data = _data;
-		super(_val0, _val1, _val2);
+	public function new(?val0:T, ?val1:T, ?val2:T, ?data:D):Void {
+		_data = data;
+		super(val0, val1, val2);
 	}
 	
 	public var data(getData, setData):D;
@@ -103,9 +103,9 @@ class Vector3Data < T, D > extends Vector3<T>, implements IData<D> {
 }
 
 class Vector4Data < T, D > extends Vector4<T>, implements IData<D> {
-	public function new(?_val0:T, ?_val1:T, ?_val2:T, ?_val3:T, ?_data:D):Void {
-		data = _data;
-		super(_val0, _val1, _val2, _val3);
+	public function new(?val0:T, ?val1:T, ?val2:T, ?val3:T, ?data:D):Void {
+		_data = data;
+		super(val0, val1, val2, val3);
 	}
 	
 	public var data(getData, setData):D;
