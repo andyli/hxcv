@@ -1,7 +1,6 @@
 package hxcv.ds;
 
-import hxcv.ds.Vector3;
-import hxcv.ds.Vector4;
+import hxcv.ds.Vector;
 
 interface IImage<T>{
 	public function get(x:Int, y:Int, channel:Int):T;
