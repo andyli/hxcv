@@ -3,7 +3,7 @@ package hxcv.ds.of;
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
 import hxcv.ds.IImage;
-import hxcv.ds.Vector3;
+import hxcv.ds.Vector;
 import of.Context;
 
 class OFImageRGB implements IImageRGB<Int>

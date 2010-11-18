@@ -1,6 +1,7 @@
 -main OFExample
 -cpp bin
 -cp ../hxOpenFrameworks
+-cp example
 -lib hsl-1
 -lib casalib
 -D HXOF
