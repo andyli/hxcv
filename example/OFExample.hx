@@ -2,12 +2,14 @@
 
 import cpp.Lib;
 import cpp.vm.Gc;
+import haxe.FastList;
 import haxe.Timer;
 import hxcv.ds.of.OFImageRGB;
 using Lambda;
 using org.casalib.util.NumberUtil;
 
 import hxcv.MotionEstimation;
+import hxcv.ProximityManager;
 import hxcv.ds.Vector;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
@@ -17,6 +19,8 @@ using hxcv.math.Vector2Math;
 
 import of.Context;
 using of.Context.Functions;
+
+import haxe.FastList;
 
 class OFExample extends BaseApp {
 	
@@ -30,6 +34,7 @@ class OFExample extends BaseApp {
 	var showImg:Bool;
 	var showSmooth:Bool;
 	var play:Bool;
+	var pm:ProximityManager < Vector2Data < Float, Vector3<Int> >> ;
 	
 	override function setup():Void {
 		enableSmoothing();
@@ -41,7 +46,7 @@ class OFExample extends BaseApp {
 		originalFramesGray = [];
 		showMV = false;
 		showImg = true;
-		showSmooth = false;
+		showSmooth = true;
 		play = true;
 		
 		Gc.enable(false);
@@ -55,18 +60,22 @@ class OFExample extends BaseApp {
 			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
 			originalFramesGray.push(imgGray.getImageGray());
 		}
+		/*
 		for (imgNum in 1...111) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240-p2/" + imgNum + ".png");
 			smoothedFrames.push(img);
-		}
+		}*/
 		Gc.enable(true);
 		
 		me = new MotionEstimation<OFImageGray>();
+		pm = new ProximityManager < Vector2Data < Float, Vector3<Int> >> (5, new hxcv.ds.Rectangle( -5, -5, 330, 250));
 		
 		var smoothImage = new Image();
 		smoothImage.clone(originalFrames[0]);
 		smoothCvImage = smoothImage.getImageRGB();
+		
+		new FastList<Float>();
 	}
 	
 	override function draw():Void {
@@ -76,7 +85,7 @@ class OFExample extends BaseApp {
 		if (showImg){
 			setColor(0xFFFFFF);
 			originalFrames[currentIndex].draw(0, 0);
-			smoothedFrames[currentIndex].draw(320, 0);
+			//smoothedFrames[currentIndex].draw(320, 0);
 		}
 		
 		if (showMV){
@@ -106,9 +115,30 @@ class OFExample extends BaseApp {
 					var nextMV = me.blockMatching.process(i, j, originalFrameGray, originalFrameGrayNext);
 					var midMV = prevMV.interpolate(nextMV, 0.5);// .interpolate(new Vector2<Float>(0, 0), 0.5);
 					var vals = originalFrameCv.get3(i, j);
-					smoothCvImage.set3(Math.round(i + midMV.val0), Math.round(j + midMV.val1), vals.val0, vals.val1, vals.val2);
+					pm.add(new Vector2Data < Float, Vector3<Int> > (i + midMV.val0, j + midMV.val1, vals));
 				}
-				trace(i);
+				trace("1: " + i);
+			}
+			
+			for (i in 0...originalFrame.width) {
+				for (j in 0...originalFrame.height) {
+					
+					var closest = null;
+					var closestDist = Math.POSITIVE_INFINITY;
+					for (cell in pm.getNeighbors(i, j)) {
+						for (pt in cell) {
+							var dist = pt.distance(new Vector2<Float>(i, j));
+							if (dist < closestDist) {
+								closest = pt;
+								closestDist = dist;
+							}
+						}
+					}
+					var vals = closest.data;
+					smoothCvImage.set3(i, j, vals.val0, vals.val1, vals.val2);
+					
+				}
+				trace("2: " + i);
 			}
 			smoothCvImage.unlock();
 			smoothCvImage.ofImage.saveImage(currentIndex + ".png");

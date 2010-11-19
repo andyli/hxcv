@@ -28,7 +28,7 @@ class BilateralFilter<T:Float, ImgT:IImageRGB<T>> implements IFilter<ImgT>
 		this.sample = sample;
 	}
 	
-	public function process(img:ImgT):Void {
+	public function process(img:ImgT, resultImg:ImgT):Void {
 		var sampleLength = sample * 2 + 1;
 		var sampleDWeight = new Array2DImage<Float>(sampleLength, sampleLength, 1);
 		var dist:Float;
@@ -47,8 +47,8 @@ class BilateralFilter<T:Float, ImgT:IImageRGB<T>> implements IFilter<ImgT>
 		var p0:Vector3<T>;
 		var diff:Float;
 		var weight:Float;
-		for (x in 0...img.width) {
-			for (y in 0...img.height) {
+		for (x in 0...resultImg.width) {
+			for (y in 0...resultImg.height) {
 				totalPixelValue = new Vector3<Float>();
 				totalWeight = 0;
 				p0 = img.get3(x, y);
@@ -66,7 +66,7 @@ class BilateralFilter<T:Float, ImgT:IImageRGB<T>> implements IFilter<ImgT>
 					}
 				}
 				var _w = 1 / totalWeight;
-				img.set3(x, y, cast totalPixelValue.val0 * _w, cast totalPixelValue.val1 * _w, cast totalPixelValue.val2 * _w);
+				resultImg.set3(x, y, cast totalPixelValue.val0 * _w, cast totalPixelValue.val1 * _w, cast totalPixelValue.val2 * _w);
 			}
 		}
 	}
