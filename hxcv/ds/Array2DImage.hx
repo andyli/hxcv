@@ -100,3 +100,78 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 	
 	public var array(default,null):Array<T>;
 }
+
+class Array2DImagePixelPointer < T, ImgT:Array2DImage<T> > implements IPixelPointer < T, ImgT > {
+	
+	public var image(default, null):ImgT;
+	public var x(default, null):Int;
+	public var y(default, null):Int;
+	var arrayIndex:Int;
+	
+	public function new(img:ImgT):Void {
+		image = img;
+		arrayIndex = x = y = 0;
+	}
+	
+	public function moveTo(_x:Int, _y:Int):Bool {
+		if (_x >= 0 && _x < image.width && _y >= 0 && _y < image.height) {
+			x = _x;
+			y = _y;
+			arrayIndex = (y * image.width + x) * image.numOfChannels;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function moveX(step:Int):Bool {
+		var targetX = x + step;
+		if (targetX >= 0 && targetX < image.width) {
+			x = targetX;
+			arrayIndex += step * image.numOfChannels;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function moveY(step:Int):Bool {
+		var targetY = y + step;
+		if (targetY >= 0 && targetY < image.height) {
+			y = targetY;
+			arrayIndex += step * image.width * image.numOfChannels;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function get(channel:Int):T {
+		#if debug
+		if (channel < 0 || channel >= image.numOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		return image.array[arrayIndex + channel];
+	}
+	
+	public function set(channel:Int, val:T):Void {
+		#if debug
+		if (channel < 0 || channel >= image.numOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		image.array[arrayIndex + channel] = val;
+	}
+	
+	inline public function hasNext():Bool {
+		return x < image.width || y < image.height;
+	}
+	
+	inline public function next():IPixelPointer < T, ImgT > {
+		if (++x >= image.width) {
+			x = 0;
+			++y;
+		}
+		arrayIndex += image.numOfChannels;
+		return this;
+	}
+}

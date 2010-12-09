@@ -9,7 +9,7 @@ using Lambda;
 using org.casalib.util.NumberUtil;
 
 import hxcv.MotionEstimation;
-import hxcv.ProximityManager;
+//import hxcv.ProximityManager;
 import hxcv.ds.Vector;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
@@ -19,8 +19,6 @@ using hxcv.math.Vector2Math;
 
 import of.Context;
 using of.Context.Functions;
-
-import haxe.FastList;
 
 class OFExample extends BaseApp {
 	
@@ -34,7 +32,7 @@ class OFExample extends BaseApp {
 	var showImg:Bool;
 	var showSmooth:Bool;
 	var play:Bool;
-	var pm:ProximityManager < Vector2Data < Float, Vector3<Int> >> ;
+	//var pm:ProximityManager < Vector2Data < Float, Vector3<Int> >> ;
 	
 	override function setup():Void {
 		enableSmoothing();
@@ -46,7 +44,7 @@ class OFExample extends BaseApp {
 		originalFramesGray = [];
 		showMV = false;
 		showImg = true;
-		showSmooth = true;
+		showSmooth = false;
 		play = true;
 		
 		Gc.enable(false);
@@ -69,13 +67,11 @@ class OFExample extends BaseApp {
 		Gc.enable(true);
 		
 		me = new MotionEstimation<OFImageGray>();
-		pm = new ProximityManager < Vector2Data < Float, Vector3<Int> >> (5, new hxcv.ds.Rectangle( -5, -5, 330, 250));
+		//pm = new ProximityManager < Vector2Data < Float, Vector3<Int> >> (5, new hxcv.ds.Rectangle( -5, -5, 330, 250));
 		
 		var smoothImage = new Image();
 		smoothImage.clone(originalFrames[0]);
 		smoothCvImage = smoothImage.getImageRGB();
-		
-		new FastList<Float>();
 	}
 	
 	override function draw():Void {
@@ -100,7 +96,7 @@ class OFExample extends BaseApp {
 				}
 			}
 		}
-		
+		/*
 		if (showSmooth && currentIndex != 0) {
 			var originalFrame = originalFrames[currentIndex];
 			var originalFrameCv = originalFrame.getImageRGB();
@@ -145,6 +141,7 @@ class OFExample extends BaseApp {
 			
 			if (currentIndex == originalFrames.length - 1) showSmooth = false;
 		}
+		*/
 	}
 	
 	override function keyPressed(key:Int):Void {
