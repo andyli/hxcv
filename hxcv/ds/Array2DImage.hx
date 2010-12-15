@@ -100,8 +100,8 @@ class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generi
 		return array.iterator();
 	}
 	
-	inline public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < T, Array2DImage<T> > {
-		return new Array2DImagePixelIterator<T>(this, _minX, _maxX, _minY, _maxY);
+	inline public function pixelIterator(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < T, Array2DImage<T> > {
+		return new Array2DImagePixelIterator<T>(this, _minX, _minY, _maxX, _maxY);
 	}
 	
 	public var array(default,null):Array<T>;
@@ -122,7 +122,7 @@ class Array2DImagePixelIterator<T> implements IPixelIterator < T, Array2DImage<T
 	var imageNumOfChannels:Int;
 	var imageArray:Array<T>;
 	
-	public function new(img:Array2DImage<T>, ?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):Void {
+	public function new(img:Array2DImage<T>, ?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):Void {
 		#if debug
 		if (_minX < 0 || _minX >= img.width)
 			throw "minX is invalid";
@@ -157,7 +157,7 @@ class Array2DImagePixelIterator<T> implements IPixelIterator < T, Array2DImage<T
 		}
 	}
 	
-	public function moveX(step:Int):Bool {
+	inline public function moveX(step:Int):Bool {
 		var targetX = x + step;
 		if (targetX >= minX && targetX <= maxX) {
 			x = targetX;
@@ -168,7 +168,7 @@ class Array2DImagePixelIterator<T> implements IPixelIterator < T, Array2DImage<T
 		}
 	}
 	
-	public function moveY(step:Int):Bool {
+	inline public function moveY(step:Int):Bool {
 		var targetY = y + step;
 		if (targetY >= minY && targetY <= maxY) {
 			y = targetY;

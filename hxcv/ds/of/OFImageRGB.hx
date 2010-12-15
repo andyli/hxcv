@@ -85,8 +85,8 @@ class OFImageRGB implements IImageRGB<Int, OFImageRGB>
 		return cast pixels.getData().iterator();
 	}
 	
-	inline public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < Int, OFImageRGB > {
-		return new OFImageRGBPixelIterator(this, _minX, _maxX, _minY, _maxY);
+	inline public function pixelIterator(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < Int, OFImageRGB > {
+		return new OFImageRGBPixelIterator(this, _minX, _minY, _maxX, _maxY);
 	}
 	
 	public var ofImage(default, null):Image;
@@ -133,7 +133,7 @@ class OFImageRGBPixelIterator implements IPixelIterator < Int, OFImageRGB > {
 	inline static var imageNumOfChannels:Int = 3;
 	var imageArray:Array<Int>;
 	
-	public function new(img:OFImageRGB, ?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):Void {
+	public function new(img:OFImageRGB, ?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):Void {
 		#if debug
 		if (_minX < 0 || _minX >= img.width)
 			throw "minX is invalid";

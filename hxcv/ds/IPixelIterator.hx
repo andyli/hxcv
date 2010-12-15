@@ -14,11 +14,11 @@ interface IPixelIterator<T, ImgT:IImage<T,Dynamic>>
 	public var y(default, null):Int;
 	
 	/*
-	 * ROI can be defined by minX, maxX, minY, maxY.
+	 * ROI can be defined by minX, minY, maxX, maxY.
 	 */
 	public var minX:Int;
-	public var maxX:Int;
 	public var minY:Int;
+	public var maxX:Int;
 	public var maxY:Int;
 	
 	/*

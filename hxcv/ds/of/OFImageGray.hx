@@ -78,8 +78,8 @@ class OFImageGray implements IImageGray<Int, OFImageGray>
 		return cast pixels.getData().iterator();
 	}
 	
-	inline public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < Int, OFImageGray > {
-		return new OFImageGrayPixelIterator(this, _minX, _maxX, _minY, _maxY);
+	inline public function pixelIterator(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < Int, OFImageGray > {
+		return new OFImageGrayPixelIterator(this, _minX, _minY, _maxX, _maxY);
 	}
 	
 	public var ofImage(default, null):Image;
@@ -108,7 +108,7 @@ class OFImageGrayPixelIterator implements IPixelIterator < Int, OFImageGray > {
 	var imageWidth:Int;
 	var imageArray:Array<Int>;
 	
-	public function new(img:OFImageGray, ?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):Void {
+	public function new(img:OFImageGray, ?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):Void {
 		#if debug
 		if (_minX < 0 || _minX >= img.width)
 			throw "minX is invalid";

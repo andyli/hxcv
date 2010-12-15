@@ -34,33 +34,44 @@ class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
 		
 		//for all input images
 		for (inputIndex in 1...inputs.length) {
-			
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
 			var mv = new Array2DImage<Vector3<Float>>(mvImgSizeX, mvImgSizeY, 1);
 			
 			//for each of the matching block
 			
-			var k = 0;		//top-left x-coordinate of the block
+			//var t = haxe.Timer.stamp();
+			/*var k = 0;		//top-left x-coordinate of the block
 			var mx = 0;
 			while (mx < mvImgSizeX) {
 				var l = 0;	//top-left y-coordinate of the block
 				var my = 0;
 				while (my < mvImgSizeY) {
-					
+
 					mv.set(mx, my, 0, blockMatching.process(k, l, in0, in1));
-					
+
 					l += N;
 					++my;
 				}
 				k += N;
 				++mx;
 			}
+			*/
+			var blockItr = new Array2DImagePixelIterator(mv);
+			var l = 0;		//top-left y-coordinate of the block
+			do {
+				var k = 0;	//top-left x-coordinate of the block
+				do {
+					blockItr.set(0, blockMatching.process(k, l, in0, in1));
+					
+					k += N;
+				} while (blockItr.moveX(1));
+				l += N;
+			} while (blockItr.next());
 			
+			//trace(haxe.Timer.stamp() - t);
 			result.push(mv);
-			
 		}
-		
 		
 		return result;
 	}
