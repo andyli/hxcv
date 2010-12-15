@@ -1,6 +1,8 @@
 package hxcv.ds;
 
-class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
+import haxe.rtti.Generic;
+
+class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generic*/ {
 
 	public function new(w:Int, h:Int, channels:Int, ?ary:Array<T>):Void {
 		width = w;
@@ -86,7 +88,7 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 	inline public function lock():Void {}
 	inline public function unlock():Void {}
 	
-	inline public function clone():IImage<T> {
+	inline public function clone():Array2DImage<T> {
 		return new Array2DImage<T>(width, height, numOfChannels, array.copy());
 	}
 	
@@ -98,26 +100,57 @@ class Array2DImage<T> implements IImage<T>, implements haxe.rtti.Generic {
 		return array.iterator();
 	}
 	
+	inline public function pixelIterator():IPixelIterator < T, Array2DImage<T> > {
+		return new Array2DImagePixelIterator<T>(this);
+	}
+	
 	public var array(default,null):Array<T>;
 }
 
-class Array2DImagePixelPointer < T, ImgT:Array2DImage<T> > implements IPixelPointer < T, ImgT > {
+class Array2DImagePixelIterator<T> implements IPixelIterator < T, Array2DImage<T> > {
 	
-	public var image(default, null):ImgT;
+	public var image(default, null):Array2DImage<T>;
 	public var x(default, null):Int;
 	public var y(default, null):Int;
+	public var minX:Int;
+	public var maxX:Int;
+	public var minY:Int;
+	public var maxY:Int;
 	var arrayIndex:Int;
 	
-	public function new(img:ImgT):Void {
+	var imageWidth:Int;
+	var imageNumOfChannels:Int;
+	var imageArray:Array<T>;
+	
+	public function new(img:Array2DImage<T>, ?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):Void {
+		#if debug
+		if (_minX < 0 || _minX >= img.width)
+			throw "minX is invalid";
+		
+		if (_minY < 0 || _minY >= img.height)
+			throw "minY is invalid";
+		
+		if (_maxX < _minX || _maxX >= img.width)
+			throw "_maxX is invalid";
+		
+		if (_maxY < _minY || _maxY >= img.height)
+			throw "_maxY is invalid";
+		#end
+		
 		image = img;
-		arrayIndex = x = y = 0;
+		maxX = _maxX == null ? image.width - 1 : _maxX;
+		maxY = _maxY == null ? image.height - 1 : _maxY;
+		imageWidth = image.width;
+		imageNumOfChannels = image.numOfChannels;
+		imageArray = image.array;
+		moveTo(minX = _minX, minY = _minY);
 	}
 	
 	public function moveTo(_x:Int, _y:Int):Bool {
-		if (_x >= 0 && _x < image.width && _y >= 0 && _y < image.height) {
+		if (_x >= minX && _x <= maxX && _y >= minY && _y <= maxY) {
 			x = _x;
 			y = _y;
-			arrayIndex = (y * image.width + x) * image.numOfChannels;
+			arrayIndex = (y * imageWidth + x) * imageNumOfChannels;
 			return true;
 		} else {
 			return false;
@@ -126,9 +159,9 @@ class Array2DImagePixelPointer < T, ImgT:Array2DImage<T> > implements IPixelPoin
 	
 	public function moveX(step:Int):Bool {
 		var targetX = x + step;
-		if (targetX >= 0 && targetX < image.width) {
+		if (targetX >= minX && targetX <= maxX) {
 			x = targetX;
-			arrayIndex += step * image.numOfChannels;
+			arrayIndex += step * imageNumOfChannels;
 			return true;
 		} else {
 			return false;
@@ -137,41 +170,42 @@ class Array2DImagePixelPointer < T, ImgT:Array2DImage<T> > implements IPixelPoin
 	
 	public function moveY(step:Int):Bool {
 		var targetY = y + step;
-		if (targetY >= 0 && targetY < image.height) {
+		if (targetY >= minY && targetY <= maxY) {
 			y = targetY;
-			arrayIndex += step * image.width * image.numOfChannels;
+			arrayIndex += step * imageWidth * imageNumOfChannels;
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	public function get(channel:Int):T {
-		#if debug
-		if (channel < 0 || channel >= image.numOfChannels)
-			throw "image does not have channel " + channel;
-		#end
-		return image.array[arrayIndex + channel];
-	}
-	
-	public function set(channel:Int, val:T):Void {
-		#if debug
-		if (channel < 0 || channel >= image.numOfChannels)
-			throw "image does not have channel " + channel;
-		#end
-		image.array[arrayIndex + channel] = val;
-	}
-	
-	inline public function hasNext():Bool {
-		return x < image.width || y < image.height;
-	}
-	
-	inline public function next():IPixelPointer < T, ImgT > {
-		if (++x >= image.width) {
-			x = 0;
-			++y;
+	public function next():Bool {		
+		if (++x > maxX) {
+			x = minX;
+			if (++y > maxY) {
+				y = minY;
+				arrayIndex = (y * imageWidth + x) * imageNumOfChannels;
+				return false;
+			}
 		}
-		arrayIndex += image.numOfChannels;
-		return this;
+		arrayIndex += imageNumOfChannels;
+		
+		return true;
+	}
+	
+	inline public function get(channel:Int):T {
+		#if debug
+		if (channel < 0 || channel >= imageNumOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		return imageArray[arrayIndex + channel];
+	}
+	
+	inline public function set(channel:Int, val:T):Void {
+		#if debug
+		if (channel < 0 || channel >= imageNumOfChannels)
+			throw "image does not have channel " + channel;
+		#end
+		imageArray[arrayIndex + channel] = val;
 	}
 }

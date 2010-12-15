@@ -5,7 +5,7 @@ import haxe.io.BytesInput;
 import hxcv.ds.IImage;
 import of.Context;
 
-class OFImageGray implements IImageGray<Int>
+class OFImageGray implements IImageGray<Int, OFImageGray>
 {
 	public function new(img:Image):Void {
 		if (img.type != Constants.OF_IMAGE_GRAYSCALE) throw "Input is not a grayscale image.";
@@ -64,7 +64,7 @@ class OFImageGray implements IImageGray<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():IImage<Int> {
+	inline public function clone():OFImageGray {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OFImageGray(img);

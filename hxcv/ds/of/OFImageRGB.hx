@@ -6,7 +6,7 @@ import hxcv.ds.IImage;
 import hxcv.ds.Vector;
 import of.Context;
 
-class OFImageRGB implements IImageRGB<Int>
+class OFImageRGB implements IImageRGB<Int, OFImageRGB>
 {
 	public function new(img:Image):Void {
 		if (img.type != Constants.OF_IMAGE_COLOR) throw "Input is not a OF_IMAGE_COLOR image.";
@@ -71,7 +71,7 @@ class OFImageRGB implements IImageRGB<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():IImage<Int> {
+	inline public function clone():OFImageRGB {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OFImageRGB(img);

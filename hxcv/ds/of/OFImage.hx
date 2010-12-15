@@ -6,7 +6,7 @@ import hxcv.ds.IImage;
 import of.graphics.Image;
 import of.utils.Constants;
 
-class OFImage implements IImage<Int>
+class OFImage implements IImage<Int, OFImage>
 {
 	public function new(img:Image):Void {
 		ofImage = img;
@@ -98,7 +98,7 @@ class OFImage implements IImage<Int>
 		ofImage.update();
 	}
 	
-	inline public function clone():IImage<Int> {
+	inline public function clone():OFImage {
 		var img = new Image();
 		img.clone(ofImage);
 		return new OFImage(img);

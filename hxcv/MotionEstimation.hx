@@ -1,7 +1,7 @@
 package hxcv;
 
 import haxe.rtti.Generic;
-import hxcv.ds.IImage;
+import hxcv.ds.IImageGray;
 import hxcv.ds.Array2DImage;
 import hxcv.ds.Vector;
 
@@ -10,7 +10,7 @@ import hxcv.ds.Vector;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
+class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
 {	
 	/**
 	 * Size of matching block which one motion vector for one matching block.
@@ -27,8 +27,7 @@ class MotionEstimation<InImgT:IImageGray<Dynamic>> implements Generic
 		blockMatching = new BlockMatching<InImgT>();
 	}
 	
-	public function process(inputs:Array<InImgT>):Array<Array2DImage<Vector3<Float>>> 
-	{
+	public function process(inputs:Array<InImgT>):Array<Array2DImage<Vector3<Float>>> {
 		var result = new Array<Array2DImage<Vector3<Float>>>();
 		var mvImgSizeX = Math.floor(inputs[0].width / N);
 		var mvImgSizeY = Math.floor(inputs[0].height / N);
