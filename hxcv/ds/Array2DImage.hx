@@ -100,8 +100,8 @@ class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generi
 		return array.iterator();
 	}
 	
-	inline public function pixelIterator():IPixelIterator < T, Array2DImage<T> > {
-		return new Array2DImagePixelIterator<T>(this);
+	inline public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < T, Array2DImage<T> > {
+		return new Array2DImagePixelIterator<T>(this, _minX, _maxX, _minY, _maxY);
 	}
 	
 	public var array(default,null):Array<T>;

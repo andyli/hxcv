@@ -14,5 +14,5 @@ interface IImage<T, This:IImage<T,Dynamic>>{
 	public var height(default, null):Int;
 	public var numOfChannels(default, null):Int;
 	public function iterator():Iterator<T>;
-	//public function pixelIterator():IPixelIterator < T, This > ;
+	public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < T, This > ;
 }

@@ -78,6 +78,10 @@ class OFImageGray implements IImageGray<Int, OFImageGray>
 		return cast pixels.getData().iterator();
 	}
 	
+	inline public function pixelIterator(?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < Int, OFImageGray > {
+		return new OFImageGrayPixelIterator(this, _minX, _maxX, _minY, _maxY);
+	}
+	
 	public var ofImage(default, null):Image;
 	var pixels:Bytes;
 	
@@ -87,5 +91,106 @@ class OFImageGray implements IImageGray<Int, OFImageGray>
 	
 	inline public function setGray(x:Int, y:Int, val:Int):Void {
 		set(x, y, 0, val);
+	}
+}
+
+class OFImageGrayPixelIterator implements IPixelIterator < Int, OFImageGray > {
+	
+	public var image(default, null):OFImageGray;
+	public var x(default, null):Int;
+	public var y(default, null):Int;
+	public var minX:Int;
+	public var maxX:Int;
+	public var minY:Int;
+	public var maxY:Int;
+	var arrayIndex:Int;
+	
+	var imageWidth:Int;
+	var imageArray:Array<Int>;
+	
+	public function new(img:OFImageGray, ?_minX:Int = 0, ?_maxX:Int = 0, ?_minY:Null<Int>, ?_maxY:Null<Int>):Void {
+		#if debug
+		if (_minX < 0 || _minX >= img.width)
+			throw "minX is invalid";
+		
+		if (_minY < 0 || _minY >= img.height)
+			throw "minY is invalid";
+		
+		if (_maxX < _minX || _maxX >= img.width)
+			throw "_maxX is invalid";
+		
+		if (_maxY < _minY || _maxY >= img.height)
+			throw "_maxY is invalid";
+		#end
+		
+		image = img;
+		maxX = _maxX == null ? image.width - 1 : _maxX;
+		maxY = _maxY == null ? image.height - 1 : _maxY;
+		imageWidth = image.width;
+		imageArray = image.getPixels();
+		moveTo(minX = _minX, minY = _minY);
+	}
+	
+	public function moveTo(_x:Int, _y:Int):Bool {
+		if (_x >= minX && _x <= maxX && _y >= minY && _y <= maxY) {
+			x = _x;
+			y = _y;
+			arrayIndex = (y * imageWidth + x);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function moveX(step:Int):Bool {
+		var targetX = x + step;
+		if (targetX >= minX && targetX <= maxX) {
+			x = targetX;
+			arrayIndex += step;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function moveY(step:Int):Bool {
+		var targetY = y + step;
+		if (targetY >= minY && targetY <= maxY) {
+			y = targetY;
+			arrayIndex += step * imageWidth;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function next():Bool {		
+		if (++x > maxX) {
+			x = minX;
+			if (++y > maxY) {
+				y = minY;
+				arrayIndex = (y * imageWidth + x);
+				return false;
+			}
+		}
+		++arrayIndex;
+		
+		return true;
+	}
+	
+	inline public function get(channel:Int):Int {
+		#if debug
+		if (channel != 0)
+			throw "image does not have channel " + channel;
+		#end
+		return imageArray[arrayIndex];
+	}
+	
+	inline public function set(channel:Int, val:Int):Void {
+		#if debug
+		if (channel != 0)
+			throw "image does not have channel " + channel;
+		#end
+		imageArray[arrayIndex] = val;
 	}
 }
