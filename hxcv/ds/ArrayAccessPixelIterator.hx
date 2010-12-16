@@ -1,6 +1,9 @@
 package hxcv.ds;
 
-class ArrayAccessPixelIterator <T, ImgT:ArrayAccess<T>> implements IPixelIterator < T, ImgT, ArrayAccessPixelIterator<T, ImgT> > #if flash , implements haxe.rtti.Generic #end {
+class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> > 
+	implements IPixelIterator < T, ImgT, ArrayAccessPixelIterator < T, ImgT > > 
+	#if flash , implements haxe.rtti.Generic #end 
+{
 	public var image(default, null):ImgT;
 	public var imageWidth(default, null):Int;
 	public var imageHeight(default, null):Int;
@@ -162,5 +165,14 @@ class ArrayAccessPixelIterator <T, ImgT:ArrayAccess<T>> implements IPixelIterato
 			throw "image does not have channel " + channel;
 		#end
 		image[index + channel] = val;
+	}
+	
+	public function fill(values:Array<T>):ArrayAccessPixelIterator < T, ImgT > {
+		do {
+			for (c in 0...imageNumOfChannels)
+				set(c, values[c]);
+		} while (next());
+		
+		return this;
 	}
 }

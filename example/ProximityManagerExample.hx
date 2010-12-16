@@ -8,9 +8,9 @@ import flash.Lib;
 import haxe.Timer;
 import hxcv.ds.Rectangle;
 import hxcv.ProximityManagerUnbounded;
-import hxcv.ds.flash.PositionVector2;
+import hxcv.flash.ds.PositionVector2;
 using hxcv.math.Vector2Math;
-using hxcv.ds.flash.FlashAdapter;
+using hxcv.flash.ds.FlashAdapter;
 using Lambda;
 
 class ProximityManagerExample extends Sprite

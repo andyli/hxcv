@@ -17,7 +17,7 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
 	public var y(default, null):Int;
 	
 	/*
-	 * ROI can be defined by minX, minY, maxX, maxY.
+	 * ROI defined by minX, minY, maxX, maxY.
 	 */
 	public var minX:Int;
 	public var minY:Int;
@@ -25,7 +25,7 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
 	public var maxY:Int;
 	
 	/*
-	 * Check if x,y is inside minX, minY, maxX, maxY.
+	 * Check if x,y is inside ROI.
 	 */
 	public function checkCoordinates():Bool;
 	
@@ -63,7 +63,16 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
 	 */
 	public function set(channel:Int, val:T):Void;
 	
+	/*
+	 * Return a copy of this PixelIterator. It wouldn't copy the image data.
+	 */
 	public function clone():This;
+	
+	/*
+	 * Filling the ROI with the input values start from the current coordinates.
+	 * The coordinates will be reset.
+	 */
+	public function fill(values:Array<T>):This;
 }
 
 /*

@@ -1,4 +1,4 @@
-package hxcv.ds.flash;
+package hxcv.flash.ds;
 
 import flash.geom.Point;
 import hxcv.ds.Vector;
