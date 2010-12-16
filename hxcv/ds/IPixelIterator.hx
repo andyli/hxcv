@@ -1,11 +1,14 @@
 package hxcv.ds;
 
 //import hxcv.ds.Vector;
-import hxcv.ds.IImage;
+//import hxcv.ds.IImage;
 
-interface IPixelIterator<T, ImgT:IImage<T,Dynamic>>
+interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
 {
 	public var image(default, null):ImgT;
+	public var imageWidth(default, null):Int;
+	public var imageHeight(default, null):Int;
+	public var imageNumOfChannels(default, null):Int;
 	
 	/*
 	 * Current coordinates.
@@ -22,23 +25,32 @@ interface IPixelIterator<T, ImgT:IImage<T,Dynamic>>
 	public var maxY:Int;
 	
 	/*
+	 * Check if x,y is inside minX, minY, maxX, maxY.
+	 */
+	public function checkCoordinates():Bool;
+	
+	/*
 	 * Set coordinates.
 	 */
+	public function unsafeMoveTo(_x:Int, _y:Int):Void;
 	public function moveTo(x:Int, y:Int):Bool;
 	
 	/*
 	 * Move the pointer along x-axis.
 	 */
+	public function unsafeMoveX(step:Int):Void;
 	public function moveX(step:Int):Bool;
 	
 	/*
 	 * Move the pointer along y-axis.
 	 */
+	public function unsafeMoveY(step:Int):Void;
 	public function moveY(step:Int):Bool;
 	
 	/*
 	 * Iterate to the next pixel.
 	 */
+	public function unsafeNext():Void;
 	public function next():Bool;
 	
 	/*
@@ -50,6 +62,8 @@ interface IPixelIterator<T, ImgT:IImage<T,Dynamic>>
 	 * Set the value of the pixel pointing to.
 	 */
 	public function set(channel:Int, val:T):Void;
+	
+	public function clone():This;
 }
 
 /*
