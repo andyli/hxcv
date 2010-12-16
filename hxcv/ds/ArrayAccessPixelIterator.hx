@@ -20,15 +20,15 @@ class ArrayAccessPixelIterator <T, ImgT:ArrayAccess<T>> implements IPixelIterato
 	}
 	
 	public function clone():ArrayAccessPixelIterator < T, ImgT > {
-		var r = new ArrayAccessPixelIterator<T, ImgT>();
-		r.init(
-			image,
-			imageWidth, 
-			imageHeight, 
-			imageNumOfChannels,
-			_minX, _minY, _maxX, _maxY
-		);
-		return r;
+		return 
+			new ArrayAccessPixelIterator<T, ImgT>()
+				.init(
+					image,
+					imageWidth, 
+					imageHeight, 
+					imageNumOfChannels,
+					minX, minY, maxX, maxY
+				);
 	}
 	
 	public function init
@@ -38,7 +38,7 @@ class ArrayAccessPixelIterator <T, ImgT:ArrayAccess<T>> implements IPixelIterato
 		_imageHeight:Int, 
 		_imageNumOfChannels:Int,
 		?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>
-	):Void {
+	):ArrayAccessPixelIterator < T, ImgT > {
 		
 		#if debug
 		if (_imageWidth <= 0)
@@ -73,6 +73,8 @@ class ArrayAccessPixelIterator <T, ImgT:ArrayAccess<T>> implements IPixelIterato
 		imageHeight = _imageHeight;
 		imageNumOfChannels = _imageNumOfChannels;
 		unsafeMoveTo(minX = _minX, minY = _minY);
+		
+		return this;
 	}
 	
 	inline public function checkCoordinates():Bool {
