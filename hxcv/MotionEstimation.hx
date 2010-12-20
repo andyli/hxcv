@@ -1,17 +1,18 @@
 package hxcv;
 
 import haxe.rtti.Generic;
-import hxcv.ds.IImageGray;
-import hxcv.ds.Array2DImage;
 import hxcv.ds.Vector;
+import hxcv.ds.IPixelIteratorGray;
+import hxcv.ds.ArrayAccessPixelIterator;
+using hxcv.ds.Adapters;
 
 /**
  * It implements the algorithm described in the paper:
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
-{	
+class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> implements Generic
+{
 	/**
 	 * Size of matching block which one motion vector for one matching block.
 	 */
@@ -27,28 +28,32 @@ class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
 		blockMatching = new BlockMatching<InImgT>();
 	}
 	
-	public function process(inputs:Array<InImgT>):Array<Array2DImage<Vector3<Float>>> {
-		var result = new Array<Array2DImage<Vector3<Float>>>();
-		var mvImgSizeX = Math.floor(inputs[0].width / N);
-		var mvImgSizeY = Math.floor(inputs[0].height / N);
+	public function process(inputs:Array<InImgT>):Array < ArrayAccessPixelIterator < Vector3<Float>, Array<Vector3<Float>> >> {
+		var result = new Array < ArrayAccessPixelIterator < Vector3<Float>, Array<Vector3<Float>> >>();
+		var mvImgSizeX = Math.floor(inputs[0].imageWidth / N);
+		var mvImgSizeY = Math.floor(inputs[0].imageHeight / N);
 		
 		//for all input images
 		for (inputIndex in 1...inputs.length) {
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
-			var mv = new Array2DImage<Vector3<Float>>(mvImgSizeX, mvImgSizeY, 1);
+			var mv = new Array<Vector3<Float>>().getPixelIterator(mvImgSizeX, mvImgSizeY, 1);
+			
 			
 			//for each of the matching block
 			
 			//var t = haxe.Timer.stamp();
-			/*var k = 0;		//top-left x-coordinate of the block
+			var k = 0;		//top-left x-coordinate of the block
 			var mx = 0;
 			while (mx < mvImgSizeX) {
 				var l = 0;	//top-left y-coordinate of the block
 				var my = 0;
 				while (my < mvImgSizeY) {
 
-					mv.set(mx, my, 0, blockMatching.process(k, l, in0, in1));
+					mv.unsafeMoveTo(mx, my);
+					in0.unsafeMoveTo(k, l);
+					in1.unsafeMoveTo(k, l);
+					mv.set0(blockMatching.process(in0, in1));
 
 					l += N;
 					++my;
@@ -56,7 +61,8 @@ class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
 				k += N;
 				++mx;
 			}
-			*/
+			
+			/*
 			var blockItr = new Array2DImagePixelIterator(mv);
 			var l = 0;		//top-left y-coordinate of the block
 			do {
@@ -68,7 +74,7 @@ class MotionEstimation<InImgT:IImageGray<Dynamic,Dynamic>> implements Generic
 				} while (blockItr.moveX(1));
 				l += N;
 			} while (blockItr.next());
-			
+			*/
 			//trace(haxe.Timer.stamp() - t);
 			result.push(mv);
 		}

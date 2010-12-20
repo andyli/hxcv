@@ -24,10 +24,10 @@ class VectorAdapter
 		imageWidth:Int, 
 		imageHeight:Int, 
 		imageNumOfChannels:Int
-	):ArrayAccessPixelIterator < T, Vector<T> > 
+	):VectorPixelIterator<T> 
 	{
 		return 
-			new ArrayAccessPixelIterator<T, Vector<T>>()
+			new VectorPixelIterator<T>()
 				.init(
 					array,
 					imageWidth, 
@@ -37,4 +37,4 @@ class VectorAdapter
 	}
 }
 
-typedef Adapter = hxcv.ds.Adapters;
+typedef ArrayAdapter = hxcv.ds.Adapters.ArrayAdapter;

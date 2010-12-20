@@ -207,6 +207,14 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		image[index + channel] = val;
 	}
 	
+	inline public function get0():T {
+		return image[index];
+	}
+	
+	inline public function set0(val:T):Void {
+		image[index] = val;
+	}
+	
 	public function clone():ArrayAccessPixelIterator < T, ImgT > {
 		var r = new ArrayAccessPixelIterator<T, ImgT>();
 		r.image = image;

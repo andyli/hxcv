@@ -1,9 +1,6 @@
 package hxcv.ds;
 
-//import hxcv.ds.Vector;
-//import hxcv.ds.IImage;
-
-interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
+interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, This>>
 {
 	public var image(default, null):ImgT;
 	public var imageWidth(default, null):Int;
@@ -87,6 +84,16 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, Dynamic>>
 	 * Set the value of the pixel pointing to.
 	 */
 	public function set(channel:Int, val:T):Void;
+	
+	/*
+	 * Get the channel 0 value of the pixel pointing to.
+	 */
+	public function get0():T;
+	
+	/*
+	 * Set the channel 0 value of the pixel pointing to.
+	 */
+	public function set0(val:T):Void;
 	
 	/*
 	 * Return a copy of this PixelIterator. It wouldn't copy the image data.

@@ -8,10 +8,10 @@ class ArrayAdapter
 		imageWidth:Int, 
 		imageHeight:Int, 
 		imageNumOfChannels:Int
-	):ArrayAccessPixelIterator < T, Array<T> > 
+	):ArrayPixelIterator<T> 
 	{
 		return 
-			new ArrayAccessPixelIterator<T, Array<T>>()
+			new ArrayPixelIterator<T>()
 				.init(
 					array,
 					imageWidth, 
