@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> > 
+class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> > 
 	implements IPixelIterator < T, ImgT, ArrayAccessPixelIterator < T, ImgT > > 
 	#if flash , implements haxe.rtti.Generic #end 
 {
@@ -13,7 +13,10 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	public var x(default, null):Int;
 	public var y(default, null):Int;
 	
-	var yOffset:Int;
+	public var minX:Int;
+	public var minY:Int;
+	public var maxX:Int;
+	public var maxY:Int;
 	
 	public function new():Void {
 		
@@ -24,7 +27,8 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		_image:ImgT,
 		_imageWidth:Int, 
 		_imageHeight:Int, 
-		_imageNumOfChannels:Int
+		_imageNumOfChannels:Int,
+		?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>
 	):ArrayAccessPixelIterator < T, ImgT > {
 		
 		#if debug
@@ -39,19 +43,34 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 			
 		if (_image == null)
 			throw "_image cannot be null";
+			
+		if (_minX < 0 || _minX >= _imageWidth)
+			throw "minX is invalid";
+		
+		if (_minY < 0 || _minY >= _imageHeight)
+			throw "minY is invalid";
+		
+		if (_maxX < _minX || _maxX >= _imageWidth)
+			throw "_maxX is invalid";
+		
+		if (_maxY < _minY || _maxY >= _imageHeight)
+			throw "_maxY is invalid";
 		#end
 		
 		image = _image;
 		imageWidth = _imageWidth;
 		imageHeight = _imageHeight;
 		imageNumOfChannels = _imageNumOfChannels;
-		head();
-		yOffset = imageWidth * imageNumOfChannels;
+		minX = _minX;
+		minY = _minY;
+		maxX = _maxX == null ? _imageWidth - 1 : _maxX;
+		maxY = _maxY == null ? _imageHeight - 1 : _maxY;
+		
 		return this;
 	}
 	
 	inline public function checkCoordinates():Bool {
-		return x >= 0 && x < imageWidth && y >= 0 && y < imageHeight;
+		return x >= minX && x <= maxX && y >= minY && y <= maxY;
 	}
 	
 	inline public function unsafeMoveTo(_x:Int, _y:Int):Void {
@@ -61,7 +80,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function moveTo(_x:Int, _y:Int):Bool {
-		if (_x >= 0 && _x < imageWidth && _y >= 0 && _y < imageHeight) {
+		if (_x >= minX && _x <= maxX && _y >= minY && _y <= maxY) {
 			unsafeMoveTo(_x, _y);
 			return true;
 		} else {
@@ -70,72 +89,8 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function head():ArrayAccessPixelIterator< T, ImgT > {
-		x = y = index = 0;
+		unsafeMoveTo(minX, minY);
 		return this;
-	}
-	
-	inline public function unsafeMoveRight():Void {
-		++x;
-		index += imageNumOfChannels;
-	}
-	
-	inline public function moveRight():Bool {
-		var targetX = x + 1;
-		if (targetX < imageWidth) {
-			x = targetX;
-			index += imageNumOfChannels;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	inline public function unsafeMoveLeft():Void {
-		--x;
-		index -= imageNumOfChannels;
-	}
-	
-	inline public function moveLeft():Bool {
-		var targetX = x - 1;
-		if (targetX >= 0) {
-			x = targetX;
-			index -= imageNumOfChannels;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	inline public function unsafeMoveDown():Void {
-		++y;
-		index += yOffset;
-	}
-	
-	inline public function moveDown():Bool {
-		var targetY = y + 1;
-		if (targetY < imageHeight) {
-			y = targetY;
-			index += yOffset;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	inline public function unsafeMoveUp():Void {
-		--y;
-		index -= yOffset;
-	}
-	
-	inline public function moveUp():Bool {
-		var targetY = y - 1;
-		if (targetY < imageHeight) {
-			y = targetY;
-			index -= yOffset;
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	inline public function unsafeMoveX(step:Int):Void {
@@ -145,9 +100,8 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveX(step:Int):Bool {
 		var targetX = x + step;
-		if (targetX >= 0 && targetX < imageWidth) {
-			x = targetX;
-			index += step * imageNumOfChannels;
+		if (targetX >= minX && targetX <= maxX) {
+			unsafeMoveX(step);
 			return true;
 		} else {
 			return false;
@@ -156,14 +110,13 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	
 	inline public function unsafeMoveY(step:Int):Void {
 		y += step;
-		index += step * yOffset;
+		index += step * imageWidth * imageNumOfChannels;
 	}
 	
 	inline public function moveY(step:Int):Bool {
 		var targetY = y + step;
-		if (targetY >= 0 && targetY < imageHeight) {
-			y = targetY;
-			index += step * yOffset;
+		if (targetY >= minY && targetY <= maxY) {
+			unsafeMoveY(step);
 			return true;
 		} else {
 			return false;
@@ -171,7 +124,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function unsafeNext():Void {
-		if (++x > imageWidth) {
+		if (++x > _imageWidth) {
 			x = 0;
 			++y;
 		}
@@ -179,14 +132,16 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	}
 	
 	public function next():Bool {		
-		if (++x >= imageWidth) {
-			x = 0;
-			if (++y >= imageHeight) {
-				y = index = 0;
+		if (++x > maxX) {
+			if (++y > maxY) {
+				unsafeMoveTo(minX, minY);
 				return false;
+			} else {
+				unsafeMoveTo(minX, y);
 			}
+		} else {
+			index += imageNumOfChannels;
 		}
-		index += imageNumOfChannels;
 		
 		return true;
 	}
@@ -216,7 +171,10 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		r.index = index;
 		r.x = x;
 		r.y = y;
-		r.yOffset = yOffset;
+		r.minX = minX;
+		r.minY = minY;
+		r.maxX = maxX;
+		r.maxY = maxY;
 		return r;
 	}
 	
@@ -238,20 +196,11 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 	}
 	
 	public function fill(values:Array<T>):ArrayAccessPixelIterator < T, ImgT > {
-		#if debug
-		if (values == null)
-			throw "values cannot be null";
-			
-		if (values.length < imageNumOfChannels)
-			throw "values's length is less than " + imageNumOfChannels;
-		#end
-		
-		var end = yOffset * imageHeight;
-		while (index < end) {
+		do {
 			for (c in 0...imageNumOfChannels)
-				image[index++] = values[c];
-		}
-		head();
+				set(c, values[c]);
+		} while (next());
+		
 		return this;
 	}
 }

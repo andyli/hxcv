@@ -13,8 +13,6 @@ import hxcv.MotionEstimation;
 import hxcv.ds.Vector;
 import hxcv.ds.IImage;
 import hxcv.ds.Array2DImage;
-import hxcv.ds.of.OFImageGray;
-using hxcv.ds.of.OFAdapter;
 using hxcv.math.Vector2Math;
 
 import of.Context;

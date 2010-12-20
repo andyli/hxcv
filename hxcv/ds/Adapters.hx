@@ -7,8 +7,7 @@ class ArrayAdapter
 		array:Array<T>,
 		imageWidth:Int, 
 		imageHeight:Int, 
-		imageNumOfChannels:Int,
-		?minX:Int = 0, ?minY:Int = 0, ?maxX:Null<Int>, ?maxY:Null<Int>
+		imageNumOfChannels:Int
 	):ArrayAccessPixelIterator < T, Array<T> > 
 	{
 		return 
@@ -17,8 +16,7 @@ class ArrayAdapter
 					array,
 					imageWidth, 
 					imageHeight, 
-					imageNumOfChannels,
-					minX, minY, maxX, maxY
+					imageNumOfChannels
 				);
 	}
 }

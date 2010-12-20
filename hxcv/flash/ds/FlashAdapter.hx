@@ -23,8 +23,7 @@ class VectorAdapter
 		array:Vector<T>,
 		imageWidth:Int, 
 		imageHeight:Int, 
-		imageNumOfChannels:Int,
-		?minX:Int = 0, ?minY:Int = 0, ?maxX:Null<Int>, ?maxY:Null<Int>
+		imageNumOfChannels:Int
 	):ArrayAccessPixelIterator < T, Vector<T> > 
 	{
 		return 
@@ -33,8 +32,9 @@ class VectorAdapter
 					array,
 					imageWidth, 
 					imageHeight, 
-					imageNumOfChannels,
-					minX, minY, maxX, maxY
+					imageNumOfChannels
 				);
 	}
 }
+
+typedef Adapter = hxcv.ds.Adapters;
