@@ -19,7 +19,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="ProximityManagerExample" />
+    <option mainClass="MotionEstimationExample" />
     <option enabledebug="False" />
     <option additional="" />
   </build>

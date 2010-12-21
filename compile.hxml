@@ -5,6 +5,7 @@
 -lib hsl-1
 -lib casalib
 -D HXOF
+-debug
 
 -cmd cd bin
--cmd OFExample.exe
+-cmd OFExample-debug.exe

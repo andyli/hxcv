@@ -2,6 +2,7 @@ package hxcv.flash.ds;
 
 import flash.display.DisplayObject;
 import flash.geom.Point;
+import flash.utils.ByteArray;
 import flash.Vector;
 import hxcv.ds.ArrayAccessPixelIterator;
 
@@ -20,19 +21,56 @@ class VectorAdapter
 {
 	inline static public function getPixelIterator<T>
 	(
-		array:Vector<T>,
+		vector:Vector<T>,
 		imageWidth:Int, 
 		imageHeight:Int, 
 		imageNumOfChannels:Int
-	):VectorPixelIterator<T> 
+	)
 	{
 		return 
 			new VectorPixelIterator<T>()
 				.init(
-					array,
+					vector,
 					imageWidth, 
 					imageHeight, 
 					imageNumOfChannels
+				);
+	}
+}
+
+class ByteArrayAdapter
+{
+	inline static public function getPixelIterator<T>
+	(
+		byteArray:ByteArray,
+		imageWidth:Int, 
+		imageHeight:Int, 
+		imageNumOfChannels:Int
+	)
+	{
+		return 
+			new ByteArrayPixelIterator()
+				.init(
+					byteArray,
+					imageWidth, 
+					imageHeight, 
+					imageNumOfChannels
+				);
+	}
+	
+	inline static public function getPixelIteratorARGB<T>
+	(
+		byteArray:ByteArray,
+		imageWidth:Int, 
+		imageHeight:Int
+	)
+	{
+		return 
+			new ByteArrayPixelIteratorARGB()
+				.init(
+					byteArray,
+					imageWidth, 
+					imageHeight
 				);
 	}
 }

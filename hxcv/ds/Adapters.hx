@@ -8,8 +8,7 @@ class ArrayAdapter
 		imageWidth:Int, 
 		imageHeight:Int, 
 		imageNumOfChannels:Int
-	):ArrayPixelIterator<T> 
-	{
+	) {
 		return 
 			new ArrayPixelIterator<T>()
 				.init(
@@ -17,6 +16,21 @@ class ArrayAdapter
 					imageWidth, 
 					imageHeight, 
 					imageNumOfChannels
+				);
+	}
+	
+	inline static public function getPixelIteratorGray<T>
+	(
+		array:Array<T>,
+		imageWidth:Int, 
+		imageHeight:Int
+	) {
+		return 
+			new ArrayPixelIteratorGray<T>()
+				.init(
+					array,
+					imageWidth, 
+					imageHeight
 				);
 	}
 }
