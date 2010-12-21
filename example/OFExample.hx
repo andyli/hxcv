@@ -36,28 +36,26 @@ class OFExample extends BaseApp {
 		smoothedFrames = [];
 		originalFramesGray = [];
 		
-		Gc.enable(false);
 		for (imgNum in 1050587...1050600) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
 			originalFrames.push(img);
 			
 			var imgGray = new Image();
-			imgGray.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
-			//imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
-			//originalFramesGray.push(cast imgGray.getPixels().getPixelIteratorGray(imgGray.width, imgGray.height));
+			imgGray.clone(img);
+			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
+			originalFramesGray.push(cast imgGray.getPixels().getPixelIteratorGray(imgGray.width, imgGray.height));
 		}
-		Gc.enable(true);
 		
 		currentIndex = 0;
 	}
 	
-	override function draw():Void {/*
-		setColor(0xFFFFFF);
+	override function draw():Void {
+		setHexColor(0xFFFFFF);
 		originalFrames[currentIndex].draw(0, 0);
 
 		if (showMV){
-			setColor(0xFF0000);
+			setHexColor(0xFF0000);
 			var mv = me.process([originalFramesGray[currentIndex], originalFramesGray[currentIndex + 1]])[0];
 			for (i in 0...mv.imageWidth) {
 				for (j in 0...mv.imageHeight) {
@@ -68,7 +66,7 @@ class OFExample extends BaseApp {
 					line(x, y, x + v.val0, y + v.val1);
 				}
 			}
-		}*/
+		}
 	}
 	
 	override function keyPressed(key:Int):Void {
