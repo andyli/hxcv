@@ -16,12 +16,12 @@ class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impl
 	/**
 	 * Size of matching block which one motion vector for one matching block.
 	 */
-	public var N:Int;
+	public var N(default, null):Int;
 	
 	/**
 	 * The algorithm used for block matching.
 	 */
-	public var blockMatching:BlockMatching<InImgT>;
+	public var blockMatching(default, null):BlockMatching<InImgT>;
 	
 	public function new():Void {
 		N = 15;		
@@ -43,38 +43,22 @@ class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impl
 			//for each of the matching block
 			
 			//var t = haxe.Timer.stamp();
-			var k = 0;		//top-left x-coordinate of the block
-			var mx = 0;
-			while (mx < mvImgSizeX) {
-				var l = 0;	//top-left y-coordinate of the block
-				var my = 0;
-				while (my < mvImgSizeY) {
-
-					mv.unsafeMoveTo(mx, my);
+			var l = 0;		//top-left y-coordinate of the block
+			var lEnd = mvImgSizeY * N;
+			var kEnd = mvImgSizeX * N;
+			while (l < lEnd) {
+				var k = 0;	//top-left x-coordinate of the block
+				while (k < kEnd) {
+					
 					in0.unsafeMoveTo(k, l);
 					in1.unsafeMoveTo(k, l);
 					mv.set0(blockMatching.process(in0, in1));
+					mv.unsafeNext();
 
-					l += N;
-					++my;
-				}
-				k += N;
-				++mx;
-			}
-			
-			/*
-			var blockItr = new Array2DImagePixelIterator(mv);
-			var l = 0;		//top-left y-coordinate of the block
-			do {
-				var k = 0;	//top-left x-coordinate of the block
-				do {
-					blockItr.set(0, blockMatching.process(k, l, in0, in1));
-					
 					k += N;
-				} while (blockItr.moveX(1));
+				}
 				l += N;
-			} while (blockItr.next());
-			*/
+			}
 			//trace(haxe.Timer.stamp() - t);
 			result.push(mv);
 		}

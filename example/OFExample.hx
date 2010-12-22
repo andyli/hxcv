@@ -36,7 +36,7 @@ class OFExample extends BaseApp {
 		smoothedFrames = [];
 		originalFramesGray = [];
 		
-		for (imgNum in 1050587...1050600) {
+		for (imgNum in 1050587...1050700) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
 			originalFrames.push(img);
@@ -48,15 +48,19 @@ class OFExample extends BaseApp {
 		}
 		
 		currentIndex = 0;
+		showMV = false;
 	}
 	
 	override function draw():Void {
 		setHexColor(0xFFFFFF);
 		originalFrames[currentIndex].draw(0, 0);
 
-		if (showMV){
+		if (showMV) {
+			
 			setHexColor(0xFF0000);
+			var t = Timer.stamp();
 			var mv = me.process([originalFramesGray[currentIndex], originalFramesGray[currentIndex + 1]])[0];
+			trace(Timer.stamp() - t);
 			for (i in 0...mv.imageWidth) {
 				for (j in 0...mv.imageHeight) {
 					var x = me.N * 0.5 + i * me.N;
@@ -66,7 +70,11 @@ class OFExample extends BaseApp {
 					line(x, y, x + v.val0, y + v.val1);
 				}
 			}
+			
+			
 		}
+		
+		currentIndex = (++currentIndex).loopIndex(originalFrames.length);
 	}
 	
 	override function keyPressed(key:Int):Void {

@@ -1,6 +1,7 @@
 package hxcv;
 
 import haxe.rtti.Generic;
+import haxe.Timer;
 import hxcv.ds.IPixelIteratorGray;
 import hxcv.ds.Vector;
 
@@ -16,24 +17,28 @@ class BlockMatching<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impleme
 	/**
 	 * Size of estimation block.
 	 */
-	public var M:Int;
+	public var M(default, null):Int;
 	
 	/**
 	 * Sampling number.
 	 * Higher => faster and less accurate.
 	 */
-	public var alpha:Int;
+	public var alpha(default, null):Int;
 	
 	/**
 	 * Searching range.
 	 */
-	public var S:Int;
+	public var S(default, null):Int;
 	
 	/**
 	 * Constant affecting the Weighted Correlation Index.
 	 * More positive value make it favors vectors that are close to 0,0
 	 */
-	public var K:Float;
+	public var K(default, null):Float;
+	
+	var alphaSqrOverMSqr:Float;
+	var SHalf:Float;
+	var mOverAlpha:Int;
 	
 	public function new():Void {
 		//defaults that works for 320*240
@@ -47,89 +52,54 @@ class BlockMatching<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impleme
 		alpha = 8;
 		S = 40;
 		K = 0.005;*/
+		
+		alphaSqrOverMSqr = (alpha * alpha) / (M * M);
+		SHalf = S * 0.5;
+		mOverAlpha = Std.int(M / alpha);
 	}
 	
 	public function process(img0:InImgT, img1:InImgT):Vector3<Float>
 	{
-		var alphaSqr = alpha * alpha;
-		var MSqr = M * M;
-		var SHalf = S * 0.5;
+		//var t = Timer.stamp();
 			
 		var in0 = img0;
 		var in1 = img1;
 		var k = in0.x;
 		var l = in1.y;
 		
+		
 		//x,y is coordinates of the vector. z is WCI.
 		var WCImin = new Vector3<Float>(0.0, 0.0, Math.POSITIVE_INFINITY);
 		
-		/*
-		//get bound coordinates by checking with image bound
-		var xMin = k + Math.floor(-SHalf);
-		if (xMin < 0) xMin = 0;
-		var yMin = l + Math.floor(-SHalf);
-		if (yMin < 0) yMin = 0;
-		var xMax = k + Math.ceil(SHalf);
-		if (xMax >= in1.imageWidth) xMax = in1.imageWidth - 1;
-		var yMax = l + Math.ceil(SHalf);
-		if (yMax >= in1.imageHeight) yMax = in1.imageHeight - 1;
 		
-		in1.moveTo(xMin, yMin);
-		do {
-			do {
-				
-				var MAD = 0.0;
-				
-				var cp:InImgT = in1.clone();
-				in0.moveTo(in1.x, in1.y);
-				var iend = in1.x + M;
-				var jend = in1.y + M;
-				do {
-					do {
-						
-						MAD += (alphaSqr * Math.abs(in1.getGray() - in0.getGray())) / MSqr;
-						
-					} while (in0.moveX(alpha) && cp.moveX(alpha) && cp.x < iend);
-				} while (in0.moveTo(in1.x, in0.y + alpha) && cp.moveTo(in1.x, cp.y + alpha) && in1.y < jend);
-				
-				var WCI = MAD * (1 + K * (x * x + y * y));
-				if (WCI < WCImin.val2) {
-					WCImin.val0 = x;
-					WCImin.val1 = y;
-					WCImin.val2 = WCI;
-				}
-				
-				in1.unsafeMoveRight();
-			} while (in1.x <= xMax);
-			in1.unsafeMoveTo(xMin, in1.y + 1);
-		} while (in1.y <= yMax);
-		*/
 		
 		//for each coordinates in the search range
 		for (x in Math.floor(-SHalf)...Math.ceil(SHalf)) {
 			for (y in Math.floor(-SHalf)...Math.ceil(SHalf)) {
 				
-				var MAD = 0.0;
+				var totalDiff = 0.0;
 				var pixelNum = 0;
 				
-				var i = 0;
-				while (i < M) {
-					var j = 0;
-					while (j < M) {
-						
-						if (in1.moveTo(k + i + x, l + j + y) && in0.moveTo(k + i, l + j)) {
-							var f1 = in1.getGray();
-							var f0 = in0.getGray();
-							MAD += (alphaSqr * Math.abs(f1 - f0)) / MSqr;
+				in0.unsafeMoveTo(k, l);
+				in1.unsafeMoveTo(k + x, l + y);
+				
+				for (j in 0...mOverAlpha) {
+					for (i in 0...mOverAlpha) {
+						if (in1.checkCoordinates() && in0.checkCoordinates()) {
+							
+							totalDiff += Math.abs(in1.getGray() - in0.getGray());
 							++pixelNum;
+							
 						}
 						
-						j += alpha;
+						in0.unsafeMoveX(alpha);
+						in1.unsafeMoveX(alpha);	
 					}
-					i += alpha;
+					in0.unsafeMoveTo(k, in0.y + alpha);
+					in1.unsafeMoveTo(k + x, in1.y + alpha);
 				}
 				
-				var WCI = MAD / pixelNum * (1 + K * (x * x + y * y));
+				var WCI = (alphaSqrOverMSqr * totalDiff) / pixelNum * (1 + K * (x * x + y * y));
 				if (WCI < WCImin.val2) {
 					WCImin.val0 = x;
 					WCImin.val1 = y;
@@ -137,7 +107,7 @@ class BlockMatching<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impleme
 				}							
 			}
 		}
-		
+		//trace(Timer.stamp() - t);
 		return WCImin;
 	}
 	

@@ -50,9 +50,7 @@ class ArrayAccessPixelIteratorGray < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function unsafeMoveTo(_x:Int, _y:Int):Void {
-		x = _x;
-		y = _y;
-		index = y * imageWidth + x;
+		index = (y = _y) * imageWidth + (x = _x);
 	}
 	
 	inline public function moveTo(_x:Int, _y:Int):Bool {
