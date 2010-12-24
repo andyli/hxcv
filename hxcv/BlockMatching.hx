@@ -42,10 +42,7 @@ class BlockMatching<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impleme
 	
 	public function new():Void {
 		//defaults that works for 320*240
-		M = 25;
-		alpha = 2;
-		S = 20;
-		K = 0.02;
+		init(25, 2, 20, 0.02);
 		
 		/*/defaults that works for 640*480
 		M = 40;
@@ -53,9 +50,19 @@ class BlockMatching<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impleme
 		S = 40;
 		K = 0.005;*/
 		
+		
+	}
+	
+	public function init(_M:Int, _alpha:Int, _S:Int, _K:Float) {
+		M = _M;
+		alpha = _alpha;
+		S = _S;
+		K = _K;
+		
 		alphaSqrOverMSqr = (alpha * alpha) / (M * M);
 		SHalf = S * 0.5;
 		mOverAlpha = Std.int(M / alpha);
+		return this;
 	}
 	
 	public function process(img0:InImgT, img1:InImgT):Vector3<Float>

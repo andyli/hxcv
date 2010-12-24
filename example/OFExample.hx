@@ -1,7 +1,6 @@
 ﻿package ;
 
 import cpp.Lib;
-import cpp.vm.Gc;
 import haxe.Timer;
 using Lambda;
 using org.casalib.util.NumberUtil;
@@ -11,6 +10,7 @@ import hxcv.MotionEstimation;
 //import hxcv.ProximityManager;
 import hxcv.ds.Vector;
 import hxcv.ds.ArrayPixelIteratorGray;
+import hxcv.ds.ArrayPixelIteratorARGB;
 using hxcv.math.Vector2Math;
 using hxcv.ds.Adapters;
 
@@ -22,21 +22,23 @@ class OFExample extends BaseApp {
 	var originalFrames:Array<Image>;
 	var smoothedFrames:Array<Image>;
 	var originalFramesGray:Array<ArrayPixelIteratorGray<Int>>;
+	var mvImage:Image;
 	
 	var currentIndex:Int;
 	var showMV:Bool;
 	
-	override function setup():Void {
+	override function setup():Void {		
 		enableSmoothing();
 		setFrameRate(12);
 		
-		me = new MotionEstimation<ArrayPixelIteratorGray<Int>>();
+		me = new MotionEstimation<ArrayPixelIteratorGray<Int>>().init(25);
+		me.blockMatching.init(35,1,20,0.015);
 		
 		originalFrames = [];
 		smoothedFrames = [];
 		originalFramesGray = [];
 		
-		for (imgNum in 1050587...1050700) {
+		for (imgNum in 1050616...1050620) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
 			originalFrames.push(img);
@@ -49,29 +51,44 @@ class OFExample extends BaseApp {
 		
 		currentIndex = 0;
 		showMV = false;
+		mvImage = new Image();
+		var resultSize = me.getResultImageSize(originalFramesGray);
+		mvImage.allocate(resultSize.val0, resultSize.val1, Constants.OF_IMAGE_COLOR_ALPHA);
 	}
 	
 	override function draw():Void {
 		setHexColor(0xFFFFFF);
-		originalFrames[currentIndex].draw(0, 0);
+		var currentFrame = originalFrames[currentIndex];
+		currentFrame.draw(0, 0, 320, 240);
 
-		if (showMV) {
+		if (showMV && currentIndex != originalFrames.length-1) {
 			
 			setHexColor(0xFF0000);
 			var t = Timer.stamp();
 			var mv = me.process([originalFramesGray[currentIndex], originalFramesGray[currentIndex + 1]])[0];
 			trace(Timer.stamp() - t);
-			for (i in 0...mv.imageWidth) {
-				for (j in 0...mv.imageHeight) {
-					var x = me.N * 0.5 + i * me.N;
-					var y = me.N * 0.5 + j * me.N;
-					mv.unsafeMoveTo(i, j);
-					var v = mv.get0();
-					line(x, y, x + v.val0, y + v.val1);
-				}
-			}
 			
 			
+			var mvImagePI = mvImage.getPixels().getPixelIteratorARGB(mv.imageWidth, mv.imageHeight);
+			mv.head();
+			do {
+				var x = me.N * 0.5 + mv.x * me.N;
+				var y = me.N * 0.5 + mv.y * me.N;
+				
+				var v = mv.get0();
+				line(x, y, x + v.val0, y + v.val1);
+				
+				mvImagePI.set0(cast v.val2 * 10000);
+				mvImagePI.set1(cast v.val0.map( -me.blockMatching.S, me.blockMatching.S, 0, 255));
+				mvImagePI.set2(cast v.val1.map( -me.blockMatching.S, me.blockMatching.S, 0, 255));
+				mvImagePI.set3(cast 0xFF);
+				mvImagePI.unsafeNext();
+			} while (mv.next());
+			mvImage.update();
+			
+			setHexColor(0xFFFFFF);
+			mvImage.draw(320, 0, 320, 240);
+			mvImage.saveImage("original-1024-768 "+currentIndex + ".png");
 		}
 		
 		currentIndex = (++currentIndex).loopIndex(originalFrames.length);

@@ -33,4 +33,19 @@ class ArrayAdapter
 					imageHeight
 				);
 	}
+	
+	inline static public function getPixelIteratorARGB<T>
+	(
+		array:Array<T>,
+		imageWidth:Int, 
+		imageHeight:Int
+	) {
+		return 
+			new ArrayPixelIteratorARGB<T>()
+				.init(
+					array,
+					imageWidth, 
+					imageHeight
+				);
+	}
 }
