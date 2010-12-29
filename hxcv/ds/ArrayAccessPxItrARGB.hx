@@ -1,7 +1,7 @@
 package hxcv.ds;
 
-class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> > 
-	implements IPixelIteratorARGB < T, ImgT, ArrayAccessPixelIteratorARGB < T, ImgT > > 
+class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> > 
+	implements IPxItrARGB < T, ImgT, ArrayAccessPxItrARGB < T, ImgT > > 
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -24,7 +24,7 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		_image:ImgT,
 		_imageWidth:Int, 
 		_imageHeight:Int
-	):ArrayAccessPixelIteratorARGB < T, ImgT > {
+	):ArrayAccessPxItrARGB < T, ImgT > {
 		
 		#if debug
 		if (_imageWidth <= 0)
@@ -63,7 +63,7 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		}
 	}
 	
-	inline public function head():ArrayAccessPixelIteratorARGB< T, ImgT > {
+	inline public function head():ArrayAccessPxItrARGB< T, ImgT > {
 		x = y = index = 0;
 		return this;
 	}
@@ -209,8 +209,8 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		image[index] = val;
 	}
 	
-	public function clone():ArrayAccessPixelIteratorARGB < T, ImgT > {
-		var r = new ArrayAccessPixelIteratorARGB<T, ImgT>();
+	public function clone():ArrayAccessPxItrARGB < T, ImgT > {
+		var r = new ArrayAccessPxItrARGB<T, ImgT>();
 		r.image = image;
 		r.imageWidth = imageWidth;
 		r.imageHeight = imageHeight;
@@ -221,7 +221,7 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:IPixelIterator< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPixelIteratorARGB < T, ImgT > {
+	public function copyChannel(src:IPxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrARGB < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -229,7 +229,7 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:IPixelIterator< T, ImgT, Dynamic>):ArrayAccessPixelIteratorARGB < T, ImgT > {
+	public function copyPixels(src:IPxItr< T, ImgT, Dynamic>):ArrayAccessPxItrARGB < T, ImgT > {
 		do {
 			for (c in 0...imageNumOfChannels)
 				set(c, src.get(c));
@@ -238,7 +238,7 @@ class ArrayAccessPixelIteratorARGB < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function fill(values:Array<T>):ArrayAccessPixelIteratorARGB < T, ImgT > {
+	public function fill(values:Array<T>):ArrayAccessPxItrARGB < T, ImgT > {
 		#if debug
 		if (values == null)
 			throw "values cannot be null";

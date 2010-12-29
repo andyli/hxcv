@@ -2,8 +2,8 @@ package hxcv;
 
 import haxe.rtti.Generic;
 import hxcv.ds.Vector;
-import hxcv.ds.IPixelIteratorGray;
-import hxcv.ds.ArrayAccessPixelIterator;
+import hxcv.ds.IPxItrGray;
+import hxcv.ds.ArrayAccessPxItr;
 using hxcv.ds.Adapters;
 
 /**
@@ -11,7 +11,7 @@ using hxcv.ds.Adapters;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> implements Generic
+class MotionEstimation<InImgT:IPxItrGray<Dynamic, Dynamic, InImgT>> implements Generic
 {
 	/**
 	 * Size of matching block which one motion vector for one matching block.
@@ -41,8 +41,8 @@ class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impl
 		return this;
 	}
 	
-	public function process(inputs:Array<InImgT>):Array < ArrayAccessPixelIterator < Vector3<Float>, Array<Vector3<Float>> >> {
-		var result = new Array < ArrayAccessPixelIterator < Vector3<Float>, Array<Vector3<Float>> >>();
+	public function process(inputs:Array<InImgT>):Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >> {
+		var result = new Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >>();
 		var resultImageWidth = Math.floor(inputs[0].imageWidth / N);
 		var resultImageHeight = Math.floor(inputs[0].imageHeight / N);
 		
@@ -50,7 +50,7 @@ class MotionEstimation<InImgT:IPixelIteratorGray<Dynamic, Dynamic, InImgT>> impl
 		for (inputIndex in 1...inputs.length) {
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
-			var mv = new Array<Vector3<Float>>().getPixelIterator(resultImageWidth, resultImageHeight, 1);
+			var mv = new Array<Vector3<Float>>().getPxItr(resultImageWidth, resultImageHeight, 1);
 			
 			
 			//for each of the matching block

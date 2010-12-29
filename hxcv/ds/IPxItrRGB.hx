@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface IPixelIteratorRGB<T, ImgT, This:IPixelIteratorRGB<T, ImgT, This>> implements IPixelIterator3<T, ImgT, This>
+interface IPxItrRGB<T, ImgT, This:IPxItrRGB<T, ImgT, This>> implements IPxItr3<T, ImgT, This>
 {
 	public function getR():T;
 	public function setR(val:T):Void;

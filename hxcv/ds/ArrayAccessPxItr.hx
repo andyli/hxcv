@@ -1,7 +1,7 @@
 package hxcv.ds;
 
-class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> > 
-	implements IPixelIterator < T, ImgT, ArrayAccessPixelIterator < T, ImgT > > 
+class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> > 
+	implements IPxItr < T, ImgT, ArrayAccessPxItr < T, ImgT > > 
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -25,7 +25,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		_imageWidth:Int, 
 		_imageHeight:Int, 
 		_imageNumOfChannels:Int
-	):ArrayAccessPixelIterator < T, ImgT > {
+	):ArrayAccessPxItr < T, ImgT > {
 		
 		#if debug
 		if (_imageWidth <= 0)
@@ -67,7 +67,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		}
 	}
 	
-	inline public function head():ArrayAccessPixelIterator< T, ImgT > {
+	inline public function head():ArrayAccessPxItr< T, ImgT > {
 		x = y = index = 0;
 		return this;
 	}
@@ -213,8 +213,8 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		image[index] = val;
 	}
 	
-	public function clone():ArrayAccessPixelIterator < T, ImgT > {
-		var r = new ArrayAccessPixelIterator<T, ImgT>();
+	public function clone():ArrayAccessPxItr < T, ImgT > {
+		var r = new ArrayAccessPxItr<T, ImgT>();
 		r.image = image;
 		r.imageWidth = imageWidth;
 		r.imageHeight = imageHeight;
@@ -226,7 +226,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:IPixelIterator< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPixelIterator < T, ImgT > {
+	public function copyChannel(src:IPxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItr < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -234,7 +234,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:IPixelIterator< T, ImgT, Dynamic>):ArrayAccessPixelIterator < T, ImgT > {
+	public function copyPixels(src:IPxItr< T, ImgT, Dynamic>):ArrayAccessPxItr < T, ImgT > {
 		do {
 			for (c in 0...imageNumOfChannels)
 				set(c, src.get(c));
@@ -243,7 +243,7 @@ class ArrayAccessPixelIterator < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function fill(values:Array<T>):ArrayAccessPixelIterator < T, ImgT > {
+	public function fill(values:Array<T>):ArrayAccessPxItr < T, ImgT > {
 		#if debug
 		if (values == null)
 			throw "values cannot be null";

@@ -15,7 +15,7 @@ class MotionEstimationExample extends Sprite
 		super();
 		
 		var bd = new BitmapData(400, 300, true, 0xFF000000);
-		var pi = bd.getPixels(bd.rect).getPixelIteratorARGB(400, 300);
+		var pi = bd.getPixels(bd.rect).getPxItrARGB(400, 300);
 		pi.fill([0x11, 0xFF, 0x00, 0xFF]);
 		pi.image.position = 0;
 		bd.setPixels(bd.rect, pi.image);

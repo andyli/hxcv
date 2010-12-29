@@ -1,7 +1,7 @@
 package hxcv.ds;
 
-class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> > 
-	implements IPixelIterator < T, ImgT, ArrayAccessPixelIterator < T, ImgT > > 
+class ArrayAccessPxItrWithROI < T, ImgT:ArrayAccess<T> > 
+	implements IPxItr < T, ImgT, ArrayAccessPxItr < T, ImgT > > 
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -29,7 +29,7 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		_imageHeight:Int, 
 		_imageNumOfChannels:Int,
 		?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>
-	):ArrayAccessPixelIterator < T, ImgT > {
+	):ArrayAccessPxItr < T, ImgT > {
 		
 		#if debug
 		if (_imageWidth <= 0)
@@ -88,7 +88,7 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		}
 	}
 	
-	inline public function head():ArrayAccessPixelIterator< T, ImgT > {
+	inline public function head():ArrayAccessPxItr< T, ImgT > {
 		unsafeMoveTo(minX, minY);
 		return this;
 	}
@@ -162,8 +162,8 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		image[index + channel] = val;
 	}
 	
-	public function clone():ArrayAccessPixelIterator < T, ImgT > {
-		var r = new ArrayAccessPixelIterator<T, ImgT>();
+	public function clone():ArrayAccessPxItr < T, ImgT > {
+		var r = new ArrayAccessPxItr<T, ImgT>();
 		r.image = image;
 		r.imageWidth = imageWidth;
 		r.imageHeight = imageHeight;
@@ -178,7 +178,7 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:IPixelIterator< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPixelIterator < T, ImgT > {
+	public function copyChannel(src:IPxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItr < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -186,7 +186,7 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:IPixelIterator< T, ImgT, Dynamic>):ArrayAccessPixelIterator < T, ImgT > {
+	public function copyPixels(src:IPxItr< T, ImgT, Dynamic>):ArrayAccessPxItr < T, ImgT > {
 		do {
 			for (c in 0...imageNumOfChannels)
 				set(c, src.get(c));
@@ -195,7 +195,7 @@ class ArrayAccessPixelIteratorWithROI < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function fill(values:Array<T>):ArrayAccessPixelIterator < T, ImgT > {
+	public function fill(values:Array<T>):ArrayAccessPxItr < T, ImgT > {
 		do {
 			for (c in 0...imageNumOfChannels)
 				set(c, values[c]);

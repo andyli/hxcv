@@ -1,3 +1,8 @@
+#-cmd cd project
+#-cmd haxelib run hxcpp build.xml
+#-cmd cd ..
+
+#-main GlutExample
 -main OFExample
 -cpp bin
 -cp ../hxOpenFrameworks
@@ -6,5 +11,8 @@
 -lib casalib
 -D HXOF
 
+#-cmd xcopy /e /i /y "ndll\Windows\*.*" "bin"
+
 -cmd cd bin
+#-cmd GlutExample.exe
 -cmd OFExample.exe

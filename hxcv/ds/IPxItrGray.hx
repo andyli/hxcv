@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface IPixelIteratorGray<T, ImgT, This:IPixelIteratorGray<T, ImgT, This>> implements IPixelIterator<T, ImgT, This>
+interface IPxItrGray<T, ImgT, This:IPxItrGray<T, ImgT, This>> implements IPxItr<T, ImgT, This>
 {
 	public function getGray():T;
 	public function setGray(val:T):Void;

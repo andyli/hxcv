@@ -1,0 +1,32 @@
+<xml>
+	<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+	
+	<files id="glut_files">
+		<compilerflag value = "-Iinclude"/>
+		<file name="api.cpp"/>
+	</files>
+	
+	<target id="glut.ndll" tool="linker" toolid="dll" output="glut">
+		<files id="glut_files"/>
+		<ext value=".ndll"/>
+		<outdir name="../ndll/${BINDIR}"/>
+		
+		<lib name="${LIB_LINK}"/>
+		<lib name="-LIBPATH:lib/${BINDIR}" if="windows"/>		
+		
+		<lib name = 'glaux.lib' if="windows" />
+		<lib name = 'glu.lib' if="windows" />
+		<lib name = 'glu32.lib' if="windows" />
+		<lib name = 'glut.lib' if="windows" />
+		<lib name = 'glut32.lib' if="windows" />
+		<lib name = 'opengl.lib' if="windows" />
+		<lib name = 'opengl32.lib' if="windows" />
+
+		<vflag name="-framework" value="OpenGL" if="macos"/>
+		<vflag name="-framework" value="GLUT" if="macos"/>
+	</target>
+
+	<target id="default">
+		<target id="glut.ndll"/>
+	</target>
+</xml>

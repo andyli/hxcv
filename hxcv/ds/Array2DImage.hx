@@ -100,14 +100,14 @@ class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generi
 		return array.iterator();
 	}
 	
-	inline public function pixelIterator(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPixelIterator < T, Array2DImage<T> > {
-		return new Array2DImagePixelIterator<T>(this, _minX, _minY, _maxX, _maxY);
+	inline public function pxItr(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPxItr < T, Array2DImage<T> > {
+		return new Array2DImagePxItr<T>(this, _minX, _minY, _maxX, _maxY);
 	}
 	
 	public var array(default,null):Array<T>;
 }
 
-class Array2DImagePixelIterator<T> implements IPixelIterator < T, Array2DImage<T> > {
+class Array2DImagePxItr<T> implements IPxItr < T, Array2DImage<T> > {
 	
 	public var image(default, null):Array2DImage<T>;
 	public var x(default, null):Int;

@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, This>>
+interface IPxItr<T, ImgT, This:IPxItr<T, ImgT, This>>
 {
 	public var image(default, null):ImgT;
 	public var imageWidth(default, null):Int;
@@ -96,7 +96,7 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, This>>
 	public function set0(val:T):Void;
 	
 	/*
-	 * Return a copy of this PixelIterator. It wouldn't copy the image data.
+	 * Return a copy of this PxItr. It wouldn't copy the image data.
 	 */
 	public function clone():This;
 	
@@ -104,13 +104,13 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, This>>
 	 * Set the image's destChannel by copying from src's srcChannel.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyChannel(src:IPixelIterator< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):This;
+	public function copyChannel(src:IPxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):This;
 	
 	/*
 	 * Set the image by copying from src.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyPixels(src:IPixelIterator< T, ImgT, Dynamic>):This;
+	public function copyPixels(src:IPxItr< T, ImgT, Dynamic>):This;
 	
 	/*
 	 * Filling the ROI with the input values start from the current coordinates.
@@ -120,12 +120,12 @@ interface IPixelIterator<T, ImgT, This:IPixelIterator<T, ImgT, This>>
 }
 
 /*
-interface IPixelIterator3<T, ImgT:IImage3<T>> implements IPixelIterator<T, ImgT>, implements Vector3Data<T, ImgT>
+interface IPxItr3<T, ImgT:IImage3<T>> implements IPxItr<T, ImgT>, implements Vector3Data<T, ImgT>
 {
 	
 }
 
-interface IPixelIterator4<T, ImgT:IImage4<T>> implements IPixelIterator<T, ImgT>, implements Vector4Data<T, ImgT>
+interface IPxItr4<T, ImgT:IImage4<T>> implements IPxItr<T, ImgT>, implements Vector4Data<T, ImgT>
 {
 	
 }*/
