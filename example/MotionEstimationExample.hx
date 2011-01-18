@@ -5,7 +5,7 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.Lib;
 
-using hxcv.flash.ds.FlashAdapter;
+using hxcv.flash.ds.Adapter;
 
 class MotionEstimationExample extends Sprite
 {

@@ -3,7 +3,7 @@ package hxcv;
 import haxe.rtti.Generic;
 import haxe.Timer;
 import hxcv.ds.PxItrGray;
-import hxcv.ds.Vector;
+import hxcv.ds.Vector3;
 
 using hxcv.ds.Adapters;
 

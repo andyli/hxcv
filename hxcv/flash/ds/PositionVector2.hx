@@ -1,9 +1,9 @@
 package hxcv.flash.ds;
 
 import flash.display.DisplayObject;
-import hxcv.ds.Vector;
+import hxcv.ds.Vector2WithData;
 
-class PositionVector2<D:DisplayObject> extends Vector2Data<Float,D> {	
+class PositionVector2<D:DisplayObject> extends Vector2WithData<Float,D> {	
 	public function new(dObj:D):Void {
 		super(dObj.x, dObj.y, dObj);
 	}

@@ -1,5 +1,8 @@
 package hxcv.ds;
 
+/**
+ * A Pixel Iterator that can read/write from an image data of type ImgT.
+ */
 interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 {
 	public var image(default, null):ImgT;
@@ -118,14 +121,3 @@ interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 	 */
 	public function fill(values:Array<T>):This;
 }
-
-/*
-interface PxItr3<T, ImgT:Image3<T>> implements PxItr<T, ImgT>, implements Vector3Data<T, ImgT>
-{
-	
-}
-
-interface PxItr4<T, ImgT:Image4<T>> implements PxItr<T, ImgT>, implements Vector4Data<T, ImgT>
-{
-	
-}*/

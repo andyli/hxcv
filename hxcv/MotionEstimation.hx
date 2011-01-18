@@ -1,7 +1,8 @@
 package hxcv;
 
 import haxe.rtti.Generic;
-import hxcv.ds.Vector;
+import hxcv.ds.Vector2;
+import hxcv.ds.Vector3;
 import hxcv.ds.PxItrGray;
 import hxcv.ds.ArrayAccessPxItr;
 using hxcv.ds.Adapters;

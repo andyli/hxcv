@@ -1,9 +1,9 @@
 package hxcv.flash.ds;
 
 import flash.geom.Point;
-import hxcv.ds.Vector;
+import hxcv.ds.Vector2WithData;
 
-class PointVector2<D:Point> extends Vector2Data<Float,D> {	
+class PointVector2<D:Point> extends Vector2WithData<Float,D> {	
 	public function new(dObj:D):Void {
 		super(dObj.x, dObj.y, dObj);
 	}

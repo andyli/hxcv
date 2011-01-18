@@ -1,6 +1,6 @@
 package hxcv.math;
 
-import hxcv.ds.Vector;
+import hxcv.ds.Vector2;
 using Math;
 
 class Vector2MathFloat

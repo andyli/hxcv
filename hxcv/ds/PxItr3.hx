@@ -1,5 +1,8 @@
 package hxcv.ds;
 
+/**
+ * PxItr that has at least 3 channels(0, 1, 2).
+ */
 interface PxItr3<T, ImgT, This:PxItr3<T, ImgT, This>> implements PxItr2<T, ImgT, This>
 {
 	/*

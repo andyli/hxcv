@@ -1,7 +1,7 @@
 package hxcv;
 
 import hxcv.ds.Rectangle;
-import hxcv.ds.Vector;
+import hxcv.ds.Vector2;
 import haxe.FastList;
 using Lambda;
 

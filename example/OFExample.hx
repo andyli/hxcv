@@ -8,7 +8,6 @@ using org.casalib.util.NumberUtil;
 import hxcv.BlockMatching;
 import hxcv.MotionEstimation;
 //import hxcv.ProximityManager;
-import hxcv.ds.Vector;
 import hxcv.ds.ArrayPxItrGray;
 import hxcv.ds.ArrayPxItrARGB;
 using hxcv.math.Vector2Math;
