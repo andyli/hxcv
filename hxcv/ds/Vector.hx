@@ -68,7 +68,7 @@ class Vector4<T> extends Vector3<T> #if false , implements haxe.rtti.Generic #en
 	}
 }
 
-class Vector2Data < T, D > extends Vector2<T>, implements IData<D> {
+class Vector2Data < T, D > extends Vector2<T>, implements WithData<D> {
 	public function new(?val0:T, ?val1:T, ?data:D):Void {
 		_data = data;
 		super(val0, val1);
@@ -85,7 +85,7 @@ class Vector2Data < T, D > extends Vector2<T>, implements IData<D> {
 	}
 }
 
-class Vector3Data < T, D > extends Vector3<T>, implements IData<D> {
+class Vector3Data < T, D > extends Vector3<T>, implements WithData<D> {
 	public function new(?val0:T, ?val1:T, ?val2:T, ?data:D):Void {
 		_data = data;
 		super(val0, val1, val2);
@@ -102,7 +102,7 @@ class Vector3Data < T, D > extends Vector3<T>, implements IData<D> {
 	}
 }
 
-class Vector4Data < T, D > extends Vector4<T>, implements IData<D> {
+class Vector4Data < T, D > extends Vector4<T>, implements WithData<D> {
 	public function new(?val0:T, ?val1:T, ?val2:T, ?val3:T, ?data:D):Void {
 		_data = data;
 		super(val0, val1, val2, val3);

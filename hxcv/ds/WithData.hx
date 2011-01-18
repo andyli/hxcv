@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface IData<D>
+interface WithData<D>
 {
 	public var data(getData, setData):D;
 	

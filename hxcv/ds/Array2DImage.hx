@@ -2,7 +2,7 @@ package hxcv.ds;
 
 import haxe.rtti.Generic;
 
-class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generic*/ {
+class Array2DImage<T> implements Image<T, Array2DImage<T>>/*, implements Generic*/ {
 
 	public function new(w:Int, h:Int, channels:Int, ?ary:Array<T>):Void {
 		width = w;
@@ -100,14 +100,14 @@ class Array2DImage<T> implements IImage<T, Array2DImage<T>>/*, implements Generi
 		return array.iterator();
 	}
 	
-	inline public function pxItr(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):IPxItr < T, Array2DImage<T> > {
+	inline public function pxItr(?_minX:Int = 0, ?_minY:Int = 0, ?_maxX:Null<Int>, ?_maxY:Null<Int>):PxItr < T, Array2DImage<T> > {
 		return new Array2DImagePxItr<T>(this, _minX, _minY, _maxX, _maxY);
 	}
 	
 	public var array(default,null):Array<T>;
 }
 
-class Array2DImagePxItr<T> implements IPxItr < T, Array2DImage<T> > {
+class Array2DImagePxItr<T> implements PxItr < T, Array2DImage<T> > {
 	
 	public var image(default, null):Array2DImage<T>;
 	public var x(default, null):Int;

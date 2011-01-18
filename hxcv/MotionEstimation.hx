@@ -2,7 +2,7 @@ package hxcv;
 
 import haxe.rtti.Generic;
 import hxcv.ds.Vector;
-import hxcv.ds.IPxItrGray;
+import hxcv.ds.PxItrGray;
 import hxcv.ds.ArrayAccessPxItr;
 using hxcv.ds.Adapters;
 
@@ -11,7 +11,7 @@ using hxcv.ds.Adapters;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:IPxItrGray<Dynamic, Dynamic, InImgT>> implements Generic
+class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Generic
 {
 	/**
 	 * Size of matching block which one motion vector for one matching block.

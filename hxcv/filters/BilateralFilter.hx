@@ -1,11 +1,11 @@
 package hxcv.filters;
 
 import hxcv.ds.Array2DImage;
-import hxcv.ds.IImage;
+import hxcv.ds.Image;
 import hxcv.ds.Vector;
 using hxcv.math.Vector2Math;
 
-class BilateralFilter<T:Float, ImgT:IImageRGB<T>> implements IFilter<ImgT>
+class BilateralFilter<T:Float, ImgT:ImageRGB<T>> implements IFilter<ImgT>
 {
 	/**
 	 * Affacts the Gaussian function which based on distance.

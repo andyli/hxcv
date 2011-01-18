@@ -2,7 +2,7 @@ package hxcv.ds;
 
 import hxcv.ds.Vector;
 
-interface IImage<T, This:IImage<T,Dynamic>>{
+interface Image<T, This:Image<T,Dynamic>>{
 	public function get(x:Int, y:Int, channel:Int):T;
 	public function set(x:Int, y:Int, channel:Int, val:T):Void;
 	public function getPixels():Array<T>;

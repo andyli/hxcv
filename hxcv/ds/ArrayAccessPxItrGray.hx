@@ -1,7 +1,7 @@
 package hxcv.ds;
 
 class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
-	implements IPxItrGray < T, ImgT, ArrayAccessPxItrGray < T, ImgT > >
+	implements PxItrGray < T, ImgT, ArrayAccessPxItrGray < T, ImgT > >
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -220,7 +220,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:IPxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrGray < T, ImgT > {
+	public function copyChannel(src:PxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrGray < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -228,7 +228,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:IPxItr< T, ImgT, Dynamic>):ArrayAccessPxItrGray < T, ImgT > {
+	public function copyPixels(src:PxItr< T, ImgT, Dynamic>):ArrayAccessPxItrGray < T, ImgT > {
 		do {
 			set0(src.get0());
 		} while (next() && src.next());

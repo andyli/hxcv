@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface IPxItr2<T, ImgT, This:IPxItr2<T, ImgT, This>> implements IPxItr<T, ImgT, This>
+interface PxItr2<T, ImgT, This:PxItr2<T, ImgT, This>> implements PxItr<T, ImgT, This>
 {
 	/*
 	 * Get the channel 1 value of the pixel pointing to.
