@@ -22,18 +22,18 @@ class VectorAdapter
 	inline static public function getPxItr<T>
 	(
 		vector:Vector<T>,
-		imageWidth:Int, 
-		imageHeight:Int, 
-		imageNumOfChannels:Int
+		width:Int, 
+		height:Int, 
+		numOfChannels:Int
 	)
 	{
 		return 
 			new VectorPxItr<T>()
 				.init(
 					vector,
-					imageWidth, 
-					imageHeight, 
-					imageNumOfChannels
+					width, 
+					height, 
+					numOfChannels
 				);
 	}
 }
@@ -43,34 +43,34 @@ class ByteArrayAdapter
 	inline static public function getPxItr<T>
 	(
 		byteArray:ByteArray,
-		imageWidth:Int, 
-		imageHeight:Int, 
-		imageNumOfChannels:Int
+		width:Int, 
+		height:Int, 
+		numOfChannels:Int
 	)
 	{
 		return 
 			new ByteArrayPxItr()
 				.init(
 					byteArray,
-					imageWidth, 
-					imageHeight, 
-					imageNumOfChannels
+					width, 
+					height, 
+					numOfChannels
 				);
 	}
 	
 	inline static public function getPxItrARGB<T>
 	(
 		byteArray:ByteArray,
-		imageWidth:Int, 
-		imageHeight:Int
+		width:Int, 
+		height:Int
 	)
 	{
 		return 
 			new ByteArrayPxItrARGB()
 				.init(
 					byteArray,
-					imageWidth, 
-					imageHeight
+					width, 
+					height
 				);
 	}
 }

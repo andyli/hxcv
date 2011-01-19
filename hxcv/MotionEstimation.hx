@@ -28,7 +28,7 @@ class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Ge
 	 * Predict the result image size if inputs is passed to process().
 	 */
 	public function getResultImageSize(inputs:Array<InImgT>):Vector2<Int> {
-		return new Vector2<Int>(Math.floor(inputs[0].imageWidth / N), Math.floor(inputs[0].imageHeight / N));
+		return new Vector2<Int>(Math.floor(inputs[0].width / N), Math.floor(inputs[0].height / N));
 	}
 	
 	public function new():Void {
@@ -44,22 +44,22 @@ class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Ge
 	
 	public function process(inputs:Array<InImgT>):Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >> {
 		var result = new Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >>();
-		var resultImageWidth = Math.floor(inputs[0].imageWidth / N);
-		var resultImageHeight = Math.floor(inputs[0].imageHeight / N);
+		var resultwidth = Math.floor(inputs[0].width / N);
+		var resultheight = Math.floor(inputs[0].height / N);
 		
 		//for all input images
 		for (inputIndex in 1...inputs.length) {
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
-			var mv = new Array<Vector3<Float>>().getPxItr(resultImageWidth, resultImageHeight, 1);
+			var mv = new Array<Vector3<Float>>().getPxItr(resultwidth, resultheight, 1);
 			
 			
 			//for each of the matching block
 			
 			//var t = haxe.Timer.stamp();
 			var l = 0;		//top-left y-coordinate of the block
-			var lEnd = resultImageHeight * N;
-			var kEnd = resultImageWidth * N;
+			var lEnd = resultheight * N;
+			var kEnd = resultwidth * N;
 			while (l < lEnd) {
 				in0.unsafeMoveTo(0, l);
 				in1.unsafeMoveTo(0, l);

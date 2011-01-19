@@ -68,7 +68,7 @@ class OFExample extends BaseApp {
 			trace(Timer.stamp() - t);
 			
 			
-			var mvImagePI = mvImage.getPixels().getPxItrARGB(mv.imageWidth, mv.imageHeight);
+			var mvImagePI = mvImage.getPixels().getPxItrARGB(mv.width, mv.height);
 			mv.head();
 			do {
 				var x = me.N * 0.5 + mv.x * me.N;

@@ -4,7 +4,7 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin\ProximityManagerExample.swf" />
+    <movie path="bin\Example.swf" />
     <movie fps="30" />
     <movie width="550" />
     <movie height="550" />
@@ -19,7 +19,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="ProximityManagerExample" />
+    <option mainClass="OpticalFlowExample" />
     <option enabledebug="False" />
     <option additional="" />
   </build>

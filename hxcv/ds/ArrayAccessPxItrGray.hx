@@ -5,9 +5,9 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
-	public var imageWidth(default, null):Int;
-	public var imageHeight(default, null):Int;
-	public var imageNumOfChannels(default, null):Int;
+	public var width(default, null):Int;
+	public var height(default, null):Int;
+	public var numOfChannels(default, null):Int;
 	public var index(default, null):Int;
 	
 	public var x(default, null):Int;
@@ -16,45 +16,45 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	var yOffset:Int;
 	
 	public function new():Void {
-		imageNumOfChannels = 1;
+		numOfChannels = 1;
 	}
 	
 	public function init
 	(
 		_image:ImgT,
-		_imageWidth:Int, 
-		_imageHeight:Int
+		_width:Int, 
+		_height:Int
 	):ArrayAccessPxItrGray < T, ImgT > {
 		
 		#if debug
-		if (_imageWidth <= 0)
-			throw "_imageWidth should be positive integer";
+		if (_width <= 0)
+			throw "_width should be positive integer";
 			
-		if (_imageHeight <= 0)
-			throw "_imageHeight should be positive integer";
+		if (_height <= 0)
+			throw "_height should be positive integer";
 			
 		if (_image == null)
 			throw "_image cannot be null";
 		#end
 		
 		image = _image;
-		imageWidth = _imageWidth;
-		imageHeight = _imageHeight;
+		width = _width;
+		height = _height;
 		head();
-		yOffset = imageWidth;
+		yOffset = width;
 		return this;
 	}
 	
 	inline public function checkCoordinates():Bool {
-		return x >= 0 && x < imageWidth && y >= 0 && y < imageHeight;
+		return x >= 0 && x < width && y >= 0 && y < height;
 	}
 	
 	inline public function unsafeMoveTo(_x:Int, _y:Int):Void {
-		index = (y = _y) * imageWidth + (x = _x);
+		index = (y = _y) * width + (x = _x);
 	}
 	
 	inline public function moveTo(_x:Int, _y:Int):Bool {
-		if (_x >= 0 && _x < imageWidth && _y >= 0 && _y < imageHeight) {
+		if (_x >= 0 && _x < width && _y >= 0 && _y < height) {
 			unsafeMoveTo(_x, _y);
 			return true;
 		} else {
@@ -74,7 +74,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveRight():Bool {
 		var targetX = x + 1;
-		if (targetX < imageWidth) {
+		if (targetX < width) {
 			x = targetX;
 			++index;
 			return true;
@@ -106,7 +106,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveDown():Bool {
 		var targetY = y + 1;
-		if (targetY < imageHeight) {
+		if (targetY < height) {
 			y = targetY;
 			index += yOffset;
 			return true;
@@ -122,7 +122,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveUp():Bool {
 		var targetY = y - 1;
-		if (targetY < imageHeight) {
+		if (targetY < height) {
 			y = targetY;
 			index -= yOffset;
 			return true;
@@ -138,7 +138,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveX(step:Int):Bool {
 		var targetX = x + step;
-		if (targetX >= 0 && targetX < imageWidth) {
+		if (targetX >= 0 && targetX < width) {
 			x = targetX;
 			index += step;
 			return true;
@@ -154,7 +154,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function moveY(step:Int):Bool {
 		var targetY = y + step;
-		if (targetY >= 0 && targetY < imageHeight) {
+		if (targetY >= 0 && targetY < height) {
 			y = targetY;
 			index += step * yOffset;
 			return true;
@@ -164,7 +164,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function unsafeNext():Void {
-		if (++x > imageWidth) {
+		if (++x > width) {
 			x = 0;
 			++y;
 		}
@@ -172,9 +172,9 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	}
 	
 	public function next():Bool {		
-		if (++x >= imageWidth) {
+		if (++x >= width) {
 			x = 0;
-			if (++y >= imageHeight) {
+			if (++y >= height) {
 				y = index = 0;
 				return false;
 			}
@@ -186,7 +186,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function get(channel:Int):T {
 		#if debug
-		if (channel < 0 || channel >= imageNumOfChannels)
+		if (channel < 0 || channel >= numOfChannels)
 			throw "image does not have channel " + channel;
 		#end
 		return image[index + channel];
@@ -194,7 +194,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function set(channel:Int, val:T):Void {
 		#if debug
-		if (channel < 0 || channel >= imageNumOfChannels)
+		if (channel < 0 || channel >= numOfChannels)
 			throw "image does not have channel " + channel;
 		#end
 		image[index + channel] = val;
@@ -211,8 +211,8 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 	public function clone():ArrayAccessPxItrGray < T, ImgT > {
 		var r = new ArrayAccessPxItrGray<T, ImgT>();
 		r.image = image;
-		r.imageWidth = imageWidth;
-		r.imageHeight = imageHeight;
+		r.width = width;
+		r.height = height;
 		r.index = index;
 		r.x = x;
 		r.y = y;
@@ -220,7 +220,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:PxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrGray < T, ImgT > {
+	public function copyChannel(src:PxItr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrGray < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -228,7 +228,7 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:PxItr< T, ImgT, Dynamic>):ArrayAccessPxItrGray < T, ImgT > {
+	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):ArrayAccessPxItrGray < T, ImgT > {
 		do {
 			set0(src.get0());
 		} while (next() && src.next());
@@ -241,11 +241,11 @@ class ArrayAccessPxItrGray < T, ImgT:ArrayAccess<T> >
 		if (values == null)
 			throw "values cannot be null";
 			
-		if (values.length < imageNumOfChannels)
-			throw "values's length is less than " + imageNumOfChannels;
+		if (values.length < numOfChannels)
+			throw "values's length is less than " + numOfChannels;
 		#end
 		
-		var end = yOffset * imageHeight;
+		var end = yOffset * height;
 		while (index < end) {
 			image[index++] = values[0];
 		}

@@ -6,9 +6,9 @@ package hxcv.ds;
 interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 {
 	public var image(default, null):ImgT;
-	public var imageWidth(default, null):Int;
-	public var imageHeight(default, null):Int;
-	public var imageNumOfChannels(default, null):Int;
+	public var width(default, null):Int;
+	public var height(default, null):Int;
+	public var numOfChannels(default, null):Int;
 	
 	/*
 	 * Current coordinates.
@@ -107,13 +107,13 @@ interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 	 * Set the image's destChannel by copying from src's srcChannel.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyChannel(src:PxItr< T, ImgT, Dynamic>, srcChannel:Int, destChannel:Int):This;
+	public function copyChannel(src:PxItr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):This;
 	
 	/*
 	 * Set the image by copying from src.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyPixels(src:PxItr< T, ImgT, Dynamic>):This;
+	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):This;
 	
 	/*
 	 * Filling the ROI with the input values start from the current coordinates.

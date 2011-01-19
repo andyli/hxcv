@@ -5,47 +5,47 @@ class ArrayAdapter
 	inline static public function getPxItr<T>
 	(
 		array:Array<T>,
-		imageWidth:Int, 
-		imageHeight:Int, 
-		imageNumOfChannels:Int
+		width:Int, 
+		height:Int, 
+		numOfChannels:Int
 	) {
 		return 
 			new ArrayPxItr<T>()
 				.init(
 					array,
-					imageWidth, 
-					imageHeight, 
-					imageNumOfChannels
+					width, 
+					height, 
+					numOfChannels
 				);
 	}
 	
 	inline static public function getPxItrGray<T>
 	(
 		array:Array<T>,
-		imageWidth:Int, 
-		imageHeight:Int
+		width:Int, 
+		height:Int
 	) {
 		return 
 			new ArrayPxItrGray<T>()
 				.init(
 					array,
-					imageWidth, 
-					imageHeight
+					width, 
+					height
 				);
 	}
 	
 	inline static public function getPxItrARGB<T>
 	(
 		array:Array<T>,
-		imageWidth:Int, 
-		imageHeight:Int
+		width:Int, 
+		height:Int
 	) {
 		return 
 			new ArrayPxItrARGB<T>()
 				.init(
 					array,
-					imageWidth, 
-					imageHeight
+					width, 
+					height
 				);
 	}
 }
