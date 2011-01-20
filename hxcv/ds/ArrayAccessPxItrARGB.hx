@@ -231,8 +231,10 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 	
 	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):ArrayAccessPxItrARGB < T, ImgT > {
 		do {
-			for (c in 0...numOfChannels)
-				set(c, src.get(c));
+			set0(src.get(0));
+			set1(src.get(1));
+			set2(src.get(2));
+			set3(src.get(3));
 		} while (next() && src.next());
 		
 		return this;

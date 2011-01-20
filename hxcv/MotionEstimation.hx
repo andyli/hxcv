@@ -5,6 +5,7 @@ import hxcv.ds.Vector2;
 import hxcv.ds.Vector3;
 import hxcv.ds.PxItrGray;
 import hxcv.ds.ArrayAccessPxItr;
+import hxcv.ds.ArrayPxItr;
 using hxcv.ds.Adapters;
 
 /**
@@ -42,8 +43,8 @@ class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Ge
 		return this;
 	}
 	
-	public function process(inputs:Array<InImgT>):Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >> {
-		var result = new Array < ArrayAccessPxItr < Vector3<Float>, Array<Vector3<Float>> >>();
+	public function process(inputs:Array<InImgT>):Array<ArrayPxItr<Vector3<Float>>> {
+		var result = [];
 		var resultwidth = Math.floor(inputs[0].width / N);
 		var resultheight = Math.floor(inputs[0].height / N);
 		
