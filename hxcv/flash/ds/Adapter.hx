@@ -36,6 +36,54 @@ class VectorAdapter
 					numOfChannels
 				);
 	}
+	
+	inline static public function getPxPtrGray<T>
+	(
+		vector:Vector<T>,
+		width:Int, 
+		height:Int
+	)
+	{
+		return 
+			new VectorPxPtrGray()
+				.init(
+					vector,
+					width, 
+					height
+				);
+	}
+	
+	inline static public function getPxPtrRGB<T>
+	(
+		vector:Vector<T>,
+		width:Int, 
+		height:Int
+	)
+	{
+		return 
+			new VectorPxPtrRGB()
+				.init(
+					vector,
+					width, 
+					height
+				);
+	}
+	
+	inline static public function getPxPtrARGB<T>
+	(
+		vector:Vector<T>,
+		width:Int, 
+		height:Int
+	)
+	{
+		return 
+			new VectorPxPtrARGB()
+				.init(
+					vector,
+					width, 
+					height
+				);
+	}
 }
 
 class ByteArrayAdapter
@@ -55,6 +103,38 @@ class ByteArrayAdapter
 					width, 
 					height, 
 					numOfChannels
+				);
+	}
+	
+	inline static public function getPxPtrGray<T>
+	(
+		byteArray:ByteArray,
+		width:Int, 
+		height:Int
+	)
+	{
+		return 
+			new ByteArrayPxPtrGray()
+				.init(
+					byteArray,
+					width, 
+					height
+				);
+	}
+	
+	inline static public function getPxPtrRGB<T>
+	(
+		byteArray:ByteArray,
+		width:Int, 
+		height:Int
+	)
+	{
+		return 
+			new ByteArrayPxPtrRGB()
+				.init(
+					byteArray,
+					width, 
+					height
 				);
 	}
 	

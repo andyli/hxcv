@@ -34,6 +34,21 @@ class ArrayAdapter
 				);
 	}
 	
+	inline static public function getPxPtrRGB<T>
+	(
+		array:Array<T>,
+		width:Int, 
+		height:Int
+	) {
+		return 
+			new ArrayPxPtrRGB<T>()
+				.init(
+					array,
+					width, 
+					height
+				);
+	}
+	
 	inline static public function getPxPtrARGB<T>
 	(
 		array:Array<T>,
