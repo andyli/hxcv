@@ -31,6 +31,10 @@ interface PxPtr<T, ImgT, This:PxPtr<T, ImgT, This>>
 	 * Move to the 1st pixel.
 	 */
 	public function head():This;
+	/*
+	 * Move to the last pixel.
+	 */
+	public function tail():This;
 	
 	/*
 	 * Move to the right pixel.
@@ -79,6 +83,16 @@ interface PxPtr<T, ImgT, This:PxPtr<T, ImgT, This>>
 	public function next():Bool;
 	
 	/*
+	 * Iterate to the previous pixel.
+	 */
+	public function unsafePrev():Void;
+	
+	/*
+	 * Iterate to the previous pixel and return true. When previous pixel is beyond the start of ROI, it reset the coordinates as tail and return false;
+	 */
+	public function prev():Bool;
+	
+	/*
 	 * Get the value of the pixel pointing to.
 	 */
 	public function get(channel:Int):T;
@@ -120,4 +134,6 @@ interface PxPtr<T, ImgT, This:PxPtr<T, ImgT, This>>
 	 * The coordinates will be reset.
 	 */
 	public function fill(values:Array<T>):This;
+	
+	public function iterator():PxPtrIterator<This>;
 }

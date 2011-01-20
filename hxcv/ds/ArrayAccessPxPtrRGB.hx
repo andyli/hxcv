@@ -68,6 +68,13 @@ class ArrayAccessPxPtrRGB < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
+	inline public function tail():ArrayAccessPxPtrRGB< T, ImgT > {
+		x = width - 1;
+		y = height - 1;
+		index = height * yOffset - 1;
+		return this;
+	}
+	
 	inline public function unsafeMoveRight():Void {
 		++x;
 		index += 3;
@@ -185,6 +192,28 @@ class ArrayAccessPxPtrRGB < T, ImgT:ArrayAccess<T> >
 		return true;
 	}
 	
+	inline public function unsafePrev():Void {
+		if (--x < 0) {
+			x = width - 1;
+			--y;
+		}
+		index -= 3;
+	}
+	
+	public function prev():Bool {		
+		if (--x < 0) {
+			x = width - 1;
+			if (--y < 0) {
+				y = height - 1; 
+				index = height * yOffset - 1;
+				return false;
+			}
+		}
+		index -= 3;
+		
+		return true;
+	}
+	
 	inline public function get(channel:Int):T {
 		#if debug
 		if (channel < 0 || channel >= numOfChannels)
@@ -297,5 +326,9 @@ class ArrayAccessPxPtrRGB < T, ImgT:ArrayAccess<T> >
 		setR(cast val >> 16 & 0xFF);
 		setG(cast val >> 8 & 0xFF);
 		setB(cast val & 0xFF);
+	}
+	
+	public function iterator() {
+		return new PxPtrIterator<ArrayAccessPxPtrRGB < T, ImgT >>(this);
 	}
 }

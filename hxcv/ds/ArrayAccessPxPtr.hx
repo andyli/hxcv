@@ -72,6 +72,13 @@ class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
+	inline public function tail():ArrayAccessPxPtr< T, ImgT > {
+		x = width - 1;
+		y = height - 1;
+		index = height * yOffset - 1;
+		return this;
+	}
+	
 	inline public function unsafeMoveRight():Void {
 		++x;
 		index += numOfChannels;
@@ -169,7 +176,7 @@ class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function unsafeNext():Void {
-		if (++x > width) {
+		if (++x >= width) {
 			x = 0;
 			++y;
 		}
@@ -185,6 +192,28 @@ class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> >
 			}
 		}
 		index += numOfChannels;
+		
+		return true;
+	}
+	
+	inline public function unsafePrev():Void {
+		if (--x < 0) {
+			x = width - 1;
+			--y;
+		}
+		index -= numOfChannels;
+	}
+	
+	public function prev():Bool {		
+		if (--x < 0) {
+			x = width - 1;
+			if (--y < 0) {
+				y = height - 1; 
+				index = height * yOffset - 1;
+				return false;
+			}
+		}
+		index -= numOfChannels;
 		
 		return true;
 	}
@@ -259,5 +288,9 @@ class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> >
 		}
 		head();
 		return this;
+	}
+	
+	public function iterator() {
+		return new PxPtrIterator<ArrayAccessPxPtr < T, ImgT >>(this);
 	}
 }

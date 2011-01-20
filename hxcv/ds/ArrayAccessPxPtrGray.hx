@@ -67,6 +67,13 @@ class ArrayAccessPxPtrGray < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
+	inline public function tail():ArrayAccessPxPtrGray< T, ImgT > {
+		x = width - 1;
+		y = height - 1;
+		index = height * yOffset - 1;
+		return this;
+	}
+	
 	inline public function unsafeMoveRight():Void {
 		++x;
 		++index;
@@ -184,6 +191,28 @@ class ArrayAccessPxPtrGray < T, ImgT:ArrayAccess<T> >
 		return true;
 	}
 	
+	inline public function unsafePrev():Void {
+		if (--x < 0) {
+			x = width - 1;
+			--y;
+		}
+		--index;
+	}
+	
+	public function prev():Bool {		
+		if (--x < 0) {
+			x = width - 1;
+			if (--y < 0) {
+				y = height - 1; 
+				index = height * yOffset - 1;
+				return false;
+			}
+		}
+		--index;
+		
+		return true;
+	}
+	
 	inline public function get(channel:Int):T {
 		#if debug
 		if (channel < 0 || channel >= numOfChannels)
@@ -268,5 +297,9 @@ class ArrayAccessPxPtrGray < T, ImgT:ArrayAccess<T> >
 	
 	inline public function setHex(val:Int):Void {
 		set0(cast 0.3 * (val >> 16 & 0xFF) + 0.59 * (val >> 8 & 0xFF) + 0.11 * (val & 0xFF));
+	}
+	
+	public function iterator() {
+		return new PxPtrIterator<ArrayAccessPxPtrGray < T, ImgT >>(this);
 	}
 }
