@@ -19,7 +19,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="OpticalFlowExample" />
+    <option mainClass="ProximityManagerExample" />
     <option enabledebug="False" />
     <option additional="" />
   </build>

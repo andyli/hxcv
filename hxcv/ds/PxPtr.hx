@@ -1,9 +1,9 @@
 package hxcv.ds;
 
 /**
- * A Pixel Iterator that can read/write from an image data of type ImgT.
+ * A Pixel Pointer that can read/write from an image data of type ImgT.
  */
-interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
+interface PxPtr<T, ImgT, This:PxPtr<T, ImgT, This>>
 {
 	public var image(default, null):ImgT;
 	public var width(default, null):Int;
@@ -99,7 +99,7 @@ interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 	public function set0(val:T):Void;
 	
 	/*
-	 * Return a copy of this PxItr. It wouldn't copy the image data.
+	 * Return a copy of this PxPtr. It wouldn't copy the image data.
 	 */
 	public function clone():This;
 	
@@ -107,13 +107,13 @@ interface PxItr<T, ImgT, This:PxItr<T, ImgT, This>>
 	 * Set the image's destChannel by copying from src's srcChannel.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyChannel(src:PxItr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):This;
+	public function copyChannel(src:PxPtr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):This;
 	
 	/*
 	 * Set the image by copying from src.
 	 * The coordinates of this and src will be reset.
 	 */
-	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):This;
+	public function copyPixels(src:PxPtr< T, Dynamic, Dynamic>):This;
 	
 	/*
 	 * Filling the ROI with the input values start from the current coordinates.

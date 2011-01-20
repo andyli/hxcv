@@ -4,7 +4,7 @@ import flash.display.DisplayObject;
 import flash.geom.Point;
 import flash.utils.ByteArray;
 import flash.Vector;
-import hxcv.ds.ArrayAccessPxItr;
+import hxcv.ds.ArrayAccessPxPtr;
 
 class Vector2Adapter 
 {
@@ -19,7 +19,7 @@ class Vector2Adapter
 
 class VectorAdapter
 {
-	inline static public function getPxItr<T>
+	inline static public function getPxPtr<T>
 	(
 		vector:Vector<T>,
 		width:Int, 
@@ -28,7 +28,7 @@ class VectorAdapter
 	)
 	{
 		return 
-			new VectorPxItr<T>()
+			new VectorPxPtr<T>()
 				.init(
 					vector,
 					width, 
@@ -40,7 +40,7 @@ class VectorAdapter
 
 class ByteArrayAdapter
 {
-	inline static public function getPxItr<T>
+	inline static public function getPxPtr<T>
 	(
 		byteArray:ByteArray,
 		width:Int, 
@@ -49,7 +49,7 @@ class ByteArrayAdapter
 	)
 	{
 		return 
-			new ByteArrayPxItr()
+			new ByteArrayPxPtr()
 				.init(
 					byteArray,
 					width, 
@@ -58,7 +58,7 @@ class ByteArrayAdapter
 				);
 	}
 	
-	inline static public function getPxItrARGB<T>
+	inline static public function getPxPtrARGB<T>
 	(
 		byteArray:ByteArray,
 		width:Int, 
@@ -66,7 +66,7 @@ class ByteArrayAdapter
 	)
 	{
 		return 
-			new ByteArrayPxItrARGB()
+			new ByteArrayPxPtrARGB()
 				.init(
 					byteArray,
 					width, 

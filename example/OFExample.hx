@@ -8,8 +8,8 @@ using org.casalib.util.NumberUtil;
 import hxcv.BlockMatching;
 import hxcv.MotionEstimation;
 //import hxcv.ProximityManager;
-import hxcv.ds.ArrayPxItrGray;
-import hxcv.ds.ArrayPxItrARGB;
+import hxcv.ds.ArrayPxPtrGray;
+import hxcv.ds.ArrayPxPtrARGB;
 using hxcv.math.Vector2Math;
 using hxcv.ds.Adapters;
 
@@ -17,10 +17,10 @@ import of.Context;
 using of.Context.Functions;
 
 class OFExample extends BaseApp {
-	var me:MotionEstimation<ArrayPxItrGray<Int>>;
+	var me:MotionEstimation<ArrayPxPtrGray<Int>>;
 	var originalFrames:Array<Image>;
 	var smoothedFrames:Array<Image>;
-	var originalFramesGray:Array<ArrayPxItrGray<Int>>;
+	var originalFramesGray:Array<ArrayPxPtrGray<Int>>;
 	var mvImage:Image;
 	
 	var currentIndex:Int;
@@ -30,7 +30,7 @@ class OFExample extends BaseApp {
 		enableSmoothing();
 		setFrameRate(12);
 		
-		me = new MotionEstimation<ArrayPxItrGray<Int>>().init(25);
+		me = new MotionEstimation<ArrayPxPtrGray<Int>>().init(25);
 		me.blockMatching.init(35,1,20,0.015);
 		
 		originalFrames = [];
@@ -45,7 +45,7 @@ class OFExample extends BaseApp {
 			var imgGray = new Image();
 			imgGray.clone(img);
 			imgGray.setImageType(Constants.OF_IMAGE_GRAYSCALE);
-			originalFramesGray.push(cast imgGray.getPixels().getPxItrGray(imgGray.width, imgGray.height));
+			originalFramesGray.push(cast imgGray.getPixels().getPxPtrGray(imgGray.width, imgGray.height));
 		}
 		
 		currentIndex = 0;
@@ -68,7 +68,7 @@ class OFExample extends BaseApp {
 			trace(Timer.stamp() - t);
 			
 			
-			var mvImagePI = mvImage.getPixels().getPxItrARGB(mv.width, mv.height);
+			var mvImagePI = mvImage.getPixels().getPxPtrARGB(mv.width, mv.height);
 			mv.head();
 			do {
 				var x = me.N * 0.5 + mv.x * me.N;

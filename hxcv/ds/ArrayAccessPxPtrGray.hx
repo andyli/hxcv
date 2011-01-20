@@ -1,7 +1,7 @@
 package hxcv.ds;
 
-class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> > 
-	implements PxItrARGB < T, ImgT, ArrayAccessPxItrARGB < T, ImgT > > 
+class ArrayAccessPxPtrGray < T, ImgT:ArrayAccess<T> >
+	implements PxPtrGray < T, ImgT, ArrayAccessPxPtrGray < T, ImgT > >
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -16,7 +16,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 	var yOffset:Int;
 	
 	public function new():Void {
-		
+		numOfChannels = 1;
 	}
 	
 	public function init
@@ -24,7 +24,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		_image:ImgT,
 		_width:Int, 
 		_height:Int
-	):ArrayAccessPxItrARGB < T, ImgT > {
+	):ArrayAccessPxPtrGray < T, ImgT > {
 		
 		#if debug
 		if (_width <= 0)
@@ -40,9 +40,8 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		image = _image;
 		width = _width;
 		height = _height;
-		numOfChannels = 4;
 		head();
-		yOffset = width * 4;
+		yOffset = width;
 		return this;
 	}
 	
@@ -51,7 +50,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 	}
 	
 	inline public function unsafeMoveTo(_x:Int, _y:Int):Void {
-		index = ((y = _y) * width + (x = _x)) * 4;
+		index = (y = _y) * width + (x = _x);
 	}
 	
 	inline public function moveTo(_x:Int, _y:Int):Bool {
@@ -63,21 +62,21 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		}
 	}
 	
-	inline public function head():ArrayAccessPxItrARGB< T, ImgT > {
+	inline public function head():ArrayAccessPxPtrGray< T, ImgT > {
 		x = y = index = 0;
 		return this;
 	}
 	
 	inline public function unsafeMoveRight():Void {
 		++x;
-		index += 4;
+		++index;
 	}
 	
 	inline public function moveRight():Bool {
 		var targetX = x + 1;
 		if (targetX < width) {
 			x = targetX;
-			index += 4;
+			++index;
 			return true;
 		} else {
 			return false;
@@ -86,14 +85,14 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 	
 	inline public function unsafeMoveLeft():Void {
 		--x;
-		index -= 4;
+		--index;
 	}
 	
 	inline public function moveLeft():Bool {
 		var targetX = x - 1;
 		if (targetX >= 0) {
 			x = targetX;
-			index -= 4;
+			--index;
 			return true;
 		} else {
 			return false;
@@ -134,14 +133,14 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 	
 	inline public function unsafeMoveX(step:Int):Void {
 		x += step;
-		index += step * 4;
+		index += step;
 	}
 	
 	inline public function moveX(step:Int):Bool {
 		var targetX = x + step;
 		if (targetX >= 0 && targetX < width) {
 			x = targetX;
-			index += step * 4;
+			index += step;
 			return true;
 		} else {
 			return false;
@@ -169,7 +168,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 			x = 0;
 			++y;
 		}
-		index += 4;
+		++index;
 	}
 	
 	public function next():Bool {		
@@ -180,7 +179,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 				return false;
 			}
 		}
-		index += 4;
+		++index;
 		
 		return true;
 	}
@@ -209,8 +208,8 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		image[index] = val;
 	}
 	
-	public function clone():ArrayAccessPxItrARGB < T, ImgT > {
-		var r = new ArrayAccessPxItrARGB<T, ImgT>();
+	public function clone():ArrayAccessPxPtrGray < T, ImgT > {
+		var r = new ArrayAccessPxPtrGray<T, ImgT>();
 		r.image = image;
 		r.width = width;
 		r.height = height;
@@ -221,7 +220,7 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:PxItr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItrARGB < T, ImgT > {
+	public function copyChannel(src:PxPtr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxPtrGray < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -229,18 +228,15 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):ArrayAccessPxItrARGB < T, ImgT > {
+	public function copyPixels(src:PxPtr< T, Dynamic, Dynamic>):ArrayAccessPxPtrGray < T, ImgT > {
 		do {
-			set0(src.get(0));
-			set1(src.get(1));
-			set2(src.get(2));
-			set3(src.get(3));
+			set0(src.get0());
 		} while (next() && src.next());
 		
 		return this;
 	}
 	
-	public function fill(values:Array<T>):ArrayAccessPxItrARGB < T, ImgT > {
+	public function fill(values:Array<T>):ArrayAccessPxPtrGray < T, ImgT > {
 		#if debug
 		if (values == null)
 			throw "values cannot be null";
@@ -252,65 +248,25 @@ class ArrayAccessPxItrARGB < T, ImgT:ArrayAccess<T> >
 		var end = yOffset * height;
 		while (index < end) {
 			image[index++] = values[0];
-			image[index++] = values[1];
-			image[index++] = values[2];
-			image[index++] = values[3];
 		}
 		head();
 		return this;
 	}
 	
-	inline public function get1():T {
-		return image[index+1];
-	}
-	inline public function set1(val:T):Void {
-		image[index+1] = val;
-	}
-	inline public function get2():T {
-		return image[index+2];
-	}
-	inline public function set2(val:T):Void {
-		image[index+2] = val;
-	}
-	inline public function get3():T {
-		return image[index+3];
-	}
-	inline public function set3(val:T):Void {
-		image[index+3] = val;
-	}
-	
-	inline public function getA():T {
+	inline public function getGray() {
 		return get0();
 	}
-	inline public function setA(val:T):Void {
+	
+	inline public function setGray(val:T):Void {
 		set0(val);
-	}
-	inline public function getR():T {
-		return get1();
-	}
-	inline public function setR(val:T):Void {
-		set1(val);
-	}
-	inline public function getG():T {
-		return get2();
-	}
-	inline public function setG(val:T):Void {
-		set2(val);
-	}
-	inline public function getB():T {
-		return get3();
-	}
-	inline public function setB(val:T):Void {
-		set3(val);
 	}
 	
 	inline public function getHex():Int {
-		return (cast getA()) << 24 ^ (cast getR()) << 16 ^ (cast getG()) << 8 ^ (cast getB());
+		var g:Int = cast get0();
+		return g << 16 ^ g << 8 ^ g;
 	}
+	
 	inline public function setHex(val:Int):Void {
-		setA(cast val >> 24 & 0xFF);
-		setR(cast val >> 16 & 0xFF);
-		setG(cast val >> 8 & 0xFF);
-		setB(cast val & 0xFF);
+		set0(cast 0.3 * (val >> 16 & 0xFF) + 0.59 * (val >> 8 & 0xFF) + 0.11 * (val & 0xFF));
 	}
 }

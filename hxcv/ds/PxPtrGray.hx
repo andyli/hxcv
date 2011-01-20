@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface PxItrGray<T, ImgT, This:PxItrGray<T, ImgT, This>> implements PxItr<T, ImgT, This>
+interface PxPtrGray<T, ImgT, This:PxPtrGray<T, ImgT, This>> implements PxPtr<T, ImgT, This>
 {
 	public function getGray():T;
 	public function setGray(val:T):Void;

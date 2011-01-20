@@ -1,7 +1,7 @@
 package hxcv.ds;
 
-class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> > 
-	implements PxItr < T, ImgT, ArrayAccessPxItr < T, ImgT > > 
+class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> > 
+	implements PxPtr < T, ImgT, ArrayAccessPxPtr < T, ImgT > > 
 	#if flash , implements haxe.rtti.Generic #end 
 {
 	public var image(default, null):ImgT;
@@ -25,7 +25,7 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		_width:Int, 
 		_height:Int, 
 		_numOfChannels:Int
-	):ArrayAccessPxItr < T, ImgT > {
+	):ArrayAccessPxPtr < T, ImgT > {
 		
 		#if debug
 		if (_width <= 0)
@@ -67,7 +67,7 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		}
 	}
 	
-	inline public function head():ArrayAccessPxItr< T, ImgT > {
+	inline public function head():ArrayAccessPxPtr< T, ImgT > {
 		x = y = index = 0;
 		return this;
 	}
@@ -213,8 +213,8 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		image[index] = val;
 	}
 	
-	public function clone():ArrayAccessPxItr < T, ImgT > {
-		var r = new ArrayAccessPxItr<T, ImgT>();
+	public function clone():ArrayAccessPxPtr < T, ImgT > {
+		var r = new ArrayAccessPxPtr<T, ImgT>();
 		r.image = image;
 		r.width = width;
 		r.height = height;
@@ -226,7 +226,7 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		return r;
 	}
 	
-	public function copyChannel(src:PxItr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxItr < T, ImgT > {
+	public function copyChannel(src:PxPtr< T, Dynamic, Dynamic>, srcChannel:Int, destChannel:Int):ArrayAccessPxPtr < T, ImgT > {
 		do {
 			set(destChannel, src.get(srcChannel));
 		} while (next() && src.next());
@@ -234,7 +234,7 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function copyPixels(src:PxItr< T, Dynamic, Dynamic>):ArrayAccessPxItr < T, ImgT > {
+	public function copyPixels(src:PxPtr< T, Dynamic, Dynamic>):ArrayAccessPxPtr < T, ImgT > {
 		do {
 			for (c in 0...numOfChannels)
 				set(c, src.get(c));
@@ -243,7 +243,7 @@ class ArrayAccessPxItr < T, ImgT:ArrayAccess<T> >
 		return this;
 	}
 	
-	public function fill(values:Array<T>):ArrayAccessPxItr < T, ImgT > {
+	public function fill(values:Array<T>):ArrayAccessPxPtr < T, ImgT > {
 		#if debug
 		if (values == null)
 			throw "values cannot be null";

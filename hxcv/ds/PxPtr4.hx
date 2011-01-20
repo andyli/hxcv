@@ -1,9 +1,9 @@
 package hxcv.ds;
 
 /**
- * PxItr that has at least 4 channels(0, 1, 2, 3).
+ * PxPtr that has at least 4 channels(0, 1, 2, 3).
  */
-interface PxItr4<T, ImgT, This:PxItr4<T, ImgT, This>> implements PxItr3<T, ImgT, This>
+interface PxPtr4<T, ImgT, This:PxPtr4<T, ImgT, This>> implements PxPtr3<T, ImgT, This>
 {
 	/*
 	 * Get the channel 3 value of the pixel pointing to.

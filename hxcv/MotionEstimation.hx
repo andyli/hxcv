@@ -3,9 +3,9 @@ package hxcv;
 import haxe.rtti.Generic;
 import hxcv.ds.Vector2;
 import hxcv.ds.Vector3;
-import hxcv.ds.PxItrGray;
-import hxcv.ds.ArrayAccessPxItr;
-import hxcv.ds.ArrayPxItr;
+import hxcv.ds.PxPtrGray;
+import hxcv.ds.ArrayAccessPxPtr;
+import hxcv.ds.ArrayPxPtr;
 using hxcv.ds.Adapters;
 
 /**
@@ -13,7 +13,7 @@ using hxcv.ds.Adapters;
  *     Motion Compensated Frame Interpolation by new Block-based Motion Estimation Algorithm
  *     Taehyeun Ha, Member, IEEE, Seongjoo Lee and Jaeseok Kim, Member, IEEE
  */
-class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Generic
+class MotionEstimation<InImgT:PxPtrGray<Dynamic, Dynamic, InImgT>> implements Generic
 {
 	/**
 	 * Size of matching block which one motion vector for one matching block.
@@ -43,7 +43,7 @@ class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Ge
 		return this;
 	}
 	
-	public function process(inputs:Array<InImgT>):Array<ArrayPxItr<Vector3<Float>>> {
+	public function process(inputs:Array<InImgT>):Array<ArrayPxPtr<Vector3<Float>>> {
 		var result = [];
 		var resultwidth = Math.floor(inputs[0].width / N);
 		var resultheight = Math.floor(inputs[0].height / N);
@@ -52,7 +52,7 @@ class MotionEstimation<InImgT:PxItrGray<Dynamic, Dynamic, InImgT>> implements Ge
 		for (inputIndex in 1...inputs.length) {
 			var in0 = inputs[inputIndex-1];
 			var in1 = inputs[inputIndex];
-			var mv = new Array<Vector3<Float>>().getPxItr(resultwidth, resultheight, 1);
+			var mv = new Array<Vector3<Float>>().getPxPtr(resultwidth, resultheight, 1);
 			
 			
 			//for each of the matching block

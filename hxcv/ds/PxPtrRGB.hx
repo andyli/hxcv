@@ -1,6 +1,6 @@
 package hxcv.ds;
 
-interface PxItrRGB<T, ImgT, This:PxItrRGB<T, ImgT, This>> implements PxItr3<T, ImgT, This>
+interface PxPtrRGB<T, ImgT, This:PxPtrRGB<T, ImgT, This>> implements PxPtr3<T, ImgT, This>
 {
 	public function getR():T;
 	public function setR(val:T):Void;

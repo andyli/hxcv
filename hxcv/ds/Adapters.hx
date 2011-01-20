@@ -2,7 +2,7 @@ package hxcv.ds;
 
 class ArrayAdapter
 {
-	inline static public function getPxItr<T>
+	inline static public function getPxPtr<T>
 	(
 		array:Array<T>,
 		width:Int, 
@@ -10,7 +10,7 @@ class ArrayAdapter
 		numOfChannels:Int
 	) {
 		return 
-			new ArrayPxItr<T>()
+			new ArrayPxPtr<T>()
 				.init(
 					array,
 					width, 
@@ -19,14 +19,14 @@ class ArrayAdapter
 				);
 	}
 	
-	inline static public function getPxItrGray<T>
+	inline static public function getPxPtrGray<T>
 	(
 		array:Array<T>,
 		width:Int, 
 		height:Int
 	) {
 		return 
-			new ArrayPxItrGray<T>()
+			new ArrayPxPtrGray<T>()
 				.init(
 					array,
 					width, 
@@ -34,14 +34,14 @@ class ArrayAdapter
 				);
 	}
 	
-	inline static public function getPxItrARGB<T>
+	inline static public function getPxPtrARGB<T>
 	(
 		array:Array<T>,
 		width:Int, 
 		height:Int
 	) {
 		return 
-			new ArrayPxItrARGB<T>()
+			new ArrayPxPtrARGB<T>()
 				.init(
 					array,
 					width, 
