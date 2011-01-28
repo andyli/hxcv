@@ -21,6 +21,7 @@ using of.Context.Functions;
 class OFExample extends BaseApp {
 	var me:MotionEstimation<ArrayPxPtrGray<Int>>;
 	var originalFrames:Array<Image>;
+	var mvFrames:Array<Image>;
 	var motionVectors:Array<ArrayPxPtr<Float>>;
 	var smoothedFrames:Array<Image>;
 	var originalFramesGray:Array<ArrayPxPtrGray<Int>>;
@@ -37,6 +38,7 @@ class OFExample extends BaseApp {
 		me.blockMatching.init(35,1,20,0.015);
 		
 		originalFrames = [];
+		mvFrames = [];
 		motionVectors = [];
 		smoothedFrames = [];
 		originalFramesGray = [];
@@ -48,6 +50,10 @@ class OFExample extends BaseApp {
 			
 			var mvStr = File.getContent("D:/stopmotion/04/original-320-240/P" + imgNum + ".txt");
 			var mv = [].getPxPtr(320, 240, 2);
+			var mvFrame = new Image();
+			mvFrame.allocate(320, 240, Constants.OF_IMAGE_COLOR);
+			var mvFramePP = mvFrame.getPixels().getPxPtrRGB(320, 240);
+			
 			var lines = [];
 			for (line in mvStr.split("\n")) {
 				lines.push(line.split("\t"));
@@ -58,9 +64,16 @@ class OFExample extends BaseApp {
 					mv.set(0, Std.parseFloat(lines[i][x]));
 					mv.set(1, Std.parseFloat(lines[i + 240][x]));
 					mv.unsafeNext();
+					
+					mvFramePP.set(0,cast Std.parseFloat(lines[i][x]));
+					mvFramePP.set(1,cast Std.parseFloat(lines[i + 240][x]));
+					mvFramePP.unsafeNext();
 				}
 			}
 			mv.head();
+			
+			mvFrame.update();
+			mvFrames.push(mvFrame);
 			
 			motionVectors.push(mv);
 			
@@ -81,6 +94,9 @@ class OFExample extends BaseApp {
 		setHexColor(0xFFFFFF);
 		var currentFrame = originalFrames[currentIndex];
 		currentFrame.draw(0, 0, 320, 240);
+		
+		currentFrame = mvFrames[currentIndex];
+		currentFrame.draw(320, 0, 320, 240);
 
 		if (showMV && currentIndex != originalFrames.length-1) {
 			
