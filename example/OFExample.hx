@@ -1,5 +1,6 @@
 ﻿package ;
 
+import cpp.io.File;
 import cpp.Lib;
 import haxe.Timer;
 using Lambda;
@@ -10,6 +11,7 @@ import hxcv.MotionEstimation;
 //import hxcv.ProximityManager;
 import hxcv.ds.ArrayPxPtrGray;
 import hxcv.ds.ArrayPxPtrARGB;
+import hxcv.ds.ArrayPxPtr;
 using hxcv.math.Vector2Math;
 using hxcv.ds.Adapters;
 
@@ -19,6 +21,7 @@ using of.Context.Functions;
 class OFExample extends BaseApp {
 	var me:MotionEstimation<ArrayPxPtrGray<Int>>;
 	var originalFrames:Array<Image>;
+	var motionVectors:Array<ArrayPxPtr<Float>>;
 	var smoothedFrames:Array<Image>;
 	var originalFramesGray:Array<ArrayPxPtrGray<Int>>;
 	var mvImage:Image;
@@ -34,13 +37,32 @@ class OFExample extends BaseApp {
 		me.blockMatching.init(35,1,20,0.015);
 		
 		originalFrames = [];
+		motionVectors = [];
 		smoothedFrames = [];
 		originalFramesGray = [];
 		
-		for (imgNum in 1050616...1050620) {
+		for (imgNum in 1050587...1050700) {
 			var img = new Image();
 			img.loadImage("D:/stopmotion/04/original-320-240/P" + imgNum + ".jpg");
 			originalFrames.push(img);
+			
+			var mvStr = File.getContent("D:/stopmotion/04/original-320-240/P" + imgNum + ".txt");
+			var mv = [].getPxPtr(320, 240, 2);
+			var lines = [];
+			for (line in mvStr.split("\n")) {
+				lines.push(line.split("\t"));
+			}
+			
+			for (i in 0...240) {
+				for (x in 0...360) {
+					mv.set(0, Std.parseFloat(lines[i][x]));
+					mv.set(1, Std.parseFloat(lines[i + 240][x]));
+					mv.unsafeNext();
+				}
+			}
+			mv.head();
+			
+			motionVectors.push(mv);
 			
 			var imgGray = new Image();
 			imgGray.clone(img);
