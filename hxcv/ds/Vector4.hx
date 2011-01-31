@@ -1,21 +1,21 @@
 package hxcv.ds;
 
-class Vector4<T> extends Vector3<T> #if false , implements haxe.rtti.Generic #end
+class Vector4<T> extends Vector3<T>, implements haxe.rtti.Generic
 {
 
-	public function new(?_val0:T, ?_val1:T, ?_val2:T, ?_val3:T):Void 
+	public function new(?_x:T, ?_y:T, ?_z:T, ?_w:T):Void 
 	{
-		super(val0, val1, val2);
-		_val3 = val3;
+		super(x, y, z);
+		_w = w;
 	}
 	
-	public var val3(getVal3, setVal3):T;
+	public var w(getW, setW):T;
 	
-	private var _val3:T;
-	private function getVal3():T {
-		return _val3;
+	private var _w:T;
+	private function getW():T {
+		return _w;
 	}
-	private function setVal3(val:T):T {
-		return _val3 = val;
+	private function setW(val:T):T {
+		return _w = val;
 	}
 }

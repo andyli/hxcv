@@ -1,29 +1,29 @@
 package hxcv.ds;
 
-class Vector2<T> #if false implements haxe.rtti.Generic #end
+class Vector2<T> implements haxe.rtti.Generic
 {
-	public function new(?val0:T, ?val1:T):Void 
+	public function new(?x:Null<T>, ?y:Null<T>):Void 
 	{
-		_val0 = val0;
-		_val1 = val1;
+		_x = x;
+		_y = y;
 	}
 	
-	public var val0(getVal0, setVal0):T;
-	public var val1(getVal1, setVal1):T;
+	public var x(getX, setX):T;
+	public var y(getY, setY):T;
 	
-	private var _val0:T;
-	private function getVal0():T {
-		return _val0;
+	private var _x:T;
+	private function getX():T {
+		return _x;
 	}
-	private function setVal0(val:T):T {
-		return _val0 = val;
+	private function setX(val:T):T {
+		return _x = val;
 	}
 	
-	private var _val1:T;
-	private function getVal1():T {
-		return _val1;
+	private var _y:T;
+	private function getY():T {
+		return _y;
 	}
-	private function setVal1(val:T):T {
-		return _val1 = val;
+	private function setY(val:T):T {
+		return _y = val;
 	}
 }

@@ -53,7 +53,7 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 	public function add(item:T):Void {
 		_items.add(item);
 		
-		getCell(item.val0, item.val1).add(item);
+		getCell(item.x, item.y).add(item);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 	 * Update the item in grid.
 	 */
 	public function update(item:T):Void {
-		var cell = getCell(item.val0, item.val1);
+		var cell = getCell(item.x, item.y);
 		if (!cell.has(item)) {
 			remove(item);
 			cell.add(item);
@@ -89,7 +89,7 @@ class ProximityManagerUnbounded<T:Vector2<Float>>
 		
 		// populate grid:
 		for (item in _items) {
-			getCell(item.val0, item.val1).add(item);
+			getCell(item.x, item.y).add(item);
 		}
 	}
 	

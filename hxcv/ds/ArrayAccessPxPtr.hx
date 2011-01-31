@@ -1,8 +1,8 @@
 package hxcv.ds;
 
 class ArrayAccessPxPtr < T, ImgT:ArrayAccess<T> > 
-	implements PxPtr < T, ImgT, ArrayAccessPxPtr < T, ImgT > > 
-	#if flash , implements haxe.rtti.Generic #end 
+	implements PxPtr < T, ImgT, ArrayAccessPxPtr < T, ImgT > > , 
+	implements haxe.rtti.Generic
 {
 	public var image(default, null):ImgT;
 	public var width(default, null):Int;

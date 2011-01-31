@@ -106,7 +106,7 @@ class ProximityManager<T:Vector2<Float>>
 	public function add(item:T):Void {
 		_items.add(item);
 		
-		grid[getGridIndex(item.val0, item.val1)].add(item);
+		grid[getGridIndex(item.x, item.y)].add(item);
 	}
 	
 	/**
@@ -124,7 +124,7 @@ class ProximityManager<T:Vector2<Float>>
 	 * Update the item in grid.
 	 */
 	public function update(item:T):Void {
-		var g = grid[getGridIndex(item.val0, item.val1)];
+		var g = grid[getGridIndex(item.x, item.y)];
 		if (!g.has(item)) {
 			remove(item);
 			g.add(item);
@@ -143,7 +143,7 @@ class ProximityManager<T:Vector2<Float>>
 		
 		// populate grid:
 		for (item in _items){
-			grid[getGridIndex(item.val0, item.val1)].add(item);
+			grid[getGridIndex(item.x, item.y)].add(item);
 		}
 	}
 	

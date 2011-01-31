@@ -1,9 +1,9 @@
 package hxcv.ds;
 
-class Vector2WithData < T, D > extends Vector2<T>, implements WithData<D> {
-	public function new(?val0:T, ?val1:T, ?data:D):Void {
+class Vector2WithData < T, D > extends Vector2<T>, implements WithData<D>, implements haxe.rtti.Generic {
+	public function new(?x:Null<T>, ?y:Null<T>, ?data:Null<D>):Void {
 		_data = data;
-		super(val0, val1);
+		super(x, y);
 	}
 	
 	public var data(getData, setData):D;

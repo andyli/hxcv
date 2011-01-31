@@ -125,6 +125,6 @@ class Ship extends Shape {
 	
 	public function new():Void {
 		super();
-		posVec2 = new PositionVector2(this);
+		posVec2 = new PositionVector2<Ship>(this);
 	}
 }

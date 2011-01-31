@@ -55,18 +55,18 @@ class BilateralFilter<T:Float, ImgT:ImageRGB<T>> implements IFilter<ImgT>
 				for (ix in -sample...sample + 1) {
 					for (iy in -sample...sample + 1) {
 						p = img.get3(x + ix, y + iy);
-						diff = (Math.abs(p.val0 - p0.val0) + Math.abs(p.val1 - p0.val1) + Math.abs(p.val2 - p0.val2)) * oneOverR;
+						diff = (Math.abs(p.x - p0.x) + Math.abs(p.y - p0.y) + Math.abs(p.z - p0.z)) * oneOverR;
 						weight = Math.exp( -0.5 * (sampleDWeight.get(ix, iy, 0) + diff * diff));
 						
-						totalPixelValue.val0 += p.val0 * weight;
-						totalPixelValue.val1 += p.val1 * weight;
-						totalPixelValue.val2 += p.val2 * weight;
+						totalPixelValue.x += p.x * weight;
+						totalPixelValue.y += p.y * weight;
+						totalPixelValue.z += p.z * weight;
 						
 						totalWeight += weight;
 					}
 				}
 				var _w = 1 / totalWeight;
-				resultImg.set3(x, y, cast totalPixelValue.val0 * _w, cast totalPixelValue.val1 * _w, cast totalPixelValue.val2 * _w);
+				resultImg.set3(x, y, cast totalPixelValue.x * _w, cast totalPixelValue.y * _w, cast totalPixelValue.z * _w);
 			}
 		}
 	}

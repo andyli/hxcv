@@ -35,14 +35,14 @@ class RectangleIterator {
 		endX = startX + rect.width;
 		endY = startY + rect.height;
 		step = _step;
-		cur = new Vector2(startX, startY);
+		cur = new Vector2<Float>(startX, startY);
 	}
 	
 	inline public function next():Vector2<Float> {
 		var ret = cur.clone();
-		if ((cur.val0 += step) > endX) {
-			cur.val0 = startX;
-			if ((cur.val1 += step) > endY) {
+		if ((cur.x += step) > endX) {
+			cur.x = startX;
+			if ((cur.y += step) > endY) {
 				cur = null;
 			}
 		}
@@ -68,14 +68,14 @@ class IntRectangleIterator {
 		endX = Math.floor(rect.x + rect.width);
 		endY = Math.floor(rect.y + rect.height);
 		step = _step;
-		cur = new Vector2(startX, startY);
+		cur = new Vector2<Int>(startX, startY);
 	}
 	
 	inline public function next():Vector2<Int> {
 		var ret = cur.clone();
-		if ((cur.val0 += step) > endX) {
-			cur.val0 = startX;
-			if ((cur.val1 += step) > endY) {
+		if ((cur.x += step) > endX) {
+			cur.x = startX;
+			if ((cur.y += step) > endY) {
 				cur = null;
 			}
 		}

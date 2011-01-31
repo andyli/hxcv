@@ -107,10 +107,10 @@ class BlockMatching<InImgT:PxPtrGray<Dynamic, Dynamic, InImgT>> implements Gener
 				}
 				
 				var WCI = (alphaSqrOverMSqr * totalDiff) / pixelNum * (1 + K * (x * x + y * y));
-				if (WCI < WCImin.val2) {
-					WCImin.val0 = x;
-					WCImin.val1 = y;
-					WCImin.val2 = WCI;
+				if (WCI < WCImin.z) {
+					WCImin.x = x;
+					WCImin.y = y;
+					WCImin.z = WCI;
 				}							
 			}
 		}

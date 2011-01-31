@@ -9,11 +9,11 @@ import hxcv.ds.ArrayAccessPxPtr;
 class Vector2Adapter 
 {
 	inline static public function getPositionVector2(dObj:DisplayObject) {
-		return new PositionVector2(dObj);
+		return new PositionVector2<DisplayObject>(dObj);
 	}
 	
 	inline static public function getVector2(dObj:Point) {
-		return new PointVector2(dObj);
+		return new PointVector2<Point>(dObj);
 	}
 }
 
