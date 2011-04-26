@@ -2,7 +2,6 @@ package hxcv.ds;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
-using Lambda;
 
 @:autoBuild(hxcv.ds.WithDataBuilder.build())
 interface WithData<D>
