@@ -5,14 +5,10 @@
 #-main GlutExample
 -main OFExample
 -cpp bin
--cp ../hxOpenFrameworks
 -cp example
--lib hsl-1
+-lib hxOpenFrameworks
 -lib casalib
--D HXOF
-
-#-cmd xcopy /e /i /y "ndll\Windows\*.*" "bin"
 
 -cmd cd bin
 #-cmd GlutExample.exe
--cmd OFExample.exe
+-cmd ./OFExample

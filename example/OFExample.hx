@@ -14,6 +14,7 @@ import hxcv.ds.ArrayPxPtrARGB;
 import hxcv.ds.ArrayPxPtr;
 using hxcv.math.Vector2Math;
 using hxcv.ds.Adapters;
+import hxcv.ds.Vector2WithData;
 
 import of.Context;
 using of.Context.Functions;
@@ -26,6 +27,7 @@ class OFExample extends BaseApp {
 	}
 	
 	override function draw():Void {
+	/*
 		var mvStr = File.getContent("D:/stopmotion/04/original-320-240/P1050600.txt");
 		var mvIamge = new Image();
 		mvIamge.allocate(320, 240, Constants.OF_IMAGE_COLOR);
@@ -43,7 +45,7 @@ class OFExample extends BaseApp {
 		}
 		mvIamge.update();
 		
-		mvIamge.draw(0, 0);
+		mvIamge.draw(0, 0);*/
 	}
 	
 	override function keyPressed(key:Int):Void {
