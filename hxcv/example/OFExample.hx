@@ -24,6 +24,8 @@ class OFExample extends BaseApp {
 	override function setup():Void {
 		enableSmoothing();
 		setFrameRate(12);
+
+		trace(hxcv.utils.MacroUtil.dumpExpr({}));
 	}
 	
 	override function draw():Void {
