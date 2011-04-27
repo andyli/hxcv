@@ -22,7 +22,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="OFExample" />
+    <option mainClass="hxcv.example.OFExample" />
     <option enabledebug="False" />
     <option additional="" />
   </build>

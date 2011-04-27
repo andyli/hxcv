@@ -1,4 +1,4 @@
-package ;
+package hxcv.example;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;

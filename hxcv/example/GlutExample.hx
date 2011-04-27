@@ -1,4 +1,4 @@
-package ;
+package hxcv.example;
 
 import cpp.Lib;
 

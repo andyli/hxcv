@@ -1,4 +1,4 @@
-package ;
+package hxcv.example;
 
 import flash.display.Graphics;
 import flash.display.Shape;

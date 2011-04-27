@@ -2,10 +2,9 @@
 #-cmd haxelib run hxcpp build.xml
 #-cmd cd ..
 
-#-main GlutExample
--main OFExample
+#-main hxcv.example.GlutExample
+-main hxcv.example.OFExample
 -cpp bin
--cp example
 -lib hxOpenFrameworks
 -lib casalib
 
