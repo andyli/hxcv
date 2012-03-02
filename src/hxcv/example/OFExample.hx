@@ -14,7 +14,8 @@ import hxcv.ds.ArrayPxPtrARGB;
 import hxcv.ds.ArrayPxPtr;
 using hxcv.math.Vector2Math;
 using hxcv.ds.Adapters;
-import hxcv.ds.Vector2WithData;
+using hxcv.utils.MacroUtil;
+using hxcv.utils.Setter<Int>;
 
 import of.Context;
 using of.Context.Functions;
@@ -25,7 +26,7 @@ class OFExample extends BaseApp {
 		enableSmoothing();
 		setFrameRate(12);
 
-		trace(hxcv.utils.MacroUtil.dumpExpr({}));
+		//new Setter<Int>();
 	}
 	
 	override function draw():Void {

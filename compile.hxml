@@ -5,6 +5,8 @@
 #-main hxcv.example.GlutExample
 -main hxcv.example.OFExample
 -cpp bin
+-cp src
+-cp example
 -lib hxOpenFrameworks
 -lib casalib
 

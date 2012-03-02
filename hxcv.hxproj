@@ -15,6 +15,7 @@
   <classpaths>
     <class path="..\..\..\repo\polygonal\lib" />
     <class path="..\hxOpenFrameworks" />
+    <class path="src" />
     <class path="example" />
     <class path="..\hxRtAudio" />
   </classpaths>
